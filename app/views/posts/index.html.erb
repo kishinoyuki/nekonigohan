@@ -1,0 +1,13 @@
+<h1>投稿一覧</h1>
+
+<% @posts.each do |post| %>
+ <div>
+  <p>投稿ユーザ名: <%= post.user.name %></p>
+  <p>タイトル: <%= post.title %></p>
+  <p>レビュー: <%= post.review %></p>
+  <p>本文: <%= post.body %></p>
+  <% if current_user.id == post.user_id %>
+   <%= link_to "編集する", edit_post_path(post) %>
+  <% end %>
+ </div>
+<% end %>
