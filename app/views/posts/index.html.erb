@@ -2,6 +2,7 @@
 
 <% @posts.each do |post| %>
  <div>
+  <%= image_tag post.user.get_profile_image(100,100) %>
   <p>投稿ユーザ名: <%= post.user.name %></p>
   <p>タイトル: <%= post.title %></p>
   <p>レビュー: <%= post.review_i18n %></p>
