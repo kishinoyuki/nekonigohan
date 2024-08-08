@@ -1,0 +1,25 @@
+<h1>ユーザ一覧</h1>
+<table>
+ <thead>
+  <tr>
+   <th class= "image">プロフィール画像</th>
+   <th class= "name">ユーザ名</th>
+   <th class= "show">詳細</th>
+　</tr>
+ </thead>
+ <% @users.each do |user| %>
+  <tbody>
+   <tr>
+    <td>
+     <%= image_tag user.get_profile_image(100,100) %>
+    </td>
+    <td>
+     <%= user.name %>
+    </td>
+    <td>
+     <%= link_to "詳細", user_path(user) %>
+    </td>
+   </tr>   
+  </tbody>
+ <% end %>
+</table>
