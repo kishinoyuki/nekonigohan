@@ -7,3 +7,8 @@ ja:
        yes_and_no: "どちらともいえない"
        rather_satisfied: "どちらかいえば満足"
        satisfied: "満足"
+       
+  errors:
+    attributes:
+      email:
+        taken: "このメールアドレスは既に使用されています"

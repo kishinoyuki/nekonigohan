@@ -9,5 +9,5 @@
  <%= f.file_field :profile_image, placeholder: "プロフィール画像", accept: "image/*" %>
 
  <%= f.submit "変更を保存" %>
- <%= link_to "退会する", users_confirm_path %>
+ <%= link_to "退会する", users_confirm_path(@user) %>
 <% end %>

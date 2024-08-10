@@ -1,4 +1,7 @@
 class Item < ApplicationRecord
-    has_many :posts, dependent: :destroy
+    belongs_to :post
+ def post_id=(id)
+    self.post = Post.find_by(id: id)
+ end
     belongs_to :genre
 end

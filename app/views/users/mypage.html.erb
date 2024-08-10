@@ -1,0 +1,18 @@
+<h1>マイページ</h1>
+
+<h2>プロフィール</h2>
+<p><%= image_tag @user.get_profile_image(100,100) %></p>
+<p><%= @user.name %></p>
+<%= link_to "ユーザ編集", mypage_edit_path(@user) %>
+<%= link_to "退会する", users_confirm_path(@user) %>
+
+<h2>投稿一覧</h2>
+<% @posts.each do |post| %>
+<div>
+ <p>タイトル: <%= post.title %></p>
+ <p>レビュー: <%= post.review_i18n %></p>
+ <p>本文: <%= post.body %></p>
+ <%= link_to "編集する", edit_post_path(post) %>
+ <%= link_to "削除する", post_path(post), method: :delete, "data-confirm" => "本当に削除しますか？" %>
+</div>
+<% end %>

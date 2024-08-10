@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   def new
     @post = Post.new
+    @post.items.build
   end
   
   def create
@@ -33,6 +34,6 @@ class PostsController < ApplicationController
   
   private
   def post_params
-    params.require(:post).permit(:title, :body, :review)
+    params.require(:post).permit(:title, :body, :review, items_attributes: [:name, :_destroy])
   end
 end

@@ -1,5 +1,5 @@
 <h2>Log in</h2>
-
+<%= flash[:notice] %>
 <%= form_with model: @user, url: new_user_session_path do |f| %>
   <div class="field">
     <%= f.label :email %><br />

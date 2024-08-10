@@ -5,6 +5,7 @@
   <%= image_tag post.user.get_profile_image(100,100) %>
   <p>投稿ユーザ名: <%= post.user.name %></p>
   <p>タイトル: <%= post.title %></p>
+  <p>商品名: <%= post.items.first&.name %> </p>
   <p>レビュー: <%= post.review_i18n %></p>
   <p>本文: <%= post.body %></p>
   <% if current_user.id == post.user_id %>

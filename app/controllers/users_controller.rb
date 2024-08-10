@@ -1,27 +1,36 @@
 class UsersController < ApplicationController
   def index
-    @users = User.all
+    @users = User.active
   end
-
+  
   def show
     @user = User.find(params[:id])
     @posts = @user.posts
   end
+  
+  def mypage
+    @user = User.find(current_user.id)
+    @posts = @user.posts
+  end
 
   def edit
-    @user = User.find(params[:id])
+    @user = User.find(current_user.id)
   end
   
   def update
-    @user = User.find(params[:id])
+    @user = User.find(current_user.id)
     @user.update(user_params)
-    redirect_to user_path
+    redirect_to mypage_path
   end
   
+  def confirm
+    @user = User.find(current_user.id)
+  end
 
   def withdraw
     @user = User.find(current_user.id)
     @user.update(is_active: false)
+    reset_session
     redirect_to new_user_registration_path
   end
   

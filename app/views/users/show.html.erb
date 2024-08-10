@@ -1,9 +1,4 @@
-<% if current_user.id == @user_id %>
- <h1>マイページ</h1>
- <p><%= link_to "ユーザ編集", user_edit_path(current_user.id) %>
-<% else %>
  <h1><%= @user.name %>さんの投稿一覧<h1>
-<% end %>
 
 <% @posts.each do |post| %>
  <div>
@@ -11,9 +6,5 @@
   <p>タイトル: <%= post.title %></p>
   <p>レビュー: <%= post.review_i18n %></p>
   <p>本文: <%= post.body %></p>
-  <% if current_user.id == post.user_id %>
-   <%= link_to "編集する", edit_post_path(post) %>
-   <%= link_to "削除する", post_path(post), method: :delete, "data-confirm" => "本当に削除しますか？" %>
-  <% end %>
  </div>
 <% end %>
