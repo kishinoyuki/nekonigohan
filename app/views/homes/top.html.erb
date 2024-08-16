@@ -1,8 +1,37 @@
-<h1>ねこにごはん～猫を助ける商品、集めました。～</h1>
 
-<li>
- <%= link_to "新規登録", new_user_registration_path %>
-</li>
-<li>
- <%= link_to "ログイン", new_user_session_path %>
-</li>
+
+
+<div class= "container">
+ <div class= "row mt-4">
+  <div class= "col-7">
+   <div class= "row">
+    <h2>このサイトって、どんなサイト？<i class="fa-solid fa-cat"></i></h2>
+   </div>
+   <div class= "row"> 
+    <p class= "fs-1 lh-lg">このサイトを訪れて頂き、ありがとうございます！<br>
+     このサイトで紹介されている商品は、可愛い、面白いだけではありません。<br>
+     商品の売上の一部が、保護猫団体へ寄付されるものだけを集めています。<br>
+     皆様が商品を購入する事で、身寄りのない猫達を助ける手助けができます。<br>
+    
+     プレゼントでお悩みの方、自分へのご褒美を探されている方！<br>
+     相手や自分だけではなく、猫達にも幸せを分けて頂けませんか？<br>
+     皆様が素敵な商品に出会ますように。</p>
+   </div>
+  </div>
+  <div class= "col-5 p-3">
+     <div class= "button mx-auto mt-5 mb-2">
+      <%= link_to  new_user_registration_path, class: 'btn btn-primary btn-lg d-flex align-items-center justify-content-center' do %>
+       新規登録
+      <% end %>
+     </div>
+
+     <div class= "button mx-auto mb-2">
+      <%= link_to new_user_session_path, class: 'btn btn-success btn-lg d-flex align-items-center justify-content-center' do %>
+       ログイン
+      <% end %>
+     </div>
+  </div>
+ </div>
+ 
+
+</div>

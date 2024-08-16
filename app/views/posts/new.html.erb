@@ -10,6 +10,8 @@
   <%= item.text_field :name %>            
  <% end %>
  
+ <h4>寄付先</h4>
+ 
  <h4>レビュー</h4>
  <%= f.select :review, Post.reviews.keys.map {|k| [I18n.t("enums.post.review.#{k}"), k]} %>
  
