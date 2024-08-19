@@ -1,22 +1,32 @@
 <h1>新規投稿画面</h1>
 
 <%= form_with model: @post do |f| %>
+ <h4>商品画像</h4>
+ <%= f.file_field :item_get_image %>
 
  <h4>タイトル</h4>
  <%= f.text_field :title %>
  
  <h4>商品名</h4>
- <%= f.fields_for :items do |item| %>
-  <%= item.text_field :name %>            
- <% end %>
+  <%= f.text_field :item_name %>            
+
+ <h4>商品ジャンル</h4>
+ <%= f.select :genre_id, [["食品", 1], ["化粧品" ,2], ["キッチン用品", 3], ["インテリア", 4], ["日用雑貨", 5], ["ペット用品", 6]], { include_blank: true, selected: 1 }, {} %>
  
  <h4>寄付先</h4>
- 
+ <%= f.text_field :donation_destination_name %>
+
+ <h4>寄付先都道府県</h4>
+ <%= f.select :donation_destination_location, DonationDestination.locations.keys.map  {|k| [I18n.t("enums.donation_destination.location.#{k}", default: k), k]} %>
+
  <h4>レビュー</h4>
  <%= f.select :review, Post.reviews.keys.map {|k| [I18n.t("enums.post.review.#{k}"), k]} %>
  
  <h4>本文</h4>
  <%= f.text_area :body %>
+ 
+ 
+ 
 
  <%= f.submit '投稿する' %>
 <% end %>
