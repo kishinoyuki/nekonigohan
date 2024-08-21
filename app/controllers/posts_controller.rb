@@ -7,16 +7,15 @@ class PostsController < ApplicationController
     @post = Post.new(post_params)
     @post.user_id = current_user.id
 
-    item = Item.new(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id])
-    item.save
-    @post.item_id = item.id
-    @post.item = item
-    
     donation_destination = DonationDestination.new(name: params[:post][:donation_destination_name], location: params[:post][:donation_destination_location])
     donation_destination.save
-    @post.item.donation_destination_id = donation_destination.id
-    @post.item.donation_destination = donation_destination
+
+    item = Item.new(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id], image: params[:post][:image])
+    item.donation_destination = donation_destination
+    item.save
     
+    @post.item_id = item.id
+    @post.item = item
     @post.save
     
     redirect_to posts_path

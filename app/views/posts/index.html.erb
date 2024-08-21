@@ -2,11 +2,7 @@
  <div class= "card-container">
   <% @posts.each do |post| %>
   <div class= "card w-50 mt-4 mx-auto">
-   <% if post.item.present? %>
-    <%#= image_tag post.item.get_image, class: "card-image-top" %>
-   <% else %>
-    <%#= image_tag "no_image.jpg", class: "card-image-top" %>
-   <% end %>
+    <%= image_tag post.item.get_image, class: "card-image-top" %>
     <div class= "card-body">
      <div class= "row">
       <div class= "col-2">
@@ -31,11 +27,11 @@
          <%= post.item.name %>
        </p>
        
-       <p class= "card-donation-name">寄付先
+       <p class= "card-donation-name">寄付先:
         <%= post.item.donation_destination.name %>
        </p>
        
-       <p class= "card-donation-location">寄付先都道府県
+       <p class= "card-donation-location">寄付先都道府県:
         <%= post.item.donation_destination.location_i18n %>
        </p>
        
