@@ -11,7 +11,7 @@
   <%= f.text_field :item_name %>            
 
  <h4>商品ジャンル</h4>
- <%#= f.select :item_genre_id, [["食品", 1], ["化粧品" ,2], ["キッチン用品", 3], ["インテリア", 4], ["日用雑貨", 5], ["ペット用品", 6]], { include_blank: true, selected: 1 }, {} %>
+ <%= f.select :item_genre_id, [["食品", 1], ["化粧品" ,2], ["キッチン用品", 3], ["インテリア", 4], ["日用雑貨", 5], ["ペット用品", 6]], { include_blank: true, selected: 1 }, {} %>
  
  <h4>寄付先</h4>
  <%= f.text_field :donation_destination_name %>
