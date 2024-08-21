@@ -16,9 +16,11 @@ class PostsController < ApplicationController
     
     @post.item_id = item.id
     @post.item = item
-    @post.save
-    
-    redirect_to posts_path
+    if @post.save
+     redirect_to posts_path
+    else
+     render :new
+    end
   end
     
 
