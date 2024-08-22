@@ -5,8 +5,8 @@ class Item < ApplicationRecord
     
     has_one_attached :image
     
-    validates :name, presense: true
-    validates :genre_id, presense: true
+    validates :name, presence: true
+    validates :genre_id, presence: true
     
     def get_image
      unless image.attached?

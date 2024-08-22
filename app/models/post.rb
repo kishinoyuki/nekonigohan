@@ -4,7 +4,7 @@ class Post < ApplicationRecord
     belongs_to :user
     belongs_to :item
     
-    validates :title, presense: true
-    validates :body, pressense: true
+    validates :title, presence: true
+    validates :body, presence: true
     
 end
