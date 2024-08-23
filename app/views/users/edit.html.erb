@@ -2,11 +2,14 @@
  <div class= "card mx-auto" style= "max-width: 540px;">
   <div class= "card-header text-bg-default">ユーザ編集</div>
    <div class= "card-body">
-    <% if @error_messages %>
+    <% if @user.errors.any?  %>
      <div class= "alert alert-danger" role= "alert">
-      <% @error_messages.each do |message| %>
-       <p><%= message %></p>
-      <% end %>
+      <%= @user.errors.count %>件のエラーが発生しました。
+      <ul>
+       <% @user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+       <% end %>
+      </ul>
      </div>
     <% end %>
 
@@ -22,9 +25,7 @@
      </div>
  
      <div class= "form-group mb-2">
-      <%= link_to  mypage_path, class: "btn btn-secondary" do %>
-       変更を保存する
-      <% end %>
+      <%= f.submit "変更を保存する", class: "btn btn-secondary" %>
      </div>
  
      <div class= "form-group mb-2">

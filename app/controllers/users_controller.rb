@@ -19,16 +19,11 @@ class UsersController < ApplicationController
   
   def update
     @user = User.find(current_user.id)
-    if @user.valid?(user_params)
      if @user.update(user_params)
       redirect_to mypage_path
      else
-      @error_messages = @user.errors.full_messages
-      redirect_to mypage_edit_path
+      render :edit
      end
-    else
-     redirect_to mypage_edit_path
-    end
   end
   
   def confirm

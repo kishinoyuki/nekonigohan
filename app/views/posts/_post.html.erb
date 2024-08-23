@@ -1,19 +1,16 @@
-<div class= "container mt-4 mb-4">
- <div class= "card mx-auto" style= "max-width: 540px;">
-  <div class= "card-header text-bg-primary">新規投稿</div>
-   <div class= "card-body">
-   <% if @ost.errors.any? %>
+  <div class= "card-body">
+   <% if post.errors.any? %>
     <div class="alert alert-danger" role="alert">
-     <%= @post.errors.count%>件のエラーが発生しました。
+     <%= post.errors.count%>件のエラーが発生しました。
      <ul>
-      <%= @post.errors.full_messages.each do |message| %>
+      <%= post.errors.full_messages.each do |message| %>
        <li><%= message %></li>
       <% end %>
      </ul>
     </div>
    <% end %>
    
-   <%= form_with model: @post, html: {class: "was-validated"} do |f| %>
+   <%= form_with model: post, html: {class: "was-validated"} do |f| %>
     <div class= "form-group mb-2">
      <label>商品画像</label>
      <%= f.file_field :image %>
@@ -80,6 +77,3 @@
     </div>
    <% end %>
   </div>
- </div>
-</div>
-
