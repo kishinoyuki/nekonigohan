@@ -1,13 +1,39 @@
-<h1>ユーザ編集</h1>
+<div class= "container mt-4 mb-4">
+ <div class= "card mx-auto" style= "max-width: 540px;">
+  <div class= "card-header text-bg-default">ユーザ編集</div>
+   <div class= "card-body">
+    <% if @error_messages %>
+     <div class= "alert alert-danger" role= "alert">
+      <% @error_messages.each do |message| %>
+       <p><%= message %></p>
+      <% end %>
+     </div>
+    <% end %>
 
-<%= form_with model: @user do |f| %>
+    <%= form_with model: @user, html: {class: "was-validated"} do |f| %>
+     <div class= "form-group mb-2">
+      <label>ユーザ名</label>
+      <%= f.text_field :name, autofocus: true, class: "form-control" %>
+     </div>
 
- <p>ユーザ名</p>
- <%= f.text_field :name, autofocus: true, placeholder:"名前" %>
-
- <p>プロフィール画像</p>
- <%= f.file_field :profile_image, placeholder: "プロフィール画像", accept: "image/*" %>
-
- <%= f.submit "変更を保存" %>
- <%= link_to "退会する", users_confirm_path(@user) %>
-<% end %>
+     <div class= "form-group mb-2">
+      <label>プロフィール画像</label>
+      <%= f.file_field :profile_image, placeholder: "プロフィール画像", accept: "image/*" %>
+     </div>
+ 
+     <div class= "form-group mb-2">
+      <%= link_to  mypage_path, class: "btn btn-secondary" do %>
+       変更を保存する
+      <% end %>
+     </div>
+ 
+     <div class= "form-group mb-2">
+      <%= link_to users_confirm_path(@user), class: "btn btn-danger" do %>
+       退会する
+      <% end %>
+     </div>
+    <% end %>
+   </div>
+  </div>
+ </div>
+</div>

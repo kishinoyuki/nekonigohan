@@ -16,14 +16,16 @@ class PostsController < ApplicationController
     
     @post.item_id = item.id
     @post.item = item
-    if @post.save
+    
+    if @post.valid?
+     @post.save
      redirect_to posts_path
     else
-     render :new
+     @error_messages = @post.errors.full_messages
+      render :new
     end
   end
-    
-
+  
   def index
     @posts = Post.all
     

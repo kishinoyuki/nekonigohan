@@ -64,3 +64,12 @@ ja:
     attributes:
       email:
         taken: "このメールアドレスは既に使用されています"
+        
+  post:
+    attributes:
+      body: 
+        blank: "本文が空です"
+
+  errors:
+    messages:
+      blank: "入力してください"
