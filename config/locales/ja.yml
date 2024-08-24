@@ -1,4 +1,16 @@
 ja:
+  activerecord:
+    attributes:
+      post:
+        title: "タイトル"
+        body: "本文"
+      
+      item:
+        name: "商品名"
+        
+      donation_destination: 
+        name: "寄付先"
+      
   enums:
     post: 
       review:
