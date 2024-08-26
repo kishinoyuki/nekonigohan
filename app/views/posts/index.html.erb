@@ -1,8 +1,8 @@
 <h1>投稿一覧</h1>
- <div class= "card-list-container py-5">
+ <div class= "card-list-container d-flex flex-row py-5 mx-auto">
   <% @posts.each do |post| %>
-  <div class= "card w-50 h-25 mt-4 mx-auto">
-    <%= image_tag post.item.get_image, class: "card-image-top" %>
+   <div class= "card w-50 h-25 mt-4 mr-3">
+    <%= image_tag post.item.get_image, class: "card-image-top", height: 400 %>
     <div class= "card-body">
      <div class= "row">
       <div class= "col-2 mr-2">
@@ -48,7 +48,7 @@
        </p>
 
        <% if current_user.id == post.user_id %>
-        <%= link_to edit_post_path(post), class: "btn btn-success" do %>
+        <%= link_to edit_post_path(post), class: "btn btn-secondary" do %>
          編集する
         <% end %> 
         <%= link_to post_path(post), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger" do %>

@@ -10,7 +10,7 @@ class PostsController < ApplicationController
     @donation_destination = DonationDestination.new(name: params[:post][:donation_destination_name], location: params[:post][:donation_destination_location])
     @donation_destination.save
 
-    @item = Item.new(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id], image: params[:post][:image])
+    @item = Item.new(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id], image: params[:post][:item_image])
     @item.donation_destination = @donation_destination
     @item.save
     
