@@ -85,3 +85,11 @@ ja:
   errors:
     messages:
       blank: "入力してください"
+      
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              taken: "はすでに使用されています"

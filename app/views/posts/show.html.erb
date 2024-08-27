@@ -1,0 +1,65 @@
+<div class= "container">
+ <div class= "card mt-4 mb-4">
+  <h3 class= "card-header">投稿詳細</h3>
+  <div class= "card-body">
+   <div class= "card">
+    <%= image_tag @post.item.get_image, class: "card-image-top", height: 500 %>
+    <div class= "card-body">
+     <div class= "row">
+      <div class= "col-3 mr-2">
+       <% if @post.user_id == current_user.id %>
+        <%= link_to mypage_path do %>
+         <%= image_tag @post.user.get_profile_image(100,100), class: "mt-3 rounded-circle"; %>
+         <%= current_user.name %>
+        <% end %>
+       <% else %>
+        <%= link_to user_path(@post.user_id) do %>
+         <%= image_tag @post.user.get_profile_image(100,100), class: "mt-3 rounded-circle"; %>
+         <%= @post.user.name %>
+        <% end %>
+       <% end %>
+      </div>
+      <div class= "col-8 mx-auto">
+       <p class= "card-title">タイトル:
+        <%= @post.title %>
+       </p>
+       
+       <p class= "card-item_title">商品名:
+        <%= @post.item.name %>
+       </p>
+      
+       <p class= "card-item-genre">商品ジャンル:
+        <%= @post.item.genre.name %>
+       </p>
+       
+       <p class= "card-review">レビュー:
+        <%= @post.review_i18n %>
+       </p>
+      
+       <p class= "card-item-donation_destination_name">寄付先：
+        <%= @post.item.donation_destination.name %>
+       </p>
+      
+       <p class= "card-item-donation_destination_location">寄付先都道府県：
+        <%= @post.item.donation_destination.location_i18n %>
+       </p>
+      
+       <p class = "card-item-body">本文：
+        <%= @post.body %>
+       </p>
+       
+       <% if current_user.id == @post.user_id %>
+        <%= link_to edit_post_path(@post), class: "btn btn-secondary" do %>
+         編集する
+        <% end %>
+        <%= link_to post_path(@post), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger" do %>
+         削除する
+        <% end %>
+       <% end %>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>

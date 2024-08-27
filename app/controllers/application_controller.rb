@@ -22,11 +22,12 @@ class ApplicationController < ActionController::Base
   def reject_user(email, password)
     @user = User.find_by(email: email)
     
-    if !(@user.active_for_authentication?)
-      flash[:notice] = "退会済みです。再度ご登録をしてご利用ください"
-      redirect_to new_user_registration_path
-    elsif @user.blank?
-      flash[:notice] = "該当するユーザーが見つかりません"
+    if @user.nil?
+     flash[:notice] = "該当するユーザーが見つかりません"
+     redirect_to new_user_session_path
+    elsif !(@user.active_for_authentication?)
+     flash[:notice] = "退会済みです。再度ご登録をしてご利用ください"
+     redirect_to new_user_registration_path
     else
      
     end
