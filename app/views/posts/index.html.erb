@@ -6,7 +6,7 @@
      <div class= "card-list-container py-5 mx-auto d-flex justify-content-center flex-wrap">
      <% @posts.each do |post| %>
       <div class= "card mt-4 mr-2 col-5">
-       <%= image_tag post.item.get_image, class: "card-image-top", height: 400 %>
+       <%= image_tag post.item.get_image(330, 330), class: "card-image-top"%>
        <div class= "card-body">
         <div class= "row">
          <div class= "col-3 mr-2">
