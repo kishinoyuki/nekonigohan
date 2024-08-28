@@ -1,5 +1,5 @@
 <div class= "container">
- <div class= "row mt-2 mb-2">
+ <div class= "row mt-4 mb-2">
   <h2><%= @user.name %>さん、ようこそ！</h2>
  </div>
  <div class= "row">
@@ -7,76 +7,32 @@
     <h2>プロフィール</h2>
     <%= image_tag @user.get_profile_image(100,100) %>
     <table class= "table">
-     <tbody>
+     <thead>
       <tr>
        <th>ニックネーム</th>
-       <th><%= @user.name %></th>
+       <th>一言</th>
+      </tr>
+     </thead>
+     <tbody>
+      <tr>
+       <td><%= @user.name %></td>
+       <td><%= @user.introduction %></td>
       </tr>
      </tbody>
     </table>
     <div class= "row">
      <div class= "col-6">
       <%= link_to mypage_edit_path(@user), class: "btn btn-secondary" do %>
-      <i class="fa-solid fa-user-gear"></i> ユーザ編集
+       <i class="fa-solid fa-user-gear"></i> ユーザ編集
       <% end %>
      </div>
      <div class= "col-6">
-     <%= link_to users_confirm_path(@user), class: "btn btn-danger" do %>
-      退会する
-     <% end %>
+      <%= link_to users_confirm_path(@user), class: "btn btn-danger" do %>
+       退会する
+      <% end %>
      </div>
     </div>
    </div>
-
-     <div class= "col-8 mt-3">
-     <h2><%= @user.name %>さんの投稿</h2>
-      <div class= "card-list-container py-5">
-       <% @posts.each do |post| %>
-       <div class= "card w-75 h-25 mt-3 mx-auto position-relative">
-        <%= image_tag post.item.get_image, class: "card-image-top h-25" %>
-         <div class= "card-body">
-          <div class= "row">
-           <div class= "col mx-auto">
-            <p class= "card-title">タイトル:
-             <%= post.title %>
-            </p>
-       
-            <p class= "card-item_title">商品名:
-             <%= post.item.name %>
-            </p>
-       
-            <p class= "card-item-genre">商品ジャンル:
-             <%= post.item.genre.name %>
-            </p>
-       
-            <p class= "card-donation-name">寄付先:
-             <%= post.item.donation_destination.name %>
-            </p>
-       
-            <p class= "card-donation-location">寄付先都道府県:
-             <%= post.item.donation_destination.location_i18n %>
-            </p>
-       
-            <p class= "card-review">レビュー:
-             <%= post.review_i18n %>
-            </p>
-       
-            <p class= "card-text">本文:
-             <%= post.body %>
-            </p>
-           
-            <%= link_to edit_post_path(post), class: "btn btn-success" do %>
-             編集する
-            <% end %> 
-            <%= link_to post_path(post), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger" do %>
-             削除する
-            <% end %>
-           </div>
-          </div>
-         </div>
-        </div>
-       <% end %>
-      </div>
-     </div>
-  </div>
+   <%= render 'user', user: @user, posts: @posts %>
+   </div>
  </div>

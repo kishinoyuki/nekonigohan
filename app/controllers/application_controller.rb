@@ -13,23 +13,20 @@ class ApplicationController < ActionController::Base
  
   def configure_permitted_parameters
 
-    if params.present? && params[:user].present?
-      reject_user(params[:user][:email], params[:user][:password]) 
-    end
+    #if params.present? && params[:user].present?
+      #reject_user(params[:user][:email], params[:user][:password]) 
+    #end
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
   end
  
-  def reject_user(email, password)
-    @user = User.find_by(email: email)
+  #def reject_user(email, password)
+    #@user = User.find_by(email: email)
     
-    if @user.nil?
-     flash[:notice] = "該当するユーザーが見つかりません"
-     redirect_to new_user_session_path
-    elsif !(@user.active_for_authentication?)
-     flash[:notice] = "退会済みです。再度ご登録をしてご利用ください"
-     redirect_to new_user_registration_path
-    else
+    #if !(@user.active_for_authentication?)
+     #flash[:notice] = "退会済みです。再度ご登録をしてご利用ください"
+     #redirect_to new_user_registration_path
+    #else
      
-    end
-  end
+    #end
+  #end
 end

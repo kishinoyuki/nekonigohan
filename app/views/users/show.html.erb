@@ -1,10 +1,24 @@
- <h1><%= @user.name %>さんの投稿一覧<h1>
-
-<% @posts.each do |post| %>
- <div>
-  <%= image_tag post.user.get_profile_image(100,100) %>
-  <p>タイトル: <%= post.title %></p>
-  <p>レビュー: <%= post.review_i18n %></p>
-  <p>本文: <%= post.body %></p>
+<div class= "container">
+ <div class= "row">
+   <div class= "col-4 mt-3">
+    <h2>プロフィール</h2>
+    <%= image_tag @user.get_profile_image(100,100) %>
+    <table class= "table">
+     <thead>
+      <tr>
+       <th>ニックネーム</th>
+       <th>一言</th>
+      </tr>
+     </thead>
+     <tbody>
+      <tr>
+       <th><%= @user.name %></th>
+       <th><%= @user.introduction %></th>
+      </tr>
+     </tbody>
+    </table>
+   </div>
+   
+   <%= render 'user', user: @user, posts: @posts %>
  </div>
-<% end %>
+</div>

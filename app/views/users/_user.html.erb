@@ -1,0 +1,43 @@
+   <div class="col-8 mt-3">
+    <div class="card mt-4 mb-4">
+    <h3 class="card-header"><%= user.name %>さんの投稿一覧</h3>
+     <div class="card-body">
+      <div class="d-flex flex-wrap justify-content-center">
+       <% posts.each do |post| %>
+        <div class="card mt-4 mr-2 col-5">
+         <%= image_tag post.item.get_image, class: "card-image-top", height: 200 %>
+          <div class="card-body">
+           <div class="row">
+            <div class="col-10 mx-auto">
+             <p class="card-title">タイトル:<br> <%= post.title %></p>
+             <p class="card-item_title">商品名: <br><%= post.item.name %></p>
+             <p class="card-item-genre">商品ジャンル：<br> <%= post.item.genre.name %></p>
+             <p class="card-review">レビュー:<br> <%= post.review_i18n %></p>
+             <p class="card-donation_destination_name">寄付先：<br> <%= post.item.donation_destination.name %></p>
+             <p class="card-donation_destination_location">寄付先都道府県：<br> <%= post.item.donation_destination.location_i18n %></p>
+             <% if current_user.id == post.user_id %>
+             <div class= "row mt-2 mx-auto">
+              <%= link_to edit_post_path(post), class: "btn btn-secondary" do %>
+               編集する
+              <% end %>
+             </div>
+             <div class= "row mt-2 mx-auto">
+              <%= link_to post_path(post), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger" do %>
+               削除する
+              <% end %>
+             </div>
+             <% end %>
+             <div class="row mt-2 mx-auto">
+              <%= link_to post_path(post), class: "btn btn-info" do %>
+               詳細
+              <% end %>
+             </div>
+            </div>
+           </div>
+          </div>
+         </div>
+        <% end %>
+       </div>
+      </div>
+     </div>
+    </div>
