@@ -8,15 +8,19 @@ class PostsController < ApplicationController
     @post.user_id = current_user.id
 
     @donation_destination = DonationDestination.new(name: params[:post][:donation_destination_name], location: params[:post][:donation_destination_location])
-    @donation_destination.save
+    all_validtion = []
+    all_validtion << @donation_destination.valid?
 
     @item = Item.new(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id], image: params[:post][:item_image])
     @item.donation_destination = @donation_destination
-    @item.save
+    all_validtion << @item.valid?
     
+    # find_or_crete
     @post.item_id = @item.id
+    all_validtion << @post.valid?
 
-    if @post.save && @item.save && @donation_destination.save
+    if all_validtion == [true, true, true]
+      @post.save && @item.save && @donation_destination.save
      redirect_to posts_path
     else
      render :new

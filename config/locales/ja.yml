@@ -10,6 +10,12 @@ ja:
         
       donation_destination: 
         name: "寄付先"
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              taken: "はすでに使用されています"
       
   enums:
     post: 
@@ -81,12 +87,3 @@ ja:
     messages:
       blank: "を入力して下さい。"
 
-  
-      
-  activerecord:
-    errors:
-      models:
-        user:
-          attributes:
-            email:
-              taken: "はすでに使用されています"
