@@ -3,7 +3,7 @@
   <h3 class= "card-header bg-info ">投稿詳細</h3>
   <div class= "card-body">
    <div class= "card">
-    <%= image_tag @post.item.get_image, class: "card-image-top", height: 500 %>
+    <%= image_tag @post.item.get_image(400, 400), class: "card-image-top" %>
     <div class= "card-body">
      <div class= "row">
       <div class= "col-3 mr-2">
