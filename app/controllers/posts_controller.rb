@@ -11,7 +11,7 @@ class PostsController < ApplicationController
     all_validation = []
     all_validation << @donation_destination.valid?
 
-    @item = Item.new(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id], image: params[:post][:item_image])
+    @item = Item.find_or_create_by(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id], image: params[:post][:item_image])
     @item.donation_destination = @donation_destination
     all_validation << @item.valid?
     
@@ -62,9 +62,9 @@ class PostsController < ApplicationController
  end
 
   def destroy
-    @post = Post.find(params[:id])
-    @post.destroy
-    redirect_to posts_path
+   @post = Post.find(params[:id])
+   @post.destroy
+   redirect_to posts_path
   end
   
   private
