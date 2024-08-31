@@ -56,7 +56,6 @@ class PostsController < ApplicationController
    @post.update(post_params) && @item.update(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id]) &&@donation_destination.update(name: params[:post][:donation_destination_name], location: params[:post][:donation_destination_location])
    redirect_to mypage_path
   else
-   @post.errors.add(:base, "入力内容にエラーがあります")
    render :edit
   end
  end
