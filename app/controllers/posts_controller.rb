@@ -11,7 +11,7 @@ class PostsController < ApplicationController
     all_validation = []
     all_validation << @donation_destination.valid?
 
-    @item = Item.find_or_create_by(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id], image: params[:post][:item_image])
+    @item = Item.find_or_create_by(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id], image: params[:post][:item_ima])
     @item.donation_destination = @donation_destination
     all_validation << @item.valid?
     
@@ -43,27 +43,34 @@ class PostsController < ApplicationController
   
  def update
   @post = Post.find(params[:id])
+  @post.title = post_params[:title]
+  @post.body = post_params[:body]
+  @post.review = post_params[:review]
   all_validation = []
   all_validation << @post.valid?
   
   @item = @post.item
+
+  @item.name = params[:post][:item_name]
+  
   all_validation << @item.valid?
   
   @donation_destination = @item.donation_destination
   all_validation << @donation_destination.valid?
   
   if all_validation == [true, true, true]
-   @post.update(post_params) && @item.update(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id]) &&@donation_destination.update(name: params[:post][:donation_destination_name], location: params[:post][:donation_destination_location])
+   @post.save && @item.update(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id]) &&@donation_destination.update(name: params[:post][:donation_destination_name], location: params[:post][:donation_destination_location])
    redirect_to mypage_path
   else
+   @post.errors.add(:base, "入力内容にエラーがあります")
    render :edit
   end
  end
 
   def destroy
-   @post = Post.find(params[:id])
-   @post.destroy
-   redirect_to posts_path
+    @post = Post.find(params[:id])
+    @post.destroy
+    redirect_to posts_path
   end
   
   private

@@ -9,8 +9,10 @@ class Users::SessionsController < Devise::SessionsController
   def reject_user
     @user = User.find_by(email: params[:user][:email].downcase)
     if @user
+
       if @user.valid_password?(params[:user][:password]) && (@user.active_for_authentication? == false)
         flash[:notice] = "退会済みです。再度ご登録をしてご利用ください"
+  
         redirect_to new_user_registration_path
       else
         flash[:notice] = "項目を入力してください"
@@ -20,15 +22,16 @@ class Users::SessionsController < Devise::SessionsController
     end
   end
 end
-  # GET /resource/sign_in
-  # def new
-  #   super
-  # end
+  #GET /resource/sign_in
+  def new
+    super
+    flash
+  end
 
-  # POST /resource/sign_in
-  # def create
-  #   super
-  # end
+ # POST /resource/sign_in
+  def create
+    super
+  end
 
   # DELETE /resource/sign_out
   # def destroy
