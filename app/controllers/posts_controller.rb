@@ -21,7 +21,8 @@ class PostsController < ApplicationController
 
     if all_validation == [true, true, true]
       @post.save && @item.save && @donation_destination.save
-     redirect_to posts_path
+      flash[:success] = "投稿が完了しました！"
+     redirect_to mypage_path
     else
      render :new
     end
@@ -61,6 +62,7 @@ class PostsController < ApplicationController
   
   if all_validation == [true, true, true]
    @post.save && @item.update(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id]) &&@donation_destination.update(name: params[:post][:donation_destination_name], location: params[:post][:donation_destination_location])
+   flash[:success] = "編集内容が保存されました！"
    redirect_to mypage_path
   else
    @post.errors.add(:base, "入力内容にエラーがあります")
@@ -78,4 +80,4 @@ class PostsController < ApplicationController
    def post_params
      params.require(:post).permit(:title, :body, :review)
    end
-  end
+end
