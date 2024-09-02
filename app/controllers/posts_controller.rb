@@ -50,12 +50,13 @@ class PostsController < ApplicationController
   all_validation << @post.valid?
   
   @item = @post.item
-
   @item.name = params[:post][:item_name]
-  
+  @item.genre_id = params[:post][:item_genre_id]
   all_validation << @item.valid?
   
   @donation_destination = @item.donation_destination
+  @donation_destination.name = params[:post][:donation_destination_name]
+  @donation_destination.location = params[:post][:donation_destination_location]
   all_validation << @donation_destination.valid?
   
   if all_validation == [true, true, true]
