@@ -10,13 +10,19 @@ ja:
         
       donation_destination: 
         name: "寄付先"
+        
+      user:
+        name: "ニックネーム"
+        
     errors:
       models:
         user:
           attributes:
             email:
               taken: "はすでに使用されています"
-      
+            password:
+              too_short: "パスワードは%{count}文字以上で入力してください。"
+
   enums:
     post: 
       review:
@@ -76,13 +82,7 @@ ja:
          kagoshima: "鹿児島県"
          okinawa: "沖縄県"
        
-       
-       
-  errors:
-    attributes:
-      email:
-        taken: "このメールアドレスは既に使用されています"
-  
+      
   errors:
     messages:
       blank: "を入力して下さい。"
