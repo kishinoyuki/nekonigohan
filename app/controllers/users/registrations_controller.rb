@@ -10,9 +10,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    session[:referrer] = 'user_registration'
+   super
+  end
 
   # GET /resource/edit
   # def edit

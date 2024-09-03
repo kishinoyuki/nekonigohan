@@ -2,6 +2,13 @@
 
 
 <div class= "container">
+ 
+ <% if flash[:success].present? %>
+  <div class= "alert alert-success mt-2 mb-2" role= "alert">
+   <%= flash[:success] %>
+  </div>
+ <% end %>
+ 
  <div class= "row mt-4">
   <div class= "col-7">
    <div class= "row">
