@@ -31,7 +31,6 @@ end
 
  # POST /resource/sign_in
   def create
-   session[:referrer] = 'new_user_session'
     super
   end
 

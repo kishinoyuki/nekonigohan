@@ -16,13 +16,6 @@ class UsersController < ApplicationController
   end
   
   def mypage
-   if session[:referrer] == 'new_user_session'
-    flash[:success] = "ログインしました！"
-   elsif session[:referrer] == 'user_registration'
-    flash[:success] = "会員登録完了です！"
-   end
-   
-   session.delete(:referrer)
     @user = User.find(current_user.id)
     @posts = @user.posts
   end

@@ -11,7 +11,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
-    session[:referrer] = 'user_registration'
    super
   end
 
