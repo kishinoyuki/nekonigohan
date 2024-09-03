@@ -1,4 +1,7 @@
 class PostsController < ApplicationController
+    
+  before_action :redirect_unless_current_user 
+    
   def new
     @post = Post.new
   end
@@ -79,5 +82,11 @@ class PostsController < ApplicationController
   private
    def post_params
      params.require(:post).permit(:title, :body, :review)
+   end
+   
+   def redirect_unless_current_user
+    unless current_user
+     redirect_to root_path
+    end
    end
 end

@@ -1,15 +1,17 @@
 <div class= "container mt-4 mb-4">
  <div class= "card mx-auto" style= "max-width: 540px;">
-  <h3 class= "card-header bg-primary text-light">ログイン</h3>
+  <h3 class= "card-header bg-primary text-light">新規登録</h3>
    <div class= "card-body">
-    <%= form_with model: @user, url: user_registration_path do |f| %>
      <% if @user.errors.any? %>
       <div class= "alert alert-danger" role= "alert">
-       <%= render "devise/shared/error_messages", resource: resource %>
+       <% @user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+       <% end %>
       </div>
      <% end %>
-    </div>
-
+   </div>
+  
+ <%= form_with model: @user, url: user_registration_path do |f| %>
   <div class="form-group mb-2">
    <label class= "control-label ml-5">
     <%= f.label :name %><br />
@@ -44,7 +46,7 @@
   <div class="form-group mb-2">
     <%= f.submit "新規登録", class: "btn btn-primary ml-5" %>
   </div>
-<% end %>
+ <% end %>
 
 <div class= "form-group mb-2 ml-5">
  <%= render "devise/shared/links" %>

@@ -1,6 +1,13 @@
 class UsersController < ApplicationController
+ 
+ before_action :redirect_unless_current_user, except: [:index]
+ 
   def index
+   unless current_user
+    redirect_to new_user_registration_path
+   else
     @users = User.active
+   end
   end
   
   def show
@@ -32,14 +39,20 @@ class UsersController < ApplicationController
   end
 
   def withdraw
-    @user = User.find(current_user.id)
-    @user.update(is_active: false)
-    reset_session
-    redirect_to root_path
+     @user = User.find(current_user.id)
+     @user.update(is_active: false)
+     reset_session
+     redirect_to root_path
   end
   
   private
   def user_params
     params.require(:user).permit(:name, :is_active, :introduction, :profile_image)
+  end
+  
+  def redirect_unless_current_user
+   unless current_user
+    redirect_to root_path
+   end
   end
 end

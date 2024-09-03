@@ -10,6 +10,7 @@ class Users::SessionsController < Devise::SessionsController
     @user = User.find_by(email: params[:user][:email].downcase)
     if @user
       if params[:user][:password].blank?
+      byebug
         flash[:alert] = "空白の項目があります"
       end
 

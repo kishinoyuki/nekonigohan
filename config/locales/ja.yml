@@ -20,8 +20,6 @@ ja:
           attributes:
             email:
               taken: "はすでに使用されています"
-            password:
-              too_short: "パスワードは%{count}文字以上で入力してください。"
 
   enums:
     post: 
