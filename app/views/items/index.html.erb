@@ -2,7 +2,6 @@
 <table class= "table">
  <thead>
   <tr>
-   <th class= "image">商品画像</th>
    <th class= "name">商品名</th>
    <th class= "genre">商品ジャンル</th>
    <th class= "donation_destination_name">寄付先</th>
@@ -12,9 +11,6 @@
  <% @items.each do |item| %>
  <tbody>
   <tr>
-   <td>
-    <%= image_tag item.get_image(100, 100) %>
-   </td>
    <td>
     <%= link_to item_path(item) do %>
      <%= item.name %>

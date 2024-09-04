@@ -14,7 +14,7 @@ class PostsController < ApplicationController
     all_validation = []
     all_validation << @donation_destination.valid?
 
-    @item = Item.find_or_create_by(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id], image: params[:post][:item_ima])
+    @item = Item.find_or_create_by(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id])
     @item.donation_destination = @donation_destination
     all_validation << @item.valid?
     
@@ -64,11 +64,10 @@ class PostsController < ApplicationController
   all_validation << @donation_destination.valid?
   
   if all_validation == [true, true, true]
-   @post.save && @item.update(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id]) &&@donation_destination.update(name: params[:post][:donation_destination_name], location: params[:post][:donation_destination_location])
+   @post.update(post_params) && @item.update(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id]) && @donation_destination.update(name: params[:post][:donation_destination_name], location: params[:post][:donation_destination_location])
    flash[:success] = "編集内容が保存されました！"
    redirect_to mypage_path
   else
-   @post.errors.add(:base, "入力内容にエラーがあります")
    render :edit
   end
  end
@@ -81,7 +80,7 @@ class PostsController < ApplicationController
   
   private
    def post_params
-     params.require(:post).permit(:title, :body, :review)
+     params.require(:post).permit(:title, :body, :review, :image)
    end
    
    def redirect_unless_current_user
