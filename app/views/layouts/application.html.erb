@@ -81,11 +81,6 @@
     </nav>
    </header>
    <main>
-    <% flash.each do |key, value| %>
-    <div class= "alert alert-success" role= "alert">
-     <%= content_tag :div, value, class: "flash #{key}" %>
-    </div>
-    <% end %>
     <%= yield %>
    </main>
    <footer class= "bg-primary text-white ">

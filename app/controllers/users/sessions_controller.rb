@@ -10,29 +10,28 @@ class Users::SessionsController < Devise::SessionsController
     @user = User.find_by(email: params[:user][:email].downcase)
     if @user
       if params[:user][:password].blank?
-      byebug
-        flash[:alert] = "空白の項目があります"
+        flash[:alert] = "パスワードが入力されていません。"
       end
 
       if @user.valid_password?(params[:user][:password]) && (@user.active_for_authentication? == false)
-        flash[:alert] = "退会済みです。再度ご登録をしてご利用ください"
+        flash[:alert] = "退会済みです。再度ご登録をしてご利用ください。"
         redirect_to new_user_registration_path
       end
     else
-      flash[:alert] = "該当するユーザーが見つかりません"
+      flash[:alert] = "該当するユーザーが見つかりません。"
     end
     
   end
 end
   #GET /resource/sign_in
-  def new
-    super
-  end
+  #def new
+    #super
+  #end
 
  # POST /resource/sign_in
-  def create
-    super
-  end
+  #def create
+    #super
+  #end
 
   # DELETE /resource/sign_out
   # def destroy

@@ -42,7 +42,8 @@ class UsersController < ApplicationController
      @user = User.find(current_user.id)
      @user.update(is_active: false)
      reset_session
-     redirect_to root_path
+     flash[:success] = "退会処理が完了しました。またのご利用をお待ちしております。"
+     redirect_to new_user_registration_path
   end
   
   private
