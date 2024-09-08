@@ -11,6 +11,7 @@ class Users::SessionsController < Devise::SessionsController
     if @user
       if params[:user][:password].blank?
         flash[:alert] = "パスワードが入力されていません。"
+        redirect_to new_user_registration_path
       end
 
       if @user.valid_password?(params[:user][:password]) && (@user.active_for_authentication? == false)
