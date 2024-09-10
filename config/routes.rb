@@ -8,10 +8,9 @@ Rails.application.routes.draw do
 #}
   resources :items, only: [:show, :index]
   resources :posts
-  get '/mypage' => 'users#mypage'
-  get '/mypage/edit' => 'users#edit'
+  get '/mypage' => 'users#mypage', as: 'mypage'
 
-  resources :users, only: [:index, :show, :update]
+  resources :users, only: [:index, :show, :edit, :update]
   get '/users/:id/confirm' => 'users#confirm', as: 'users_confirm'
   patch 'users/:id/withdraw' => 'users#withdraw', as: 'users_withdraw'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.htm

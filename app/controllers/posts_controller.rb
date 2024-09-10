@@ -41,6 +41,11 @@ class PostsController < ApplicationController
 
   def edit
     @post = Post.find(params[:id])
+    
+    unless @post.user.id == current_user.id
+     redirect_to posts_path
+    end
+    
     @item = @post.item
     @donation_destination = @item.donation_destination
   end
@@ -75,7 +80,7 @@ class PostsController < ApplicationController
   def destroy
     @post = Post.find(params[:id])
     @post.destroy
-    redirect_to posts_path
+    redirect_to mypage_path
   end
   
   private
@@ -85,7 +90,7 @@ class PostsController < ApplicationController
    
    def redirect_unless_current_user
     unless current_user
-     redirect_to root_path
+     redirect_to new_user_session_path
     end
    end
 end
