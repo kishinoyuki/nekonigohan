@@ -5,3 +5,81 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+olivia = User.find_or_create_by!(email: "olivia@example.com") do |user|
+  user.name = "Olivia"
+  user.password = "password"
+  user.profile_image = ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/sample-author1.jpg"), filename:"sample-author1.jpg")
+end
+
+james = User.find_or_create_by!(email: "james@example.com") do |user|
+  user.name = "James"
+  user.password = "password"
+  user.profile_image = ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/sample-author2.jpg"), filename:"sample-author2.jpg")
+end
+
+lucas = User.find_or_create_by!(email: "lucas@example.com") do |user|
+  user.name = "Lucas"
+  user.password = "password"
+  user.profile_image = ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/sample-author3.jpg"), filename:"sample-author3.jpg")
+end
+
+猫達の森 = DonationDestination.find_or_create_by!(name: "猫達の森") do |donation_destination|
+ donation_destination.location = "akita"
+end
+
+猫三昧 = DonationDestination.find_or_create_by!(name: "猫三昧") do |donation_destination|
+ donation_destination.location = "osaka"
+end
+
+ヤマネコ本舗 = DonationDestination.find_or_create_by!(name: "ヤマネコ本舗") do |donation_destination|
+ donation_destination.location = "kagoshima"
+end
+
+
+食品 = Genre.find_or_create_by!(name:"食品")
+化粧品 = Genre.find_or_create_by!(name:"化粧品")
+キッチン用品 = Genre.find_or_create_by!(name:"キッチン用品")
+インテリア = Genre.find_or_create_by!(name:"インテリア")
+日用雑貨 = Genre.find_or_create_by!(name:"日用雑貨")
+ペット用品 = Genre.find_or_create_by!(name:"ペット用品")
+
+
+猫まんま = Item.find_or_create_by!(name: "猫まんま") do |item|
+ item.genre = 食品
+ item.donation_destination = 猫達の森
+end
+
+ほかほかにゃんこ = Item.find_or_create_by!(name: "ほかほかにゃんこ") do |item|
+ item.genre = 日用雑貨
+ item.donation_destination = 猫三昧
+end
+
+にゃんこいす = Item.find_or_create_by!(name: "にゃんこいす") do |item|
+ item.genre = インテリア
+ item.donation_destination = ヤマネコ本舗
+end
+
+
+Post.find_or_create_by!(title: "test1") do |post|
+  post.image = ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/sample-item1.jpg"), filename:"sample-item1.jpg")
+  post.body = "とても食べやすかったです！"
+  post.review = "satisfied"
+  post.user = olivia
+  post.item = 猫まんま
+end
+
+Post.find_or_create_by!(title: "test2") do |post|
+  post.image = ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/sample-item2.jpg"), filename:"sample-item2.jpg")
+  post.body = "冬場には重宝します。"
+  post.review = "yes_and_no"
+  post.user = james
+  post.item = ほかほかにゃんこ
+end
+
+Post.find_or_create_by!(title: "test3") do |post|
+  post.image = ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/sample-item3.jpg"), filename:"sample-item3.jpg")
+  post.body = "すぐに壊れてしまいました。"
+  post.review = 'dissatisfied'
+  post.user = lucas
+  post.item = にゃんこいす
+end
