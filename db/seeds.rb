@@ -5,22 +5,20 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+puts "seedの実行を開始"
 olivia = User.find_or_create_by!(email: "olivia@example.com") do |user|
   user.name = "Olivia"
   user.password = "password"
-  user.profile_image = ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/sample-author1.jpg"), filename:"sample-author1.jpg")
 end
 
 james = User.find_or_create_by!(email: "james@example.com") do |user|
   user.name = "James"
   user.password = "password"
-  user.profile_image = ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/sample-author2.jpg"), filename:"sample-author2.jpg")
 end
 
 lucas = User.find_or_create_by!(email: "lucas@example.com") do |user|
   user.name = "Lucas"
   user.password = "password"
-  user.profile_image = ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/sample-author3.jpg"), filename:"sample-author3.jpg")
 end
 
 猫達の森 = DonationDestination.find_or_create_by!(name: "猫達の森") do |donation_destination|
@@ -61,7 +59,6 @@ end
 
 
 Post.find_or_create_by!(title: "test1") do |post|
-  post.image = ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/sample-item1.jpg"), filename:"sample-item1.jpg")
   post.body = "とても食べやすかったです！"
   post.review = "satisfied"
   post.user = olivia
@@ -69,7 +66,6 @@ Post.find_or_create_by!(title: "test1") do |post|
 end
 
 Post.find_or_create_by!(title: "test2") do |post|
-  post.image = ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/sample-item2.jpg"), filename:"sample-item2.jpg")
   post.body = "冬場には重宝します。"
   post.review = "yes_and_no"
   post.user = james
@@ -77,9 +73,10 @@ Post.find_or_create_by!(title: "test2") do |post|
 end
 
 Post.find_or_create_by!(title: "test3") do |post|
-  post.image = ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/sample-item3.jpg"), filename:"sample-item3.jpg")
   post.body = "すぐに壊れてしまいました。"
   post.review = 'dissatisfied'
   post.user = lucas
   post.item = にゃんこいす
 end
+
+puts "seedの実行が完了しました"

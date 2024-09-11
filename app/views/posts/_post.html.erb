@@ -3,18 +3,18 @@
      <div class= "card-list-container py-5 mx-auto d-flex justify-content-center flex-wrap">
      <% posts.each do |post| %>
       <div class= "card mt-4 mr-2 col-5">
-       <%= image_tag post.get_image(330, 330), class: "card-image-top"%>
+       <%#= image_tag post.get_image(330, 330), class: "card-image-top"%>
        <div class= "card-body">
         <div class= "row">
          <div class= "col-3 mr-2">
          <% if post.user_id == current_user.id %>
           <%= link_to mypage_path do %>
-           <%= image_tag post.user.get_profile_image(100,100) %>
+           <%#= image_tag post.user.get_profile_image(100,100) %>
            <%= current_user.name %>
           <% end %>
          <% else %>
           <%= link_to user_path(post.user_id) do %>
-           <%= image_tag post.user.get_profile_image(100,100) %>
+           <%#= image_tag post.user.get_profile_image(100,100) %>
            <%= post.user.name %>
           <% end %>
          <% end %>
