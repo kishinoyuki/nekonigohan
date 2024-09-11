@@ -26,19 +26,21 @@
       </tr>
      </tbody>
     </table>
-    <div class= "row mb-3">
-     <div class= "col-6">
-      <%= link_to edit_user_path(@user), class: "btn btn-secondary" do %>
-       <i class="fa-solid fa-user-gear"></i> ユーザ編集
-      <% end %>
+    <% unless @user.email == "guest@example.com" %>
+     <div class= "row mb-3">
+      <div class= "col-6">
+       <%= link_to edit_user_path(@user), class: "btn btn-secondary" do %>
+        <i class="fa-solid fa-user-gear"></i> ユーザ編集
+       <% end %>
+      </div>
+      <div class= "col-6">
+       <%= link_to users_confirm_path(@user), class: "btn btn-danger" do %>
+        退会する
+       <% end %>
+      </div>
      </div>
-     <div class= "col-6">
-      <%= link_to users_confirm_path(@user), class: "btn btn-danger" do %>
-       退会する
-      <% end %>
-     </div>
+    <% end %>
     </div>
-   </div>
    <%= render 'user', user: @user, posts: @posts %>
    </div>
  </div>
