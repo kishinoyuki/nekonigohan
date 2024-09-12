@@ -34,8 +34,10 @@
          <% end %> 
         </li>
         <li>
-         <%= link_to new_post_path, class: 'nav-link text-light' do %>
-          <i class="fa-regular fa-square-plus"></i> 新規投稿
+         <% unless current_user.email == "guest@example.com" %> 
+          <%= link_to new_post_path, class: 'nav-link text-light' do %>
+           <i class="fa-regular fa-square-plus"></i> 新規投稿
+          <% end %>
          <% end %>
         </li>
         <li>

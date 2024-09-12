@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
  
  before_action :redirect_unless_current_user, except: [:index]
- 
+
   def index
    unless current_user
     redirect_to new_user_registration_path
@@ -22,7 +22,8 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:id])
-     unless @user.id == current_user.id
+     if @user.id != current_user.id
+      flash[:alert] = "他のユーザーのプロフィールは編集できません。"
       redirect_to mypage_path
      end
   end

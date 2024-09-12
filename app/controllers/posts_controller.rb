@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
     
-  before_action :redirect_unless_current_user 
+  before_action :redirect_unless_current_user
+  before_action :ensure_guest_user, only: [:new, :edit]
     
   def new
     @post = Post.new
@@ -91,6 +92,13 @@ class PostsController < ApplicationController
    def redirect_unless_current_user
     unless current_user
      redirect_to new_user_session_path
+    end
+   end
+   
+   def ensure_guest_user
+    if current_user.email == "guest@example.com"
+     flash[:alert] = "ゲストユーザーは新規投稿、投稿の編集を行う事はできません。"
+     redirect_to mypage_path
     end
    end
 end

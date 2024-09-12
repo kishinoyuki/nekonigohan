@@ -1,9 +1,17 @@
 <div class= "container">
-<% flash.each do |key, value| %>
- <div class= "alert alert-success mt-2 mb-2" role= "alert">
-  <%= content_tag :div, value, class: "flash #{key}" %>
- </div>
-<% end %>
+ <% if flash[:alert].present? %>
+  <% flash.each do |key, value| %>
+   <div class= "alert alert-danger mt-2 mb-2" role= "alert">
+    <%= content_tag :div, value, class: "flash #{key}" %>
+   </div>
+  <% end %>
+ <% else %>
+  <% flash.each do |key, value| %>
+   <div class= "alert alert-success mt-2 mb-2" role= "alert">
+    <%= content_tag :div, value, class: "flash #{key}" %>
+   </div>
+  <% end %>
+ <% end %>
 
  <div class= "row mt-4 mb-2">
   <h2><%= @user.name %>さん、ようこそ！</h2>
@@ -41,6 +49,16 @@
      </div>
     <% end %>
     </div>
-   <%= render 'user', user: @user, posts: @posts %>
+   <% if @user.email == "guest@example.com" %>
+    <div class= "card mt-4 mb-4 mx-auto">
+    <h3 class= "card-header">ご案内</h3>
+     <div class= "card-body">
+      <p>会員登録すると、あなたもレビューを投稿できるようになります！</p><br/>
+      <p>ログアウト後、新規会員登録をよろしくお願いします。</p>
+     </div>
+    </div>
+   <% else %>
+    <%= render 'user', user: @user, posts: @posts %>
+   <% end %>
    </div>
  </div>
