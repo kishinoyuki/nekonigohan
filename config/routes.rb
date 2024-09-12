@@ -19,4 +19,5 @@ Rails.application.routes.draw do
   patch 'users/:id/withdraw' => 'users#withdraw', as: 'users_withdraw'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.htm
   root to: 'homes#top'
+  get "search" => "searches#search"
 end

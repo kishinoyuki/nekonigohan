@@ -1,0 +1,34 @@
+<h2>Results index</h2>
+
+<table class="table table-hover table-inverse">
+  <!--検索対象モデルがUserの時 -->
+  <% if @range == "User" %>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.name %></td>
+          <td><%= user.introduction %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  <% elsif @range == "Item" %>
+    <!--検索対象モデルがUserではない時(= 検索対象モデルがBookの時) -->
+    <tbody>
+      <% @items.each do |item| %>
+        <tr>
+          <td><%= item.name %></td>
+          <td><%= item.genre.name %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  <% else %>
+    <tbody>
+      <% @donation_destination.each do |donation_destination| %>
+       <tr>
+        <td><%= doantion_destination.name %></td>
+        <td><%= donation_destination.location_i18 %></td>   
+       </tr>
+      <% end %>
+    </tbody>
+  <% end %>
+</table>
