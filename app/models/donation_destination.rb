@@ -7,13 +7,13 @@ class DonationDestination < ApplicationRecord
     
     def self.looks(search, word)
      if search == "perfect_match"
-      @donation_destination = DonationDestination.where("name LIKE?", "#{word}")
+      @donation_destination = DonationDestination.where("name LIKE ?", "#{word}")
      elsif search == "forward_match"
-      @donation_destination = DonationDestination.where("name LIKE?","#{word}%")
+      @donation_destination = DonationDestination.where("name LIKE ?","#{word}%")
      elsif search == "backward_match"
-      @donation_destination = DonationDestination.where("name LIKE?","%#{word}")
+      @donation_destination = DonationDestination.where("name LIKE ?","%#{word}")
      elsif search == "partial_match"
-      @donation_destination = DonationDestination.where("name LIKE?","%#{word}%")
+      @donation_destination = DonationDestination.where("name LIKE ?","%#{word}%")
      else
       @donation_destination = DonationDestination.all
      end

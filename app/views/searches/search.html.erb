@@ -1,34 +1,53 @@
-<h2>Results index</h2>
+<h2>検索結果</h2>
 
 <table class="table table-hover table-inverse">
-  <!--検索対象モデルがUserの時 -->
   <% if @range == "User" %>
+    <thead>
+     <th class="name">ニックネーム</th>
+     <th class="introduction">一言</th>
+    </thead>
     <tbody>
       <% @users.each do |user| %>
         <tr>
-          <td><%= user.name %></td>
+          <td>
+           <%= link_to user_path(user) do %>
+            <%= user.name %>
+           <% end %>
+          </td>
           <td><%= user.introduction %></td>
         </tr>
       <% end %>
     </tbody>
   <% elsif @range == "Item" %>
-    <!--検索対象モデルがUserではない時(= 検索対象モデルがBookの時) -->
+    <thead>
+     <th class= "name">商品名</th>
+     <th class= "genre">商品ジャンル</th>
+    </thead>
     <tbody>
       <% @items.each do |item| %>
         <tr>
-          <td><%= item.name %></td>
+          <td>
+            <%= link_to item_path(item) do %>
+             <%= item.name %>
+            <% end %>
+          </td>
           <td><%= item.genre.name %></td>
         </tr>
       <% end %>
     </tbody>
-  <% else %>
+  <% elsif @range == "DonationDestination" %>
+    <thead>
+     <th class= "name">寄付先</th>
+     <th class= "location">寄付先都道府県</th>
+    </thead>
     <tbody>
-      <% @donation_destination.each do |donation_destination| %>
+      <% @donation_destinations.each do |donation_destination| %>
        <tr>
-        <td><%= doantion_destination.name %></td>
-        <td><%= donation_destination.location_i18 %></td>   
+        <td><%= donation_destination.name %></td>
+        <td><%= donation_destination.location_i18n %></td>   
        </tr>
       <% end %>
     </tbody>
+  <% else %>
   <% end %>
 </table>

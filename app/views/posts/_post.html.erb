@@ -43,7 +43,7 @@
           <p class= "card-donation_destination_location">寄付先都道府県：
            <%= post.item.donation_destination.location_i18n %>
           </p>
-       
+          
           <% if current_user.id == post.user_id %>
             <%= link_to edit_post_path(post), class: "btn btn-secondary" do %>
              編集する
