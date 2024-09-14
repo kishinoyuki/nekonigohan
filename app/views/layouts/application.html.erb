@@ -21,45 +21,58 @@
       <span class= "navbar-toggler-icon"></span>
      </button>
      <div class= "navbar-collapse collapse" id= "navbarNavDropdown" style= "">
-      <ul class= "navbar-nav ml-auto">
-       <% if user_signed_in? %>
-        <li>
-         <%= link_to root_path, class: 'nav-link text-light' do %>
-          <i class= "fa-solid fa-house"></i> Home
-         <% end %>
-        </li>
-        <li>
-         <%= link_to mypage_path, class: 'nav-link text-light' do %>
-          <i class="fa-solid fa-user"></i> マイページ
-         <% end %> 
-        </li>
-        <li>
-         <% unless current_user.email == "guest@example.com" %> 
-          <%= link_to new_post_path, class: 'nav-link text-light' do %>
-           <i class="fa-regular fa-square-plus"></i> 新規投稿
+      <div class= "d-flex flex-row">
+       <div class= "navbar-nav w-50">
+        <% if user_signed_in? %>
+         <li>
+          <%= link_to root_path, class: 'nav-link text-light' do %>
+           <i class= "fa-solid fa-house"></i> Home
           <% end %>
-         <% end %>
-        </li>
-        <li>
-         <%= link_to posts_path, class: 'nav-link text-light' do %>
-          <i class="fa-solid fa-clipboard-list"></i> 投稿一覧
-         <% end %>
-        </li>
-        <li>
-         <%= link_to items_path, class: 'nav-link text-light' do %>
-          <i class="fa-solid fa-gifts"></i> 商品一覧
-         <% end %>
-        </li>
-        <li>
-         <%= link_to users_path, class: 'nav-link text-light' do %>
-          <i class="fa-solid fa-users"></i> ユーザ一覧
-         <% end %> 
-        </li>
-        <li>
-         <%= link_to destroy_user_session_path, method: :delete, class: 'nav-link text-light' do %>
-          <i class="fa-solid fa-right-from-bracket"></i> ログアウト
-         <% end %>
-        </li>
+         </li>
+         <li>
+          <%= link_to mypage_path, class: 'nav-link text-light' do %>
+           <i class="fa-solid fa-user"></i> マイページ
+          <% end %> 
+         </li>
+         <li>
+          <% unless current_user.email == "guest@example.com" %> 
+           <%= link_to new_post_path, class: 'nav-link text-light' do %>
+            <i class="fa-regular fa-square-plus"></i> 新規投稿
+           <% end %>
+          <% end %>
+         </li>
+         <li>
+          <%= link_to posts_path, class: 'nav-link text-light' do %>
+           <i class="fa-solid fa-clipboard-list"></i> 投稿一覧
+          <% end %>
+         </li>
+         <li>
+          <%= link_to items_path, class: 'nav-link text-light' do %>
+           <i class="fa-solid fa-gifts"></i> 商品一覧
+          <% end %>
+         </li>
+         <li>
+          <%= link_to users_path, class: 'nav-link text-light' do %>
+           <i class="fa-solid fa-users"></i> ユーザ一覧
+          <% end %> 
+         </li>
+         <li>
+          <%= link_to destroy_user_session_path, method: :delete, class: 'nav-link text-light' do %>
+           <i class="fa-solid fa-right-from-bracket"></i> ログアウト
+          <% end %>
+         </li>
+        </div>
+        
+        <div class= "search_form d-flex align-items-center" >
+          <%= form_with url: search_path, local: true, method: :get do |f| %>
+           <%= f.text_field :word, autofocus: true, class: "form-control" %>
+           <%= f.select :range, options_for_select([['User'], ['Item'], ['DonationDestination']]) %>
+           <%= f.select :search, options_for_select([["完全一致","perfect_match"], ["前方一致","forward_match"],  ["後方一致","backward_match"], ["部分一致","partial_match"]]) %>
+           <%= f.submit "検索", class: "btn btn-primary" %>
+          <% end %>
+        </div>
+       </div>
+      </div>
        <% else %>
         <li>
          <%= link_to root_path, class: 'nav-link text-light' do %>
@@ -79,7 +92,6 @@
        <% end %>
       </ul>
      </div>
-     <%= render 'partial/search' %>
     </div>
     </nav>
    </header>
