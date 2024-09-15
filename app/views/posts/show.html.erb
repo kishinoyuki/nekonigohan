@@ -1,5 +1,5 @@
-<div class= "container">
- <div class= "card mt-4 mb-4">
+<div class= "container d-flex flex-row">
+ <div class= "card col-6 mt-4 mb-4">
   <h3 class= "card-header bg-info ">投稿詳細</h3>
   <div class= "card-body">
    <div class= "card">
@@ -48,6 +48,8 @@
         <%= @post.body %>
        </p>
        
+       <p>コメント件数：<%= @post.post_comments.count %></p>
+
        <% if current_user.id == @post.user_id %>
         <%= link_to edit_post_path(@post), class: "btn btn-secondary" do %>
          編集する
@@ -57,9 +59,54 @@
         <% end %>
        <% end %>
       </div>
+      <div class= "card h-50 w-75 mx-auto">
+      <p class= "card-header bg-primary text-light">コメント投稿フォーム</p>
+       <% if flash[:alert].present? %>
+       <div class= "alert alert-danger mt-2 mb-2 w-75 mx-auto" role= "alert">
+        <%= flash[:alert] %>
+       </div>
+       <% end %>
+       <div class= "card-body">
+        <%= form_with model: [@post, @post_comment] do |f| %>
+         <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに" ,class: "form-control" %>
+         <%= f.submit "投稿する", class: "btn btn-primary mt-2" %>
+        <% end %>
+       </div>
+      </div>
      </div>
     </div>
    </div>
   </div>
+ </div>
+ 
+ <div class= "row col-5 mt-4">
+  <h3>コメント一覧</h3>
+  <table class = "table">
+   <thead>
+    <tr>
+     <th class= "name w-25">ユーザ名</th>
+     <th class= "comment">コメント</th>
+     <th class= "w-25"></th>
+    </tr>
+   </thead>
+   <% @post.post_comments.each do |post_comment| %>
+   <tbody>
+   <tr>
+    <td class= "w-25"><%= post_comment.user.name %></td>
+    <td><%= post_comment.comment %></td>
+    <% if post_comment.user == current_user %>
+    <td class= "w-25">
+     <%= link_to edit_post_post_comment_path(post_comment), class: "btn btn-secondary" do %>
+      編集する
+     <% end %>
+     <%= link_to post_post_comment_path(post_comment), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger" do %>
+       削除する
+     <% end %>
+    </td>
+    <% end %>
+   </tr>
+   </tbody>
+   <% end %>
+  </table>
  </div>
 </div>

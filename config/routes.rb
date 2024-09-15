@@ -11,7 +11,9 @@ Rails.application.routes.draw do
   #sessions: 'public/sessions'
 #}
   resources :items, only: [:show, :index]
-  resources :posts
+  resources :posts do
+   resources :post_comments, only: [:create, :edit, :update, :destroy]
+  end
   get '/mypage' => 'users#mypage', as: 'mypage'
 
   resources :users, only: [:index, :show, :edit, :update]
