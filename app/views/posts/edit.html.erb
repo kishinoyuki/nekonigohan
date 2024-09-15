@@ -2,7 +2,7 @@
  <div class= "card mx-auto" style= "max-width: 540px;">
  <h3 class= "card-header bg-secondary text-light">編集画面</h3>
    <div class= "card-body">
-   <% if @post.errors.any? %>
+   <% if @post.errors.any? || if @item.errors.any? || if @donation_destination.errors.any? %>
     <div class="alert alert-danger" role="alert">
      <ul>
       <%  @post.errors.full_messages.each do |message| %>

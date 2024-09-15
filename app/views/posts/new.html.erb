@@ -1,8 +1,8 @@
 <div class= "container mt-4 mb-4">
  <div class= "card mx-auto" style= "max-width: 540px;">
-  <div class= "card-header text-bg-primary">新規投稿</div>
+  <h3 class= "card-header bg-primary text-light">新規投稿</h3>
    <div class= "card-body">
-   <% if @post.errors.any? %>
+   <% if @post.errors.any? || @item.errors.any? || @donation_destination.errors.any? %>
     <div class="alert alert-danger" role="alert">
      <ul>
       <% @post.errors.full_messages.each do |message| %>
