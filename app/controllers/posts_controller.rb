@@ -15,16 +15,14 @@ class PostsController < ApplicationController
     all_validation = []
     all_validation << @donation_destination.valid?
     if @donation_destination.valid? == false
-     flash[:alert] = "・寄付先を入力して下さい"
+     flash[:alert] = "寄付先を入力して下さい"
     end
-
     @item = Item.find_or_create_by(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id])
     @item.donation_destination = @donation_destination
     all_validation << @item.valid?
     if @item.valid? == false
-     flash[:alert2] = "・商品名を入力して下さい"
+     flash[:alert2] = "商品名を入力して下さい"
     end
-    
     # find_or_crete
     @post.item_id = @item.id
     all_validation << @post.valid?

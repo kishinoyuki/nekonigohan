@@ -2,12 +2,6 @@
  <div class= "card mx-auto" style= "max-width: 540px;">
   <h3 class= "card-header bg-primary text-light">新規投稿</h3>
    <div class= "card-body">
-   <% if @post.errors.empty? && flash[:alert2].present? || flash[:alert].present? %>
-    <div class="alert alert-danger" role="alert">
-     <%= flash[:alert2] %><br/>
-     <%= flash[:alert] %>
-    </div>
-   <% end %>
    <% if @post.errors.any? %>
     <div class="alert alert-danger" role="alert">
      <ul>
@@ -20,6 +14,25 @@
       <% @donation_destination.errors.full_messages.each do |message| %>
        <li><%= message %></li>
       <% end %>
+     </ul>
+    </div>
+   <% elsif @post.errors.empty? && flash[:alert].present? && flash[:alert2].present? %>
+    <div class="alert alert-danger" role="alert">
+     <ul>
+      <li><%= flash[:alert2] %></li>
+      <li><%= flash[:alert] %></li>
+     </ul>
+    </div>
+   <% elsif @post.errors.empty? && flash[:alert].present? %>
+    <div class="alert alert-danger" role="alert">
+     <ul>
+      <li><%= flash[:alert] %></li>
+     </ul>
+    </div>
+   <% elsif @post.errors.empty? && flash[:alert2].present? %>
+    <div class="alert alert-danger" role="alert">
+     <ul>
+      <li><%= flash[:alert2] %></li>
      </ul>
     </div>
    <% end %>
