@@ -30,7 +30,7 @@ class PostsController < ApplicationController
     if all_validation == [true, true, true]
       @post.save && @item.save && @donation_destination.save
       flash[:success] = "投稿が完了しました！"
-     redirect_to mypage_path
+     redirect_to post_path(@post)
     else
      render :new
     end
@@ -49,6 +49,7 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
     
     unless @post.user.id == current_user.id
+     flash[:alert] = "他のユーザの投稿は編集できません"
      redirect_to posts_path
     end
     
@@ -77,7 +78,7 @@ class PostsController < ApplicationController
   if all_validation == [true, true, true]
    @post.update(post_params) && @item.update(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id]) && @donation_destination.update(name: params[:post][:donation_destination_name], location: params[:post][:donation_destination_location])
    flash[:success] = "編集内容が保存されました！"
-   redirect_to mypage_path
+   redirect_to post_path(@post)
   else
    render :edit
   end
@@ -86,6 +87,7 @@ class PostsController < ApplicationController
   def destroy
     @post = Post.find(params[:id])
     @post.destroy
+    flash[:success] = "投稿を削除しました！"
     redirect_to mypage_path
   end
   
@@ -96,13 +98,14 @@ class PostsController < ApplicationController
    
    def redirect_unless_current_user
     unless current_user
+     flash[:alert] = "ログインを行ってからアクセスをお願いします"
      redirect_to new_user_session_path
     end
    end
    
    def ensure_guest_user
     if current_user.email == "guest@example.com"
-     flash[:alert] = "ゲストユーザーは新規投稿、投稿の編集を行う事はできません。"
+     flash[:alert] = "ゲストユーザーは新規投稿、投稿の編集を行う事はできません"
      redirect_to mypage_path
     end
    end

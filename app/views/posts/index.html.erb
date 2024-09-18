@@ -1,4 +1,9 @@
  <div class= "container">
+  <% if flash[:alert].present? %>
+   <div class= "alert alert-danger mt-2" role= "alert">
+    <%= flash[:alert] %>
+   </div>
+  <% end %>
   <%= render 'users/search' %>
   <div class= "card mt-4 mb-4 w-auto">
    <h3 class= "card-header">投稿一覧</h3>
