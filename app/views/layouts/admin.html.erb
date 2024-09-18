@@ -19,7 +19,13 @@
         <%= link_to admin_users_path, class: 'nav-link text-light' do %>
          <i class="fa-solid fa-users"></i> ユーザ一覧
         <% end %> 
-       </div> 
+       </div>
+       
+       <div class= "ml-2 mr-2">
+        <%= link_to admin_posts_path, class: 'nav-link text-light' do %>
+         <i class="fa-solid fa-clipboard-list"></i> 投稿一覧
+        <% end %>
+       </div>
        
        <div class= "ml-2 mr-2">
         <%= link_to destroy_admin_session_path, class: 'nav-link text-light' do %>

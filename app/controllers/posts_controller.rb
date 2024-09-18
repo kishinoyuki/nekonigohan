@@ -31,6 +31,7 @@ class PostsController < ApplicationController
       flash[:success] = "投稿が完了しました！"
      redirect_to post_path(@post)
     else
+     @all_valitadion = false
      render :new
     end
   end

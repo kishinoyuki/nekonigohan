@@ -2,37 +2,27 @@
  <div class= "card mx-auto" style= "max-width: 540px;">
   <h3 class= "card-header bg-primary text-light">新規投稿</h3>
    <div class= "card-body">
-   <% if @post.errors.any? %>
+   
+   <% if @all_validation == false %>
     <div class="alert alert-danger" role="alert">
      <ul>
-      <% @post.errors.full_messages.each do |message| %>
-       <li><%= message %></li>
+      <% if @post.present? && @post.errors.any? %>
+        <% @post.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
       <% end %>
-      <% @item.errors.full_messages.each do |message| %>
-       <li><%= message %></li>
+      
+      <% if @item.present? && @item.errors.any? %>
+        <% @item.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
       <% end %>
-      <% @donation_destination.errors.full_messages.each do |message| %>
-       <li><%= message %></li>
+      
+       <% if @donation_destination.present? && @donation_destination.errors.any? %>
+        <% @donation_destination.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
       <% end %>
-     </ul>
-    </div>
-   <% elsif @post.errors.empty? && flash[:alert].present? && flash[:alert2].present? %>
-    <div class="alert alert-danger" role="alert">
-     <ul>
-      <li><%= flash[:alert2] %></li>
-      <li><%= flash[:alert] %></li>
-     </ul>
-    </div>
-   <% elsif @post.errors.empty? && flash[:alert].present? %>
-    <div class="alert alert-danger" role="alert">
-     <ul>
-      <li><%= flash[:alert] %></li>
-     </ul>
-    </div>
-   <% elsif @post.errors.empty? && flash[:alert2].present? %>
-    <div class="alert alert-danger" role="alert">
-     <ul>
-      <li><%= flash[:alert2] %></li>
      </ul>
     </div>
    <% end %>

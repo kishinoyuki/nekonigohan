@@ -1,0 +1,94 @@
+<div class= "container">
+ <% if flash[:success].present? %>
+  <div class= "alert alert-success mt-2 mb-2" role= "alert">
+   <%= flash[:success] %>
+  </div>
+ <% elsif flash[:alert].present? %>
+  <div class= "alert alert-danger mt-2 mb-2" role= "alert">
+   <%= flash[:alert] %>
+  </div>
+ <% else %>
+ <% end %>
+ <div class= "row">
+  <div class = "col-6">
+   <div class= "card mt-4 mb-4">
+    <h3 class= "card-header bg-info ">投稿詳細</h3>
+    <div class= "card-body">
+     <div class= "card">
+     <%= image_tag @post.get_image(400, 400), class: "card-image-top" %>
+      <div class= "card-body">
+       <div class= "row">
+        <div class= "col-8 mx-auto">
+         <p class= "card-title">タイトル:
+          <%= @post.title %>
+         </p>
+       
+         <p class= "card-item_title">商品名:
+          <%= @post.item.name %>
+         </p>
+      
+         <p class= "card-item-genre">商品ジャンル:
+          <%= @post.item.genre.name %>
+         </p>
+       
+         <p class= "card-review">レビュー:
+          <%= @post.review_i18n %>
+         </p>
+      
+         <p class= "card-item-donation_destination_name">寄付先：
+          <%= @post.item.donation_destination.name %>
+         </p>
+      
+         <p class= "card-item-donation_destination_location">寄付先都道府県：
+          <%= @post.item.donation_destination.location_i18n %>
+         </p>
+      
+         <p class = "card-item-body">本文：
+          <%= @post.body %>
+         </p>
+        
+         <%= link_to admin_post_path(@post), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger" do %>
+          削除する
+         <% end %>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+        
+        <div class= "col-6 mt-4">
+         <% unless @post.post_comments.count == 0 %>
+         <h3>コメント一覧</h3>
+         <table class = "table">
+          <thead>
+           <tr>
+            <th class= "name w-25">ユーザ名</th>
+            <th class= "comment">コメント</th>
+            <th class= "w-25"></th>
+           </tr>
+          </thead>
+          <% @post.post_comments.each do |post_comment| %>
+          <tbody>
+          <tr>
+           <td class= "w-25"><%= post_comment.user.name %></td>
+           <td><%= post_comment.comment %></td>
+           <td class= "w-25">
+            <%= link_to post_post_comment_path(post_comment.post, post_comment), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger" do %>
+             削除
+            <% end %>
+           </td>
+          </tr>
+          </tbody>
+          <% end %>
+          </table>
+         <% else %>
+         <div class= "card">
+          <div class= "card-body">
+           この投稿には、まだコメントがありません
+          </div>
+         </div>
+         <% end %>
+        </div>
+  </div>
+</div>
