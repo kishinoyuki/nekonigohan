@@ -13,16 +13,11 @@ class PostsController < ApplicationController
     @donation_destination = DonationDestination.new(name: params[:post][:donation_destination_name], location: params[:post][:donation_destination_location])
     all_validation = []
     all_validation << @donation_destination.valid?
-    if @donation_destination.valid? == false
-     flash[:alert] = "寄付先を入力して下さい"
-    end
+
     @item = Item.find_or_create_by(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id])
     @item.donation_destination = @donation_destination
     all_validation << @item.valid?
-    if @item.valid? == false
-     flash[:alert2] = "商品名を入力して下さい"
-    end
-    # find_or_crete
+
     @post.item_id = @item.id
     all_validation << @post.valid?
 
@@ -31,7 +26,7 @@ class PostsController < ApplicationController
       flash[:success] = "投稿が完了しました！"
      redirect_to post_path(@post)
     else
-     @all_valitadion = false
+     @all_validation = false
      render :new
     end
   end
@@ -80,6 +75,7 @@ class PostsController < ApplicationController
    flash[:success] = "編集内容が保存されました！"
    redirect_to post_path(@post)
   else
+   @all_validation = false
    render :edit
   end
  end

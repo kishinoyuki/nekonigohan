@@ -2,18 +2,28 @@
  <div class= "card mx-auto" style= "max-width: 540px;">
  <h3 class= "card-header bg-secondary text-light">編集画面</h3>
    <div class= "card-body">
-   <% if @post.errors.any? %>
+   <% if @all_validation == false %>
     <div class="alert alert-danger" role="alert">
      <ul>
+      
+     <% if @post.errors.any? %>
       <%  @post.errors.full_messages.each do |message| %>
        <li><%= message %></li>
       <% end %>
+     <% end %>
+     
+     <% if @item.errors.any? %>
       <% @item.errors.full_messages.each do |message| %>
        <li><%= message %></li>
       <% end %>
+     <% end %>
+     
+     <% if @donation_destination.errors.any? %>
       <% @donation_destination.errors.full_messages.each do |message| %>
        <li><%= message %></li>
       <% end %>
+     <% end %>
+     
      </ul>
     </div>
    <% end %>
