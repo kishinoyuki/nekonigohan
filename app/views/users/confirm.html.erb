@@ -1,12 +1,24 @@
-<h1>退会確認画面</h1>
-
-<h2><%= @user.name %>さん、本当に退会しますか？</h2>
-<p>退会してしまうと、自身がこれまで投稿したレビューや<br>
-   ブックマークした投稿が確認できなくなります。<br>
-    退会される場合は、退会ボタンを押してください。</p>
-    
-    
-<%= link_to "退会しない", mypage_path %>
-<%= link_to users_withdraw_path(current_user.id), method: :patch, "data-confirm" => "本当に削除しますか？" do %>
- 退会する
-<% end %>
+<div class= "card mx-auto mt-4 mb-4" style= "max-width: 540px;">
+<h3 class= "card-header bg-danger text-light">退会確認</h3>
+ <div class= "card-body">
+  <div class= "row mx-auto">
+   <h2><%= @user.name %>さん、本当に退会しますか？</h2>
+   <p>退会してしまうと、自身がこれまで投稿したレビューや<br>
+      ブックマークした投稿が確認できなくなります。<br>
+      退会される場合は、退会ボタンを押してください。</p>
+  </div>
+  
+  <div class= "row d-flex flex-row justify-center">  
+  <div class= "mx-auto mr-2">
+   <%= link_to mypage_path, class: "btn btn-secondary" do %>
+    退会しない
+   <% end %>
+  </div>
+  
+  <div class= "mx-auto mr-2">
+   <%= link_to users_withdraw_path(current_user.id), method: :patch, "data-confirm" => "本当に退会しますか？", class: "btn btn-danger" do %>
+    退会する
+   <% end %>
+  </div>
+ </div>
+</div>
