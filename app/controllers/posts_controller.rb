@@ -1,6 +1,5 @@
 class PostsController < ApplicationController
     
-  before_action :redirect_unless_current_user
   before_action :ensure_guest_user, only: [:new, :edit]
     
   def new
@@ -94,13 +93,6 @@ class PostsController < ApplicationController
   private
    def post_params
      params.require(:post).permit(:title, :body, :review, :image)
-   end
-   
-   def redirect_unless_current_user
-    unless current_user
-     flash[:alert] = "ログインを行ってからアクセスをお願いします"
-     redirect_to new_user_session_path
-    end
    end
    
    def ensure_guest_user

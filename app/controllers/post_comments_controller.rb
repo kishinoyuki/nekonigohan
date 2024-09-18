@@ -1,6 +1,5 @@
 class PostCommentsController < ApplicationController
  
- before_action :redirect_unless_current_user
  before_action :redirect_ensure_guest_user, only: [:edit]
  
  def create
@@ -42,12 +41,6 @@ class PostCommentsController < ApplicationController
 
  def post_comment_params
   params.require(:post_comment).permit(:comment)
- end
- 
- def redirect_unless_current_user
-  unless current_user
-   redirect_to new_user_session_path
-  end
  end
  
  def redirect_ensure_guest_user

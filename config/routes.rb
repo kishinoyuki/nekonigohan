@@ -8,6 +8,10 @@ Rails.application.routes.draw do
     sessions: 'admin/sessions'
   }
   
+  namespace :admin do
+   resources :users, only: [:index, :destroy]
+  end
+  
   devise_scope :user do
     post "user/guest/sign_in", to: "users/sessions#guest_sign_in"
   end

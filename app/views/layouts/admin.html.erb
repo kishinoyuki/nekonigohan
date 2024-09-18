@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin - 猫にごはん</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <script src="https://kit.fontawesome.com/7b0c0b1a1d.js" crossorigin="anonymous"></script>
+  <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
+<body>
+ <header>
+   <nav class= "navbar-dark bg-dark">
+    <div class= "container">
+     <div class= "navbar-nav d-flex flex-row justify-content-end">
+      <% if admin_signed_in? %>
+      
+       <div class= "ml-2 mr-2">
+        <%= link_to admin_users_path, class: 'nav-link text-light' do %>
+         <i class="fa-solid fa-users"></i> ユーザ一覧
+        <% end %> 
+       </div> 
+       
+       <div class= "ml-2 mr-2">
+        <%= link_to destroy_admin_session_path, class: 'nav-link text-light' do %>
+         <i class="fa-solid fa-right-from-bracket"></i> ログアウト
+        <% end %>
+       </div>
+      <% end %>
+     </div>
+    </div>
+   </nav>
+ </header>
+ <main>
+  <%= yield %>
+ </main>
+</body>
+</html>

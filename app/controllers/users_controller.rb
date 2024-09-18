@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
  
- before_action :redirect_unless_current_user, except: [:index]
  before_action :ensure_guest_user, only: [:edit]
   def index
    unless current_user
@@ -53,12 +52,6 @@ class UsersController < ApplicationController
   private
   def user_params
     params.require(:user).permit(:name, :is_active, :introduction, :profile_image)
-  end
-  
-  def redirect_unless_current_user
-   unless current_user
-    redirect_to new_user_session_path
-   end
   end
   
   def ensure_guest_user
