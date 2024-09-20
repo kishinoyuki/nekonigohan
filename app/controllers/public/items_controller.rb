@@ -1,4 +1,4 @@
-class ItemsController < ApplicationController
+class Public::ItemsController < ApplicationController
  
  before_action :redirect_unless_current_user
  

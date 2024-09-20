@@ -1,20 +1,24 @@
-<h2>検索結果</h2>
-
+<h2 class= "mt-4 mb-4 ml-3">検索結果</h2>
+<%= render 'public/users/search' %>
 <table class="table table-hover table-inverse">
   <% if @range == "User" %>
     <thead>
+     <th class= "profile_image">プロフィール画像</th>
      <th class="name">ニックネーム</th>
      <th class="introduction">一言</th>
     </thead>
     <tbody>
       <% @users.each do |user| %>
         <tr>
-          <td>
+          <td class= "w-25">
+           <%= image_tag user.get_profile_image(100, 100) %>
+          </td>
+          <td class= "w-25">
            <%= link_to user_path(user) do %>
             <%= user.name %>
            <% end %>
           </td>
-          <td><%= user.introduction %></td>
+          <td class= "w-50"><%= user.introduction %></td>
         </tr>
       <% end %>
     </tbody>
@@ -26,12 +30,12 @@
     <tbody>
       <% @items.each do |item| %>
         <tr>
-          <td>
+          <td class= "w-25">
             <%= link_to item_path(item) do %>
              <%= item.name %>
             <% end %>
           </td>
-          <td><%= item.genre.name %></td>
+          <td class= "w-25"><%= item.genre.name %></td>
         </tr>
       <% end %>
     </tbody>
@@ -43,8 +47,8 @@
     <tbody>
       <% @donation_destinations.each do |donation_destination| %>
        <tr>
-        <td><%= donation_destination.name %></td>
-        <td><%= donation_destination.location_i18n %></td>   
+        <td class= "w-25"><%= donation_destination.name %></td>
+        <td class= "w-25"><%= donation_destination.location_i18n %></td>   
        </tr>
       <% end %>
     </tbody>

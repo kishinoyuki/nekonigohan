@@ -1,4 +1,4 @@
-class PostCommentsController < ApplicationController
+class Public::PostCommentsController < ApplicationController
  
  before_action :redirect_ensure_guest_user, only: [:edit]
  

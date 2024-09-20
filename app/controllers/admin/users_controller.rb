@@ -6,10 +6,14 @@ class Admin::UsersController < ApplicationController
    @users = User.all
   end
   
-  def destroy
+  def show
    @user = User.find(params[:id])
-   @user.destroy
-   flash[:success] = "ユーザを削除しました！"
+  end
+  
+  def withdraw
+   @user = User.find(params[:id])
+   @user.update(is_active: false)
+   flash[:success] = "退会処理が完了しました！"
    redirect_to admin_users_path
   end
 end

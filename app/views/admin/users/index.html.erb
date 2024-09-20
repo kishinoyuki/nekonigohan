@@ -12,7 +12,8 @@
    <th class= "image">プロフィール画像</th>
    <th class= "name">ユーザ名</th>
    <th class= "e-mail">メールアドレス</th>
-   <th class= "destroy"></th>
+   <th class= "detail">詳細</th>
+   <th class= "status">会員ステータス</th>
   </tr>
  </thead>
  <% @users.each do |user| %>
@@ -28,8 +29,18 @@
     <%= user.email %>
    </td>
    <td>
-    <%= link_to admin_user_path(user), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger" do %>
-     削除
+    <%= link_to admin_user_path(user) do %>
+     詳細
+    <% end %>
+   </td>
+   <td>
+    <% if user.is_active == true %>
+     <button class= "btn btn-success">有効</button>
+     <%= link_to withdraw_admin_user_path(user), method: :patch, "data-confirm" => "本当に退会させますか？", class: "btn btn-danger" do %>
+      退会
+     <% end %>
+    <% else %>
+     <button class= "btn btn-danger">退会済み</button>
     <% end %>
    </td>
   </tr>

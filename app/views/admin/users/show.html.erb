@@ -1,0 +1,22 @@
+<div class= "container">
+ <div class= "row">
+   <div class= "col-4 mt-3">
+    <h2>プロフィール</h2>
+    <%= image_tag @user.get_profile_image(100,100) %>
+    <table class= "table">
+     <thead>
+      <tr>
+       <th>ニックネーム</th>
+       <th>一言</th>
+      </tr>
+     </thead>
+     <tbody>
+      <tr>
+       <th><%= @user.name %></th>
+       <th><%= @user.introduction %></th>
+      </tr>
+     </tbody>
+    </table>
+   </div>
+ </div>
+</div>

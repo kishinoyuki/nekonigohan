@@ -1,4 +1,4 @@
-class PostsController < ApplicationController
+class Public::PostsController < ApplicationController
     
   before_action :ensure_guest_user, only: [:new, :edit]
     
