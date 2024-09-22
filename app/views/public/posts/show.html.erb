@@ -60,7 +60,7 @@
          <%= @post.body %>
         </p>
        
-        <p>コメント件数：<%= @post.post_comments.count %></p>
+        <p>コメント件数：<%= @post.post_comments.count %>件</p>
 
         <% if current_user.id == @post.user_id %>
          <%= link_to edit_post_path(@post), class: "btn btn-secondary" do %>

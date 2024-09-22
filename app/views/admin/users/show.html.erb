@@ -8,15 +8,81 @@
       <tr>
        <th>ニックネーム</th>
        <th>一言</th>
+       <th></th>
       </tr>
      </thead>
      <tbody>
       <tr>
        <th><%= @user.name %></th>
        <th><%= @user.introduction %></th>
+       <th>
+        <%= link_to withdraw_admin_user_path(@user), method: :patch, "data-confirm" => "本当に退会させますか？", class: "btn btn-danger" do %>
+         退会
+        <% end %>
+       </th>
       </tr>
      </tbody>
     </table>
    </div>
+   
+   <div class="col-8 mt-3">
+    <div class="card mt-4 mb-4">
+    <h3 class="card-header"><%= @user.name %>さんの投稿一覧</h3>
+     <div class="card-body">
+      <div class="d-flex flex-wrap justify-content-center">
+       <% @posts.each do |post| %>
+        <div class="card mt-4 mr-2 col-5">
+         <%= image_tag post.get_image(300, 200), class: "card-image-top" %>
+          <div class="card-body">
+           <div class="row">
+            <div class="col-10 mx-auto">
+             <p class="card-title">タイトル:
+              <%= post.title %>
+             </p>
+             
+             <p class="card-item_title">商品名:
+              <%= post.item.name %>
+             </p>
+             
+             <p class="card-item-genre">商品ジャンル:
+              <%= post.item.genre.name %>
+             </p>
+             
+             <p class="card-review">レビュー:
+              <%= post.review_i18n %>
+             </p>
+             
+             <p class="card-donation_destination_name">寄付先:
+              <%= post.item.donation_destination.name %>
+             </p>
+             <p class="card-donation_destination_location">寄付先都道府県:
+              <%= post.item.donation_destination.location_i18n %>
+             </p>
+             
+             <p class= "card-post_comments_count">コメント件数:
+              <%= post.post_comments.count %>件 
+             </p>
+             
+             <div class= "row mt-2 mx-auto">
+              <%= link_to admin_user_path(post), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger" do %>
+               削除する
+              <% end %>
+             </div>
+             <div class="row mt-2 mx-auto">
+              <%= link_to admin_post_path(post), class: "btn btn-info" do %>
+               詳細
+              <% end %>
+             </div>
+            </div>
+           </div>
+          </div>
+         </div>
+        <% end %>
+       </div>
+      </div>
+     </div>
+    </div>
+
+   
  </div>
 </div>

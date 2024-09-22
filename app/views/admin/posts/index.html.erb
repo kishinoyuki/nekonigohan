@@ -39,6 +39,10 @@
            <%= post.item.donation_destination.location_i18n %>
           </p>
           
+          <p class= "card-post_comments_counts">コメント件数:
+           <%= post.post_comments.count %>件
+          </p>
+          
           <%= link_to admin_post_path(post), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger" do %>
            削除する
           <% end %>
