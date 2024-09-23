@@ -4,7 +4,19 @@
     <%= flash[:alert] %>
    </div>
   <% end %>
-  <%= render 'public/users/search' %>
+  <div class= "row d-flex flex-row">
+   <%= render 'public/users/search' %>
+   <div class= "card h-25 mt-4 ml-3 mb-4" style="width: 430px;">
+   <p class= "card-header">絞り込み</p>
+    <div class= "card-body">
+     <%= form_tag({controller:"posts",action:"index"}, method: :get) do %>
+      <%= select_tag :search, options_for_select(Post.review_options, params[:review]), prompt: 'レビューを選択してください' %>
+      <%= submit_tag "絞り込み" %>
+     <% end %>
+    </div>
+   </div>
+  </div>
+
   <div class= "card mt-4 mb-4 w-auto">
    <h3 class= "card-header">投稿一覧</h3>
    <%= render 'post', posts: @posts %>

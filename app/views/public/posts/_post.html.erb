@@ -1,6 +1,9 @@
 <div class= "card-body">
     <div class= "row-cols-2-flex">
      <div class= "card-list-container py-5 mx-auto d-flex justify-content-center flex-wrap">
+     <% if posts.count == 0 %>
+      <p>投稿がない、もしくは絞り込みに該当する投稿がありません</p>
+     <% else %>
      <% posts.each do |post| %>
       <div class= "card mt-4 mr-2 col-5">
        <%= image_tag post.get_image(330, 330), class: "card-image-top"%>
@@ -64,6 +67,7 @@
         </div>
        </div>
       </div>
+     <% end %>
      <% end %>
      </div>
     </div>
