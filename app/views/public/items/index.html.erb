@@ -1,4 +1,13 @@
 <h2>商品一覧</h2>
+<div class= "card h-25 mt-4 ml-3 mb-4" style="width: 430px">
+<p class= "card-header">ジャンル絞り込み</p>
+ <div class= "card-body">
+  <%= form_tag({controller:"items", action:"index"}, method: :get) do %>
+   <%= select_tag :search, options_for_select([["食品", 1],["化粧品", 2], ["キッチン用品", 3], ["インテリア", 4], ["日用雑貨", 5], ["ペット用品", 6]], params[:item_gernre_id]), prompt: "商品のジャンルを選択してください" %>
+   <%= submit_tag "絞り込み" %>
+  <% end %>
+ </div>
+</div>
 <table class= "table">
  <thead>
   <tr>
