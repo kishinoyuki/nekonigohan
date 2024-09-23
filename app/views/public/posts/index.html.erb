@@ -10,8 +10,8 @@
    <p class= "card-header">絞り込み</p>
     <div class= "card-body">
      <%= form_tag({controller:"posts",action:"index"}, method: :get) do %>
-      <%= select_tag :search, options_for_select(Post.review_options, params[:review]), prompt: 'レビューを選択してください' %>
-      <%= submit_tag "絞り込み" %>
+       <%= select_tag :search, options_for_select(Post.review_options, params[:review]), prompt: 'レビューを選択してください' %>
+       <%= submit_tag "絞り込み" %>
      <% end %>
     </div>
    </div>

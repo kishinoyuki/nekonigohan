@@ -32,11 +32,11 @@ class Public::PostsController < ApplicationController
   end
   
   def index
-    @search_review = params[:search]
-    if @search_review.blank?
+    @search = params[:search]
+    if @search.blank?
      @posts = Post.all
-    else 
-     @posts = Post.where(review: @search_review)
+    else
+     @posts = Post.where(review: @search)
     end
   end
   
