@@ -1,6 +1,6 @@
 <h2>商品一覧</h2>
 <div class= "card h-25 mt-4 ml-3 mb-4" style="width: 430px">
-<p class= "card-header">ジャンル絞り込み</p>
+<p class= "card-header">商品ジャンル絞り込み</p>
  <div class= "card-body">
   <%= form_tag({controller:"items", action:"index"}, method: :get) do %>
    <%= select_tag :search, options_for_select([["食品", 1],["化粧品", 2], ["キッチン用品", 3], ["インテリア", 4], ["日用雑貨", 5], ["ペット用品", 6]], params[:item_gernre_id]), prompt: "商品のジャンルを選択してください" %>
@@ -8,6 +8,11 @@
   <% end %>
  </div>
 </div>
+<% if @items.count == 0 %>
+ <div class= "row mt-2 mb-2 d-flex justify-content-center">
+  <div class= "btn btn-secondary  d-flex justify-content-center">該当ジャンルの商品が見つかりません</div>
+ </div>
+<% else %>
 <table class= "table">
  <thead>
   <tr>
@@ -38,3 +43,4 @@
  </tbody>
  <% end %>   
 </table>
+<% end %>

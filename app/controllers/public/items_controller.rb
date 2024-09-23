@@ -3,11 +3,11 @@ class Public::ItemsController < ApplicationController
  before_action :redirect_unless_current_user
  
  def index
-  @search_genre = params[:search]
-  if @search_genre.blank?
+  @search = params[:search]
+  if @search.blank?
    @items = Item.all
   else
-   @items = Item.where(genre_id: @search_genre)
+   @items = Item.where(genre_id: @search)
   end
  end
 
