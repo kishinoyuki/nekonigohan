@@ -1,10 +1,10 @@
-   <div class="col-8 mt-3">
+   <div class="col-sm-12 col-lg-8 mt-3">
     <div class="card mt-4 mb-4">
     <h3 class="card-header"><%= user.name %>さんの投稿一覧</h3>
      <div class="card-body">
       <div class="d-flex flex-wrap justify-content-center">
        <% posts.each do |post| %>
-        <div class="card mt-4 mr-2 col-5">
+        <div class="card mt-4 mr-2 col-sm-12 col-lg-5">
          <%= image_tag post.get_image(300, 200), class: "card-image-top" %>
           <div class="card-body">
            <div class="row">
