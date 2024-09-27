@@ -5,7 +5,7 @@
       <p>投稿がない、もしくは絞り込みに該当する投稿がありません</p>
      <% else %>
      <% posts.each do |post| %>
-      <div class= "card mt-4 mr-2 col-5">
+      <div class= "card mt-4 mr-2 col-sm-12 col-lg-5">
        <%= image_tag post.get_image(330, 330), class: "card-image-top"%>
        <div class= "card-body">
         <div class= "row">
