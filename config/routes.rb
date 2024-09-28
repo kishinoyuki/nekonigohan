@@ -1,12 +1,9 @@
 Rails.application.routes.draw do
 
  devise_for :users, controllers: {
-  sessions: 'users/sessions'
+  sessions: 'public/users/sessions'
  }
  
- devise_scope :user do
-  post "user/guest/sign_in", to: "users/sessions#guest_sign_in"
- end
 #devise_for :customers, controllers: {
   #registrations: "public/registrations",
   #sessions: 'public/sessions'
@@ -17,6 +14,12 @@ scope module: :public do
   resources :post_comments, only: [:create, :edit, :update, :destroy]
  end
  get '/mypage' => 'users#mypage', as: 'mypage'
+ 
+
+ 
+ devise_scope :user do
+  post "user/guest/sign_in", to: "users/sessions#guest_sign_in"
+ end
 
  resources :users, only: [:index, :show, :edit, :update]
  get '/users/:id/confirm' => 'users#confirm', as: 'users_confirm'
