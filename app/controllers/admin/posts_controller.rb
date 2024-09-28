@@ -3,12 +3,12 @@ class Admin::PostsController < ApplicationController
  before_action :authenticate_admin!
  
   def index
-   @posts = Post.all
+   @posts = Post.page(params[:page]).per(4)
   end
   
   def show
    @post = Post.find(params[:id])
-   @post_comments = @post.post_comments.all
+   @post_comments = @post.post_comments.page(params[:page]).per(10)
   end
   
   def destroy
@@ -17,4 +17,4 @@ class Admin::PostsController < ApplicationController
    flash[:success] = "投稿を削除しました！"
    redirect_to admin_posts_path
   end
- end
+end
