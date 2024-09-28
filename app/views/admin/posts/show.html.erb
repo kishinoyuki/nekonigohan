@@ -63,7 +63,7 @@
   </div>
         
   <div class= "col-6 mt-4">
-  <% unless @post.post_comments.count == 0 %>
+  <% unless @post_comments == 0 %>
   <h3>コメント一覧</h3>
    <table class = "table">
     <thead>
@@ -73,7 +73,7 @@
       <th class= "w-25"></th>
      </tr>
     </thead>
-    <% @post.post_comments.each do |post_comment| %>
+    <% @post_comments.each do |post_comment| %>
     <tbody>
      <tr>
       <td class= "w-25"><%= post_comment.user.name %></td>
@@ -86,8 +86,8 @@
      </tr>
     </tbody>
     <% end %>
-    <%= paginate @post.post_comments %>
    </table>
+   <%= paginate @post_comments %>
   <% else %>
    <div class= "card">
     <div class= "card-body">
