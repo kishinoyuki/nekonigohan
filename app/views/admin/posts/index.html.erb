@@ -10,7 +10,7 @@
     <div class= "row-cols-2-flex">
      <div class= "card-list-container py-5 mx-auto d-flex justify-content-center flex-wrap">
      <% @posts.each do |post| %>
-      <div class= "card mt-4 mr-2 col-5">
+      <div class= "card mt-4 mr-2 col-sm-12 col-lg-5">
        <%= image_tag post.get_image(330, 330), class: "card-image-top"%>
        <div class= "card-body">
         <div class= "row">
