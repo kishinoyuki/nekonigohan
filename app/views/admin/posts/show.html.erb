@@ -10,7 +10,7 @@
  <% else %>
  <% end %>
  <div class= "row">
-  <div class = "col-6">
+  <div class = "col-sm-12 col-lg-6">
    <div class= "card mt-4 mb-4">
     <h3 class= "card-header bg-info ">投稿詳細</h3>
     <div class= "card-body">
@@ -62,7 +62,7 @@
    </div>
   </div>
         
-  <div class= "col-6 mt-4">
+  <div class= "col-sm-12col-lg-6 mt-4">
   <% unless @post.post_comments.count == 0 %>
   <h3>コメント一覧</h3>
    <table class = "table">
@@ -88,9 +88,9 @@
     <% end %>
    </table>
   <% else %>
-   <div class= "card">
+   <div class= "card mb-4">
     <div class= "card-body">
-     この投稿には、まだコメントがありません
+     この投稿にはまだコメントがありません
     </div>
    </div>
   <% end %>
