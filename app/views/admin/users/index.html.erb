@@ -9,19 +9,15 @@
 <table class= "table mt-2">
  <thead>
   <tr>
-   <th class= "image">プロフィール画像</th>
-   <th class= "name">ユーザ名</th>
-   <th class= "e-mail">メールアドレス</th>
-   <th class= "detail">詳細</th>
-   <th class= "status">会員ステータス</th>
+   <th class= "name col-sm-3">ユーザ名</th>
+   <th class= "e-mail col-sm-3">メールアドレス</th>
+   <th class= "detail col-sm-2">詳細</th>
+   <th class= "status col-sm-3">会員ステータス</th>
   </tr>
  </thead>
  <% @users.each do |user| %>
  <tbody>
   <tr>
-   <td>
-    <%= image_tag user.get_profile_image(100,100) %>
-   </td>
    <td>
     <%= user.name %>
    </td>
