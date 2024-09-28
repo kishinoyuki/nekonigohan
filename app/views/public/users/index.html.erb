@@ -1,13 +1,12 @@
-<h3>ユーザ一覧</h3>
+<h2 class= "mt-2">ユーザ一覧</h2>
 <%= render 'search' %>
-<table class="table">
+<table class="table mb-4 ml-3 mr-3">
  <thead>
   <tr>
-   <th class= "image">プロフィール画像</th>
-   <th class= "name">ユーザ名</th>
-   <th class= "introduction">一言</th>
-   <th class= "show">詳細</th>
-   <th class= "current_user"></th>
+   <th class= "image col-sm-4">プロフィール画像</th>
+   <th class= "name col-sm-2">ユーザ名</th>
+   <th class= "show col-sm-2">詳細</th>
+   <th class= "current_user col-sm-4"></th>
 　</tr>
  </thead>
  <% @users.each do |user| %>
@@ -20,19 +19,20 @@
      <%= user.name %>
     </td>
     <td>
-     <%= user.introduction %>
-    </td>
-    <td>
      <%= link_to "詳細", user_path(user) %>
     </td>
     <% if user.id == current_user.id && current_user.email != "guest@example.com" %>
      <td>
-      <%= link_to edit_user_path(user.id), class: "btn btn-secondary" do %>
-       <i class="fa-solid fa-user-gear"></i> ユーザ編集
-      <% end %>
-      <%= link_to users_confirm_path(user.id), class: "btn btn-danger" do %>
-       退会する
-      <% end %>
+      <div>
+       <%= link_to edit_user_path(user.id), class: "btn btn-secondary" do %>
+        <i class="fa-solid fa-user-gear"></i> ユーザ編集
+       <% end %>
+      </div>
+      <div class= "mt-2">
+       <%= link_to users_confirm_path(user.id), class: "btn btn-danger" do %>
+        退会
+       <% end %>
+      </div>
      </td>
     <% end %>
    </tr>   
