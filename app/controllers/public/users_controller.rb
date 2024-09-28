@@ -5,18 +5,18 @@ class Public::UsersController < ApplicationController
    unless current_user
     redirect_to new_user_registration_path
    else
-    @users = User.active
+    @users = User.active.page(params[:page]).per(10)
    end
   end
   
   def show
     @user = User.find(params[:id])
-    @posts = @user.posts
+    @posts = @user.posts.page(params[:page]).per(4)
   end
   
   def mypage
     @user = User.find(current_user.id)
-    @posts = @user.posts
+    @posts = @user.posts.page(params[:page]).per(4)
   end
 
   def edit
