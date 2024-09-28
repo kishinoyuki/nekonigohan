@@ -1,5 +1,5 @@
-<h2>商品一覧</h2>
-<div class= "card h-25 mt-4 ml-3 mb-4" style="width: 430px">
+<h2 class= "mt-2">商品一覧</h2>
+<div class= "card h-25 col-sm-11 col-lg-5 mt-4 ml-3 mb-4">
 <p class= "card-header">商品ジャンル絞り込み</p>
  <div class= "card-body">
   <%= form_tag({controller:"items", action:"index"}, method: :get) do %>
@@ -13,7 +13,7 @@
   <div class= "btn btn-secondary  d-flex justify-content-center">該当ジャンルの商品が見つかりません</div>
  </div>
 <% else %>
-<table class= "table">
+<table class= "table ml-3">
  <thead>
   <tr>
    <th class= "name">商品名</th>

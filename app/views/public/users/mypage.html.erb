@@ -53,6 +53,7 @@
     <% end %>
     </div>
    <% if @user.email == "guest@example.com" %>
+   <div class= "col-sm-12 col-lg-8 mt-3">
     <div class= "card mb-4 ml-5">
     <h3 class= "card-header">ご案内</h3>
      <div class= "card-body">
@@ -60,6 +61,7 @@
       <p>ログアウト後、新規会員登録をよろしくお願いします。</p>
      </div>
     </div>
+   </div>
    <% else %>
     <%= render 'user', user: @user, posts: @posts %>
    <% end %>
