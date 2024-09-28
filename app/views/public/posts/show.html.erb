@@ -97,34 +97,35 @@
  
   <div class= "col-sm-12 col-lg-6 mt-4">
    <% unless @post.post_comments.count == 0 %>
-   <h3>コメント一覧</h3>
-   <table class = "table">
-    <thead>
+    <h3>コメント一覧</h3>
+    <table class = "table">
+     <thead>
+      <tr>
+       <th class= "name w-25">ユーザ名</th>
+       <th class= "comment">コメント</th>
+       <th class= "w-25"></th>
+      </tr>
+     </thead>
+     <% @post_comments.each do |post_comment| %>
+     <tbody>
      <tr>
-      <th class= "name w-25">ユーザ名</th>
-      <th class= "comment">コメント</th>
-      <th class= "w-25"></th>
+      <td class= "w-25"><%= post_comment.user.name %></td>
+      <td><%= post_comment.comment %></td>
+      <% if post_comment.user == current_user %>
+       <td class= "w-25">
+        <%= link_to edit_post_post_comment_path(post_comment.post, post_comment), class: "btn btn-secondary" do %>
+         編集
+        <% end %>
+        <%= link_to post_post_comment_path(post_comment.post, post_comment), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger" do %>
+         削除
+        <% end %>
+       </td>
+      <% end %>
      </tr>
-    </thead>
-    <% @post.post_comments.each do |post_comment| %>
-    <tbody>
-    <tr>
-     <td class= "w-25"><%= post_comment.user.name %></td>
-     <td><%= post_comment.comment %></td>
-     <% if post_comment.user == current_user %>
-     <td class= "w-25">
-      <%= link_to edit_post_post_comment_path(post_comment.post, post_comment), class: "btn btn-secondary" do %>
-       編集
-      <% end %>
-      <%= link_to post_post_comment_path(post_comment.post, post_comment), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger" do %>
-        削除
-      <% end %>
-     </td>
+     </tbody>
      <% end %>
-    </tr>
-    </tbody>
-    <% end %>
    </table>
+   <%= paginate @post_comments %>
    <% else %>
     <div class= "card mb-4">
      <div class= "card-body">
