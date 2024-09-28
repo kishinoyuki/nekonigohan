@@ -2,8 +2,11 @@
 <html>
 <head>
   <title>Admin - 猫にごはん</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <script src="https://kit.fontawesome.com/7b0c0b1a1d.js" crossorigin="anonymous"></script>
   <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
@@ -16,7 +19,7 @@
       <div class= "col-sm-4 col-lg-5 d-flex justify-content-start align-items-start">
        <h3 class= "text-dark">管理者画面</h3>
       </div>
-      <div class= "col-sm-8 col-lg-7 d-flex flex-row justify-content-end align-items-end">
+      <div class= "col-sm-9 col-lg-7 d-flex flex-row justify-content-end align-items-end">
        <% if admin_signed_in? %>
       
        <div class= "ml-2 mr-2">
