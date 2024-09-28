@@ -79,4 +79,8 @@ Post.find_or_create_by!(title: "test3") do |post|
   post.item = にゃんこいす
 end
 
+admin1 = Admin.find_or_create_by!(email: "admin@example.com") do |admin|
+  admin.password = "password"
+end
+
 puts "seedの実行が完了しました"
