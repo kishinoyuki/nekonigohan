@@ -5,15 +5,15 @@ class Public::ItemsController < ApplicationController
  def index
   @search = params[:search]
   if @search.blank?
-   @items = Item.all
+   @items = Item.page(params[:page]).per(10)
   else
-   @items = Item.where(genre_id: @search)
+   @items = Item.where(genre_id: @search).page(params[:page]).per(10)
   end
  end
 
  def show
   @item = Item.find(params[:id])
-  @posts = @item.posts
+  @posts = @item.posts.page(params[:page]).per(4)
  end
  
 private

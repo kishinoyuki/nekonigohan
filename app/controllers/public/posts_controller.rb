@@ -34,9 +34,9 @@ class Public::PostsController < ApplicationController
   def index
     @search = params[:search]
     if @search.blank?
-     @posts = Post.all
+     @posts = Post.page(params[:page]).per(4)
     else
-     @posts = Post.where(review: @search)
+     @posts = Post.where(review: @search).page(params[:page]).per(4)
     end
   end
   
