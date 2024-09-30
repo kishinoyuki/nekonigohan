@@ -48,12 +48,12 @@ class Public::PostsController < ApplicationController
 
   def edit
     @post = Post.find(params[:id])
-    
+        
     unless @post.user.id == current_user.id
      flash[:alert] = "他のユーザの投稿は編集できません"
      redirect_to posts_path
     end
-    
+
     @item = @post.item
     @donation_destination = @item.donation_destination
   end

@@ -75,10 +75,10 @@
         <% if current_user.email != "guest@example.com" && current_user.id != @post.user_id %>
          <div class= "card h-50 w-75 mx-auto">
          <p class= "card-header bg-primary text-light">コメント投稿フォーム</p>
-         <% if flash[:alert].present? %>
-         <div class= "alert alert-danger mt-2 mb-2 w-75 mx-auto" role= "alert">
-          <%= flash[:alert] %>
-         </div>
+         <% if flash[:comment_alert].present? %>
+          <div class= "alert alert-danger mt-2 mb-2 w-75 mx-auto" role= "alert">
+           <%= flash[:comment_alert] %>
+          </div>
          <% end %>
           <div class= "card-body">
            <%= form_with model: [@post, @post_comment] do |f| %>

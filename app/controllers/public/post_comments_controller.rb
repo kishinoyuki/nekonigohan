@@ -7,17 +7,21 @@ class Public::PostCommentsController < ApplicationController
   comment = current_user.post_comments.new(post_comment_params)
   comment.post_id = post.id
   if comment.save
-  flash[:success] = "コメントを投稿しました！"
-  redirect_to post_path(post)
+   flash[:success] = "コメントを投稿しました！"
+   redirect_to post_path(post)
   else
-  flash[:alert] = "コメントを入力して下さい。"
-  redirect_to post_path(post)
+   flash[:comment_alert] = "コメントを入力して下さい"
+   redirect_to post_path(post)
   end
  end
  
  def edit
   @post = Post.find(params[:post_id])
   @post_comment = PostComment.find(params[:id])
+  unless current_user == @post_comment.user
+   flash[:alert] = "他のユーザーのコメントは編集できません"
+   redirect_to post_path(@post)
+  end
  end
  
  def update
@@ -27,13 +31,14 @@ class Public::PostCommentsController < ApplicationController
    flash[:success] = "コメントを編集しました！"
    redirect_to post_path(params[:post_id])
   else
-   flash.now[:alert] = "コメントを入力して下さい。"
+   flash.now[:alert] = "コメントを入力して下さい"
    render :edit
   end
  end
   
  def destroy
   PostComment.find(params[:id]).destroy
+  flash[:success] = "コメントを削除しました!"
   redirect_to post_path(params[:post_id])
  end
 
