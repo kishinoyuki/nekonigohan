@@ -1,9 +1,5 @@
  <div class= "container">
-  <% if flash[:alert].present? %>
-   <div class= "alert alert-danger mt-2" role= "alert">
-    <%= flash[:alert] %>
-   </div>
-  <% end %>
+ <%= render 'flash' %>
   <div class= "row d-flex flex-row">
    <%= render 'public/users/search' %>
    <div class= "card h-25 col-sm-11 col-lg-5 mt-4 ml-3 mb-4">

@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 scope module: :public do
  resources :items, only: [:show, :index]
  resources :posts do
+  resource :favorite, only: [:create, :destroy]
   resources :post_comments, only: [:create, :edit, :update, :destroy]
  end
  get '/mypage' => 'users#mypage', as: 'mypage'

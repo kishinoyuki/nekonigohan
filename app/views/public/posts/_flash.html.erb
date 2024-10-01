@@ -1,0 +1,10 @@
+ <% if flash[:alert].present? %>
+   <div class= "alert alert-danger mt-2" role= "alert">
+    <%= flash[:alert] %>
+   </div>
+  <% end %>
+  <% if flash[:success].present? %>
+   <div class= "alert alert-success mt-2" role= "alert">
+    <%= flash[:success] %>
+   </div>
+  <% end %>
