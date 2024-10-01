@@ -13,13 +13,13 @@
   <% end %>
  <% end %>
 
- <div class= "row d-flex flex-row">
+ <div class= "row">
   <div class= "row mt-4 mb-2 ml-3">
    <h2><%= @user.name %>さん、ようこそ！</h2>
   </div>
  </div>
  
- <div class= "row mt-4">
+ <div class= "row mt-4 d-flex flex-row">
    <div class= "col-sm-10 col-lg-4 mt-3 mx-auto">
     <h2>プロフィール</h2>
     <%= image_tag @user.get_profile_image(100, 100) %>
@@ -52,8 +52,38 @@
      </div>
     <% end %>
     </div>
+    
+    <% unless @user.email == "guest@example.com" %>
+    <div class= "col-sm-10 col-lg-8 mt-3 mx-auto">
+     <h2>ブックマークした投稿一覧</h2>
+      <table class= "table">
+       <thead>
+        <th>タイトル</th>
+        <th>ユーザー</th>
+        <th>レビュー</th>
+        <th></th>
+       </thead>
+       <% @favorited_posts.each do |post_favorite| %>
+       <tbody>
+        <td><%= post_favorite.title %></td>
+        <td><%= post_favorite.user.name %></td>
+        <td><%= post_favorite.item.name %></td>
+        <td><%= post_favorite.review_i18n %></td>
+        <td>
+         <%= link_to post_path(post_favorite) do %>
+          詳細
+         <% end %>
+        </td>
+       </tbody>
+       <% end %>
+      </table>
+     </div>
+     <% end %>
+ </div>  
+
+ <div class= "row">  
    <% if @user.email == "guest@example.com" %>
-   <div class= "col-sm-12 col-lg-8 mt-3">
+   <div class= "col-sm-12 col-lg-12 mt-3">
     <div class= "card mb-4 ml-5">
     <h3 class= "card-header">ご案内</h3>
      <div class= "card-body">
