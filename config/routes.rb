@@ -15,7 +15,7 @@ scope module: :public do
   resources :post_comments, only: [:create, :edit, :update, :destroy]
  end
  get '/mypage' => 'users#mypage', as: 'mypage'
- 
+ get '/users/:id/favorite_index' => 'users#favorite_index', as: 'favorite_index'
 
  
  devise_scope :user do

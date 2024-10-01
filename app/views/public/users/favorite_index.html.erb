@@ -1,0 +1,6 @@
+ <div class= "container"> 
+  <div class= "card mt-4 mb-4 w-auto">
+   <h3 class= "card-header"><%= @user.name %>さんのブックマークした投稿</h3>
+   <%= render 'public/posts/post', posts: @favorited_posts %>
+  </div>
+ </div>

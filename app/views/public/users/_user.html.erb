@@ -1,3 +1,64 @@
+<div class= "row mt-4 d-flex flex-row">
+<div class= "col-sm-10 col-lg-4 mt-3 mx-auto">
+ <h2>プロフィール</h2>
+  <%= image_tag user.get_profile_image(100, 100) %>
+  <table class= "table">
+   <thead>
+    <tr>
+     <th>ニックネーム</th>
+     <th>一言</th>
+    </tr>
+   </thead>
+   <tbody>
+    <tr>
+     <td><%= user.name %></td>
+     <td><%= user.introduction %></td>
+    </tr>
+   </tbody>
+  </table>
+    
+  <% unless user.email == "guest@example.com" && user.email != current_user.email %>
+   <div class= "row mb-3">
+    <div class= "col-6">
+     <%= link_to edit_user_path(user), class: "btn btn-secondary" do %>
+      <i class="fa-solid fa-user-gear"></i> ユーザ編集
+     <% end %>
+    </div>
+    <div class= "col-6">
+     <%= link_to users_confirm_path(user), class: "btn btn-danger" do %>
+      退会する
+     <% end %>
+    </div>
+   </div>
+   <% end %>
+    
+    <% unless user.email == "guest@example.com" %>
+    <div class= "card mt-4">
+     <h4 class= "card-header">ブックマークした投稿一覧</h4>
+      <div class= "card-body">
+       <p>
+        ブックマークした投稿:
+        <%= user.favorites.count %>件
+       </p>
+       <%= link_to  favorite_index_path(user), class: "btn btn-info" do %>
+        ブックマークした投稿一覧
+       <% end %>
+      </div>
+    </div>
+    <% end %>
+  </div>
+  
+  <% if user.email == "guest@example.com" %>
+   <div class= "col-sm-12 col-lg-8 mt-3">
+    <div class= "card mb-4 ml-5">
+    <h3 class= "card-header">ご案内</h3>
+     <div class= "card-body">
+      <p>会員登録すると、あなたもレビューを投稿できるようになります！</p><br/>
+      <p>ログアウト後、新規会員登録をよろしくお願いします。</p>
+     </div>
+    </div>
+   </div>
+   <% else %>
    <div class="col-sm-12 col-lg-8 mt-3">
     <div class="card mt-4 mb-4">
     <h3 class="card-header"><%= user.name %>さんの投稿一覧</h3>
@@ -84,3 +145,8 @@
       </div>
      </div>
     </div>
+   <% end %>
+  </div>
+  </div>
+  
+  
