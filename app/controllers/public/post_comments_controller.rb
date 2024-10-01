@@ -31,8 +31,8 @@ class Public::PostCommentsController < ApplicationController
    flash[:success] = "コメントを編集しました！"
    redirect_to post_path(params[:post_id])
   else
-   flash.now[:alert] = "コメントを入力して下さい"
-   render :edit
+   flash[:alert] = "コメントを入力して下さい"
+   redirect_to edit_post_post_comment_path(@post, @post_comment)
   end
  end
   
