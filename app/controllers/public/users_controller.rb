@@ -17,6 +17,7 @@ class Public::UsersController < ApplicationController
   def mypage
     @user = User.find(current_user.id)
     @posts = @user.posts.page(params[:page]).per(4)
+    @favorited_posts = @user.favorited_posts.page(params[:page]).per(6)
   end
 
   def edit
