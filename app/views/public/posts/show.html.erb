@@ -1,14 +1,5 @@
 <div class= "container">
- <% if flash[:success].present? %>
-  <div class= "alert alert-success mt-2 mb-2" role= "alert">
-   <%= flash[:success] %>
-  </div>
- <% elsif flash[:alert].present? %>
-  <div class= "alert alert-danger mt-2 mb-2" role= "alert">
-   <%= flash[:alert] %>
-  </div>
- <% else %>
- <% end %>
+ <%= render 'flash' %>
  <div class= "row">
   <div class = "col-sm-12 col-lg-6">
    <div class= "card mt-4 mb-4">
@@ -61,6 +52,28 @@
         </p>
        
         <p>コメント件数：<%= @post.post_comments.count %>件</p>
+        
+        <% unless current_user.email == "guest@example.com" %>
+         <% if @post.favorited_by?(current_user) %>
+          <p>
+           <%= link_to post_favorite_path(@post), method: :delete do %>
+            ❤<%= @post.favorites.count %>
+           <% end %>
+          </p>
+         <% else %>
+          <p>
+           <%= link_to post_favorite_path(@post), method: :post do %>
+            ♡<%= @post.favorites.count %>
+           <% end %>
+          </p>
+         <% end %>
+        <% else %>
+          <p>
+           ブックマーク:
+           <%= @post.favorites.count %>件
+          </p>
+        <% end %>
+          
 
         <% if current_user.id == @post.user_id %>
          <%= link_to edit_post_path(@post), class: "btn btn-secondary" do %>

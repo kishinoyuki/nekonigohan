@@ -51,7 +51,7 @@ class Public::PostCommentsController < ApplicationController
  def redirect_ensure_guest_user
   post = Post.find(params[:post_id])
   if current_user.email == "guest@example.com"
-   flash[:alert] = "コメントを投稿する事ができません"
+   flash[:alert] = "ゲストユーザーはコメントを投稿する事ができません"
    redirect_to post_path(post)
   end
  end
