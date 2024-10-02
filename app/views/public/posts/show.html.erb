@@ -73,7 +73,25 @@
            <%= @post.favorites.count %>件
           </p>
         <% end %>
-          
+        
+        <p id= "star_<%= @post.id %>"></p>
+        
+        <script>
+         $(document).on('turbolinks:load', function() {
+         let elem = document.querySelector('#star_<%= @post.id %>');
+         if (elem == null) return;
+  
+         elem.innerHTML = "";
+         let opt = {  
+         starOn: "<%= asset_path('star-on.png') %>",
+         starOff: "<%= asset_path('star-off.png') %>",
+         score: "<%= @post.star %>",
+         half: false,
+         readOnly: true,
+         };
+         raty(elem, opt);
+         });
+        </script>
 
         <% if current_user.id == @post.user_id %>
          <%= link_to edit_post_path(@post), class: "btn btn-secondary" do %>
