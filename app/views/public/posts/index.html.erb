@@ -3,15 +3,15 @@
   <div class= "row d-flex flex-row">
    <%= render 'public/users/search' %>
    <div class= "card h-25 col-sm-11 col-lg-5 mt-4 ml-3 mb-4">
-   <div class= "card-header">絞り込み</div>
-    <div class= "card-body">
-     <%= form_tag({controller:"posts",action:"index"}, method: :get) do %>
+    <div class= "card-header">絞り込み</div>
+     <div class= "card-body">
+      <%= form_tag({controller:"posts",action:"index"}, method: :get) do %>
        <%= select_tag :search, options_for_select(Post.review_options, params[:review]), prompt: 'レビューを選択してください' %>
        <%= submit_tag "絞り込み" %>
-     <% end %>
+      <% end %>
+     </div>
     </div>
    </div>
-  </div>
 
   <div class= "card mt-4 mb-4 w-auto">
    <h3 class= "card-header">投稿一覧</h3>
