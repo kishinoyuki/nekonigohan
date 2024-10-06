@@ -10,11 +10,19 @@ class Public::PostsController < ApplicationController
     @post = Post.new(post_params)
     @post.user_id = current_user.id
 
-    @donation_destination = DonationDestination.new(name: params[:post][:donation_destination_name], location: params[:post][:donation_destination_location])
+    if DonationDestination.where(name: params[:post][:donation_destination_name], location: params[:post][:donation_destination_location]).exists?
+     @donation_destination = DonationDestination.find_by(name params[:post][:donation_destination_name], location: params[:post][:donation_destination])
+    else
+     @donation_destination = DonationDestination.new(name: params[:post][:donation_destination_name], location: params[:post][:donation_destination_location])
+    end
     all_validation = []
     all_validation << @donation_destination.valid?
-
-    @item = Item.find_or_create_by(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id])
+    
+    if Item.where(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id]).exists?
+     @item = Item.find_by(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id])
+    else
+     @item = Item.new(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id])
+    end
     @item.donation_destination = @donation_destination
     all_validation << @item.valid?
 
