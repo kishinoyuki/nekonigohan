@@ -11,7 +11,7 @@ class Public::PostsController < ApplicationController
     @post.user_id = current_user.id
 
     if DonationDestination.where(name: params[:post][:donation_destination_name], location: params[:post][:donation_destination_location]).exists?
-     @donation_destination = DonationDestination.find_by(name params[:post][:donation_destination_name], location: params[:post][:donation_destination])
+     @donation_destination = DonationDestination.find_by(name: params[:post][:donation_destination_name], location: params[:post][:donation_destination_location])
     else
      @donation_destination = DonationDestination.new(name: params[:post][:donation_destination_name], location: params[:post][:donation_destination_location])
     end
