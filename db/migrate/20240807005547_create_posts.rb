@@ -6,7 +6,7 @@ class CreatePosts < ActiveRecord::Migration[6.1]
       t.string :title
       t.integer :review
       t.text :body
-      
+      t.integer :star, null: false
 
       t.timestamps
     end

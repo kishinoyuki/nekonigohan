@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_10_02_122958) do
+ActiveRecord::Schema.define(version: 2024_10_01_051618) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -54,9 +54,10 @@ ActiveRecord::Schema.define(version: 2024_10_02_122958) do
 
   create_table "donation_destinations", force: :cascade do |t|
     t.string "name"
+    t.integer "location"
+    t.integer "donation_destination_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "location"
   end
 
   create_table "favorites", force: :cascade do |t|
@@ -75,9 +76,9 @@ ActiveRecord::Schema.define(version: 2024_10_02_122958) do
   create_table "items", force: :cascade do |t|
     t.string "name"
     t.integer "genre_id"
+    t.integer "donation_destination_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "donation_destination_id"
   end
 
   create_table "post_comments", force: :cascade do |t|
@@ -90,13 +91,13 @@ ActiveRecord::Schema.define(version: 2024_10_02_122958) do
 
   create_table "posts", force: :cascade do |t|
     t.integer "user_id"
+    t.integer "item_id"
     t.string "title"
     t.integer "review"
     t.text "body"
+    t.integer "star", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "item_id"
-    t.integer "star"
   end
 
   create_table "users", force: :cascade do |t|
@@ -106,10 +107,10 @@ ActiveRecord::Schema.define(version: 2024_10_02_122958) do
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.string "name"
+    t.text "introduction"
+    t.boolean "is_active", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "is_active", default: true, null: false
-    t.text "introduction"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
