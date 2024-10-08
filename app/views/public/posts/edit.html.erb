@@ -60,11 +60,6 @@
     </div>
   
     <div class= "form-group mb-2">
-     <label class= "control-label">レビュー</label>
-     <%= f.select :review, Post.reviews.keys.map {|k| [I18n.t("enums.post.review.#{k}"), k]}, class: "form-control" %>
-    </div>
-    
-    <div class= "form-group mb-2">
      <label class= "control-label">本文</label>
      <%= f.text_area :body, class: "form-control" %>
     </div>

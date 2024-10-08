@@ -60,7 +60,6 @@ end
 
 Post.find_or_create_by!(title: "test1") do |post|
   post.body = "とても食べやすかったです！"
-  post.review = "satisfied"
   post.user = olivia
   post.item = 猫まんま
   post.star = 3
@@ -68,7 +67,6 @@ end
 
 Post.find_or_create_by!(title: "test2") do |post|
   post.body = "冬場には重宝します。"
-  post.review = "yes_and_no"
   post.user = james
   post.item = ほかほかにゃんこ
   post.star = 5
@@ -76,7 +74,6 @@ end
 
 Post.find_or_create_by!(title: "test3") do |post|
   post.body = "すぐに壊れてしまいました。"
-  post.review = 'dissatisfied'
   post.user = lucas
   post.item = にゃんこいす
   post.star = 1
