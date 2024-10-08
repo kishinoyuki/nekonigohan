@@ -9,14 +9,6 @@ ja:
               taken: "はすでに使用されています"
 
   enums:
-    post: 
-      review:
-       dissatisfied: "不満"
-       rather_dissatisfied: "どちらかといえば不満"
-       yes_and_no: "どちらともいえない"
-       rather_satisfied: "どちらかいえば満足"
-       satisfied: "満足"
-    
     donation_destination:
       location:
          hokkaido: "北海道"
@@ -77,6 +69,7 @@ ja:
       post:
         title: "タイトル"
         body: "本文"
+        star: "評価"
       
       item:
         name: "商品名"
