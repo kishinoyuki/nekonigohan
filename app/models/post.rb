@@ -1,10 +1,6 @@
 class Post < ApplicationRecord
     enum review: {yes_and_no: 0, dissatisfied: 1, rather_dissatisfied: 2, rather_satisfied: 3, satisfied: 4}
     
-   def self.review_options
-    reviews.keys.map { |key| [I18n.t("enums.post.review.#{key}"), key] }
-   end
-   
     belongs_to :user
     belongs_to :item
     has_many :post_comments, dependent: :destroy
