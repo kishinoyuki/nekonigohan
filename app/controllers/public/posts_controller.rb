@@ -44,7 +44,7 @@ class Public::PostsController < ApplicationController
     if @search.blank?
      @posts = Post.page(params[:page]).per(4)
     else
-     @posts = Post.where(review: @search).page(params[:page]).per(4)
+     @posts = Post.where(star: @search).page(params[:page]).per(4)
     end
   end
   
