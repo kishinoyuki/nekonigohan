@@ -93,7 +93,6 @@ ActiveRecord::Schema.define(version: 2024_10_01_051618) do
     t.integer "user_id"
     t.integer "item_id"
     t.string "title"
-    t.integer "review"
     t.text "body"
     t.integer "star", null: false
     t.datetime "created_at", precision: 6, null: false
