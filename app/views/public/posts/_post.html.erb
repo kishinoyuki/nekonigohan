@@ -87,6 +87,13 @@
            });
           </script>
           
+          <% if post.item.category.present? %>
+           <p>
+            <%= link_to tagsearches_search_path(content: post.item.category) do %>
+             <%= post.item.category %>
+            <% end %>
+           </p>
+          <% end %>
           
           <% if current_user.id == post.user_id %>
             <%= link_to edit_post_path(post), class: "btn btn-secondary" do %>
