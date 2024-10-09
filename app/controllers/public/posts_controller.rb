@@ -23,15 +23,17 @@ class Public::PostsController < ApplicationController
     else
      @item = Item.new(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id])
     end
-    @item.donation_destination = @donation_destination
     all_validation << @item.valid?
 
-    @post.item_id = @item.id
     all_validation << @post.valid?
 
     if all_validation == [true, true, true]
-      @post.save && @item.save && @donation_destination.save
-      flash[:success] = "投稿が完了しました！"
+     @donation_destination.save
+     @item.donation_destination = @donation_destination
+     @item.save
+     @post.item = @item
+     @post.save
+     flash[:success] = "投稿が完了しました！"
      redirect_to post_path(@post)
     else
      @all_validation = false
@@ -43,8 +45,10 @@ class Public::PostsController < ApplicationController
    @search = params[:search]
    @order = params[:order]
 
-   if @search.present? && @order.present?
-    @posts = Post.where(star: @search).order(star: @order).page(params[:page]).per(4)
+   if @search.present? && @order.present?  && params[:order] == "評価が低い投稿から" || params[:order] == "評価が高い投稿から"
+    @posts = Post.where(star: @search).page(params[:page]).per(4)
+   elsif @search.present? && @order.present? && params[:order] == "投稿日時が新しい投稿から"
+    @posts = Post.where(star: @search).order(created_at: :desc).page(params[:page]).per(4)
    elsif @search.present?
     @posts = Post.where(star: @search).page(params[:page]).per(4)
    elsif @order.present?
@@ -52,6 +56,8 @@ class Public::PostsController < ApplicationController
       @posts = Post.where(star: [1, 2, 3, 4, 5]).order(star: :asc).page(params[:page]).per(4)
     elsif params[:order] == "評価が高い投稿から"
       @posts = Post.where(star: [1, 2, 3, 4, 5]).order(star: :desc).page(params[:page]).per(4)
+    elsif params[:order] == "投稿日時が新しい投稿から"
+      @posts = Post.order(created_at: :desc).page(params[:page]).per(4)
     end
    else
     @posts = Post.page(params[:page]).per(4)
