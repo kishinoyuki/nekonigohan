@@ -76,6 +76,7 @@ ActiveRecord::Schema.define(version: 2024_10_01_051618) do
     t.string "name"
     t.integer "genre_id"
     t.integer "donation_destination_id"
+    t.string "category"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

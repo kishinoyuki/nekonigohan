@@ -4,6 +4,7 @@ class CreateItems < ActiveRecord::Migration[6.1]
       t.string :name
       t.integer :genre_id
       t.integer :donation_destination_id
+      t.string :category
       t.timestamps
     end
   end
