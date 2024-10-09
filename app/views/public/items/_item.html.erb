@@ -45,9 +45,9 @@
     <%= item.donation_destination.location_i18n %>
    </td>
    <td>
-    <% if item.category.present? %>
-     <%= link_to tagsearches_search_path(content: item.category) do %>
-      <%= item.category %>
+    <% if item.tags.present? %>
+     <%= link_to tagsearches_search_path(content: item.tags.first.content) do %>
+      <%= item.tags.first.content %>
      <% end %>
     <% end %>
    </td>

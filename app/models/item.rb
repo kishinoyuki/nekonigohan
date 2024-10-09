@@ -1,5 +1,7 @@
 class Item < ApplicationRecord
     has_many :posts, dependent: :destroy
+    has_many :item_tags
+    has_many :tags, through: :item_tags
     belongs_to :genre
     belongs_to :donation_destination
     

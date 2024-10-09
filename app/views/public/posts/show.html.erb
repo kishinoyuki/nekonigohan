@@ -88,6 +88,14 @@
          raty(elem, opt);
          });
         </script>
+        
+        <% if.@post.item.tags.present? %>
+         <p>タグ:
+          <%= link_to tagsearches_search_path(content: @post.item.tags.first.content) do %>
+           <%= @post.item.tags.first.content %>
+          <% end %>
+         </p>
+        <% end %>
 
         <% if current_user.id == @post.user_id %>
          <%= link_to edit_post_path(@post), class: "btn btn-secondary" do %>
