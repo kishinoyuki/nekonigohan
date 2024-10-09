@@ -87,10 +87,10 @@
            });
           </script>
           
-          <% if post.item.category.present? %>
-           <p>
-            <%= link_to tagsearches_search_path(content: post.item.category) do %>
-             <%= post.item.category %>
+          <% if post.item.tags.present? %>
+           <p>タグ:
+            <%= link_to tagsearches_search_path(content: post.item.tags.first.content) do %>
+             <%= post.item.tags.first.content %>
             <% end %>
            </p>
           <% end %>

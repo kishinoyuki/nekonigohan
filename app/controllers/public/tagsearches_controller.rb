@@ -1,11 +1,16 @@
 class Public::TagsearchesController < ApplicationController
     def search
-     @model = Item
      @word = params[:content]
      if params[:content].present?
-      @items = Item.where("category LIKE?","%#{@word}%")
-      render "tagsearches/tagsearch"
-     else
+      @tag = Tag.find_by(content: @word)
+      if @tag.present?
+       @items = @tag.items.page(params[:page]).per(10)
+       render "tagsearches/tagsearch"
+      else
+       flash[:tag_alert] = "該当するタグが見つかりません"
+       redirect_to decide_redirect_path
+      end
+     else 
       flash[:tag_alert] = "タグを入力してください"
       redirect_to decide_redirect_path
      end
