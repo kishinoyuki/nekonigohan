@@ -2,10 +2,10 @@
  <div class= "row d-flex flex-row">
   <%= render 'public/users/search' %>
   <div class= "card h-25 col-sm-11 col-lg-5 mt-4 ml-3 mb-4">
-   <div class= "card-header">絞り込み</div>
+   <div class= "card-header w-100">絞り込み</div>
     <div class= "card-body">
      <%= form_tag({controller:"items",action:"index"}, method: :get) do %>
-       <%= select_tag :search, options_for_select([["食品", 1],["化粧品", 2], ["キッチン用品", 3], ["インテリア", 4], ["日用雑貨", 5], ["ペット用品", 6]], params[:item_gernre_id]), prompt: "商品のジャンルを選択してください" %>
+       <%= select_tag :search, options_for_select([["食品", 1],["化粧品", 2], ["キッチン用品", 3], ["インテリア", 4], ["日用雑貨", 5], ["ペット用品", 6]], params[:item_gernre_id]), class: 'form-control mt-2 mb-2', prompt: "商品のジャンルを選択してください" %>
        <%= submit_tag "絞り込み" %>
      <% end %>
     </div>
