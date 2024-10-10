@@ -1,7 +1,6 @@
  <div class= "row d-flex flex-row">
   <%= render 'public/users/search' %>
-  <%= render 'public/users/tagsearch' %>
-  <div class= "card h-25 col-sm-11 col-lg-5 mt-4 ml-3 mb-4">
+  <div class= "card h-25 col-sm-11 col-lg-5 mt-4 ml-3 mb-4 mx-auto">
    <div class= "card-header">絞り込み</div>
     <div class= "card-body">
      <%= form_tag({controller:"items",action:"index"}, method: :get) do %>
@@ -20,11 +19,11 @@
 <table class= "table ml-3">
  <thead>
   <tr>
-   <th class= "name">商品名</th>
-   <th class= "genre">商品ジャンル</th>
-   <th class= "donation_destination_name">寄付先</th>
-   <th class= "donation_destination_location">寄付先都道府県</th>
-   <th class= "item_tag">タグ</th>
+   <th class= "name sm-col-3">商品名</th>
+   <th class= "genre sm-col-2">商品ジャンル</th>
+   <th class= "donation_destination_name sm-col-3">寄付先</th>
+   <th class= "donation_destination_location sm-col-2">寄付先都道府県</th>
+   <th class= "item_tag sm-col-2">タグ</th>
   </tr>
  </thead>
  <% items.each do |item| %>

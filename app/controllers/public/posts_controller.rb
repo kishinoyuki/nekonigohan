@@ -20,7 +20,11 @@ class Public::PostsController < ApplicationController
     
     if Item.where(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id]).exists?
      @item = Item.find_by(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id])
-     @tag = Tag.new(content: params[:post][:tag_content])
+     if Tag.where(content: params[:post][:tag_content]).exists?
+      @tag = Tag.find_by(content: params[:post][:tag_content])
+     else
+      @tag = Tag.new(content: params[:post][:tag_content])
+     end
     else
      @item = Item.new(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id])
      @tag = Tag.new(content: params[:post][:tag_content])
@@ -32,8 +36,10 @@ class Public::PostsController < ApplicationController
     if all_validation == [true, true, true]
      @donation_destination.save
      @item.donation_destination = @donation_destination
-     @tag.save
-     @item.tags << @tag
+     unless @tag.content.blank? || Item.where(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id]).exists? && Tag.where(content: params[:post][:tag_content]).exists?
+      @tag.save
+      @item.tags << @tag
+     end
      @item.save
      @post.item = @item
      @post.save
