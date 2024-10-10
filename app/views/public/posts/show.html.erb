@@ -89,7 +89,7 @@
          });
         </script>
         
-        <% if.@post.item.tags.present? %>
+        <% if @post.item.tags.present? %>
          <p>タグ:
           <%= link_to tagsearches_search_path(content: @post.item.tags.first.content) do %>
            <%= @post.item.tags.first.content %>
