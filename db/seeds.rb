@@ -45,16 +45,19 @@ end
 猫まんま = Item.find_or_create_by!(name: "猫まんま") do |item|
  item.genre = 食品
  item.donation_destination = 猫達の森
+ item.price = 800
 end
 
 ほかほかにゃんこ = Item.find_or_create_by!(name: "ほかほかにゃんこ") do |item|
  item.genre = 日用雑貨
  item.donation_destination = 猫三昧
+ item.price = 1000
 end
 
 にゃんこいす = Item.find_or_create_by!(name: "にゃんこいす") do |item|
  item.genre = インテリア
  item.donation_destination = ヤマネコ本舗
+ item.price = 1200
 end
 
 
