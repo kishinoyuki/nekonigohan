@@ -43,6 +43,11 @@
      <label class= "control-label">商品名</label>
      <%= f.text_field :item_name, class: "form-control", value: @item.name %>
     </div>
+    
+    <div class= "form-group mb-2">
+     <label class= "control-label">商品価格(円)</label>
+     <%= f.number_field :item_price, class: "form-control", value: @item.price %>
+    </div>
 
     <div class= "form-group mb-2"> 
      <label class= "control-label">商品ジャンル</label>
