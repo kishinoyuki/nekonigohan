@@ -7,7 +7,7 @@ class Item < ApplicationRecord
     
     validates :name, presence: true
     validates :genre_id, presence: true
-
+    
    def self.looks(search, word)
      if search == "perfect_match"
       @item = Item.where("name LIKE ?", "#{word}")

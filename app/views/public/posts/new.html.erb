@@ -47,6 +47,11 @@
      <label class= "control-label">商品ジャンル</label>
      <%= f.select :item_genre_id, [["食品", 1], ["化粧品" ,2], ["キッチン用品", 3], ["インテリア", 4], ["日用雑貨", 5], ["ペット用品", 6]], { include_blank: true, selected: 1 }, {} %>
     </div>
+    
+    <div class= "form-group mb-2">
+     <label class= "control-label">商品価格(円)</label>
+     <%= f.number_field :item_price, class: "form-control" %>
+    </div>
 
     <div class= "form-group mb-2"> 
      <label class= "control-label">寄付先</label>
