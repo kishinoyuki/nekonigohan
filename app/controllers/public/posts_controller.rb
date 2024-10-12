@@ -19,31 +19,29 @@ class Public::PostsController < ApplicationController
     all_validation << @donation_destination.valid?
     
     if Item.where(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id]).exists?
-     @item = Item.find_by(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id])
-     if Tag.where(content: params[:post][:tag_content]).exists?
-      @tag = Tag.find_by(content: params[:post][:tag_content])
-     else
-      @tag = Tag.new(content: params[:post][:tag_content])
-     end
+     @item = Item.find_by(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id], price: params[:post][:item_price])
     else
-     @item = Item.new(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id])
+     @item = Item.new(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id], price: params[:post][:item_price])
+    end
+     all_validation << @item.valid?
+
+    
+    if Tag.where(content: params[:post][:tag_content]).exists?
+     @tag = Tag.find_by(content: params[:post][:tag_content])
+    else
      @tag = Tag.new(content: params[:post][:tag_content])
     end
-    all_validation << @item.valid?
+     all_validation << @tag.valid?
 
-    all_validation << @post.valid?
-
-    if all_validation == [true, true, true]
-     @donation_destination.save
-     @item.donation_destination = @donation_destination
-     unless @tag.content.blank? || Item.where(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id]).exists? && Tag.where(content: params[:post][:tag_content]).exists?
+    if all_validation == [true, true, true, true]
+      @donation_destination.save
+      @item.donation_destination_id = @donation_destination.id
+      @item.save
       @tag.save
-      @item.tags << @tag
-     end
-     @item.save
-     @post.item = @item
-     @post.save
-     flash[:success] = "投稿が完了しました！"
+      @post.item_id = @item.id
+      @post.tag_id = @tag.id
+      @post.save
+      flash[:success] = "投稿が完了しました！"
      redirect_to post_path(@post)
     else
      @all_validation = false
@@ -55,10 +53,10 @@ class Public::PostsController < ApplicationController
    @search = params[:search]
    @order = params[:order]
 
-   if @search.present? && @order.present?  && params[:order] == "評価が低い投稿から" || params[:order] == "評価が高い投稿から"
+   if @search.present? && params[:order] == "評価が低い投稿から" || params[:order] == "評価が高い投稿から"
     @posts = Post.where(star: @search).page(params[:page]).per(4)
-   elsif @search.present? && @order.present? && params[:order] == "投稿日時が新しい投稿から"
-    @posts = Post.where(star: @search).order(created_at: :desc).page(params[:page]).per(4)
+   elsif @search.present? && params[:order] == "投稿日時が新しい投稿から"
+    @post = Post.where(star: @search).order(created_at: @order).page(params[:page]).per(4)
    elsif @search.present?
     @posts = Post.where(star: @search).page(params[:page]).per(4)
    elsif @order.present?
@@ -90,6 +88,9 @@ class Public::PostsController < ApplicationController
 
     @item = @post.item
     @donation_destination = @item.donation_destination
+    if @post.tag.content.present?
+     @tag = @post.tag
+    end
   end
   
  def update
@@ -100,18 +101,36 @@ class Public::PostsController < ApplicationController
   all_validation = []
   all_validation << @post.valid?
   
+  
+ if Item.where(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id], price: params[:post][:item_price]).exists?
+  @item = Item.find_by(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id], price: params[:post][:item_price])
+ else
   @item = @post.item
   @item.name = params[:post][:item_name]
   @item.genre_id = params[:post][:item_genre_id]
   all_validation << @item.valid?
+ end
   
+ if DonationDestination.where(name: params[:post][:donation_destination_name], location: params[:post][:donation_destination_location]).exist?
+  @donation_destination = DonationDestination.find_by(name: params[:post][:donation_destination_name], location: params[:post][:donation_destination_location])
+ else 
   @donation_destination = @item.donation_destination
   @donation_destination.name = params[:post][:donation_destination_name]
   @donation_destination.location = params[:post][:donation_destination_location]
   all_validation << @donation_destination.valid?
+ end
+ 
+ if Tag.where(content: params[:post][:tag_content]).exists?
+  @tag = Tag.find_by(content: params[:post][:tag_content])
+ else
+  @tag = @post.tag
+  @tag.content = params[:post][:tag_content]
+  all_validation << @tag.valid?
+ end
   
-  if all_validation == [true, true, true]
-   @post.update(post_params) && @item.update(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id]) && @donation_destination.update(name: params[:post][:donation_destination_name], location: params[:post][:donation_destination_location])
+  
+  if all_validation == [true, true, true, true]
+   @post.update(post_params) && @item.update(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id], price: params[:post][:item_price]) && @donation_destination.update(name: params[:post][:donation_destination_name], location: params[:post][:donation_destination_location]) && @tag.update(content: params[:post][:tag_content])
    flash[:success] = "編集内容が保存されました！"
    redirect_to post_path(@post)
   else
