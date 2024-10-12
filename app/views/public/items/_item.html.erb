@@ -19,12 +19,11 @@
 <table class= "table ml-3">
  <thead>
   <tr>
-   <th class= "name sm-col-2">商品名</th>
+   <th class= "name sm-col-3">商品名</th>
    <th class= "genre sm-col-2">商品ジャンル</th>
    <th class= "price sm-col-2">商品価格</th>
-   <th class= "donation_destination_name sm-col-2">寄付先</th>
+   <th class= "donation_destination_name sm-col-3">寄付先</th>
    <th class= "donation_destination_location sm-col-2">寄付先都道府県</th>
-   <th class= "item_tag sm-col-2">タグ</th>
   </tr>
  </thead>
  <% items.each do |item| %>
@@ -46,13 +45,6 @@
    </td>
    <td>
     <%= item.donation_destination.location_i18n %>
-   </td>
-   <td>
-    <% if item.tags.present? %>
-     <%= link_to tagsearches_search_path(content: item.tags.first.content) do %>
-      <%= item.tags.first.content %>
-     <% end %>
-    <% end %>
    </td>
   </tr>
  </tbody>

@@ -1,12 +1,11 @@
 class Item < ApplicationRecord
     has_many :posts, dependent: :destroy
-    has_many :item_tags
-    has_many :tags, through: :item_tags
     belongs_to :genre
     belongs_to :donation_destination
     
     validates :name, presence: true
     validates :genre_id, presence: true
+    validates :price, presence: true
     
    def self.looks(search, word)
      if search == "perfect_match"

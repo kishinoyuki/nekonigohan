@@ -91,10 +91,11 @@
            });
           </script>
           
-          <% if post.item.tags.present? %>
-           <p>タグ:
-            <%= link_to tagsearches_search_path(content: post.item.tags.first.content) do %>
-             <%= post.item.tags.first.content %>
+          <% if post.tag.present? %>
+           <p>
+            タグ:
+            <%= link_to tagsearches_search_path(content: post.tag.content) do %>
+             <%= post.tag.content %>
             <% end %>
            </p>
           <% end %>
