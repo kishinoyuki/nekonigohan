@@ -1,7 +1,7 @@
 <div class= "card-body">
     <div class= "row-cols-2-flex">
      <div class= "card-list-container py-5 mx-auto d-flex justify-content-center flex-wrap">
-     <% if posts.count == 0 %>
+     <% if posts.present? && posts.count == 0 %>
       <p>投稿がない、もしくは絞り込みに該当する投稿がありません</p>
      <% else %>
      <% posts.each do |post| %>
@@ -91,15 +91,13 @@
            });
           </script>
           
-          <% if post.tag.present? %>
            <p>
             タグ:
-            <%= link_to tagsearches_search_path(content: post.tag.content) do %>
-             <%= post.tag.content %>
+            <%= link_to tagsearches_search_path(word: post.tag) do %>
+             <%= post.tag %>
             <% end %>
            </p>
-          <% end %>
-          
+
           <% if current_user.id == post.user_id %>
             <%= link_to edit_post_path(post), class: "btn btn-secondary" do %>
              編集する

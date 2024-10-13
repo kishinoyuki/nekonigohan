@@ -66,6 +66,7 @@ Post.find_or_create_by!(title: "test1") do |post|
   post.user = olivia
   post.item = 猫まんま
   post.star = 3
+  post.tag = "love"
 end
 
 Post.find_or_create_by!(title: "test2") do |post|
@@ -73,6 +74,7 @@ Post.find_or_create_by!(title: "test2") do |post|
   post.user = james
   post.item = ほかほかにゃんこ
   post.star = 5
+  post.tag = "warm"
 end
 
 Post.find_or_create_by!(title: "test3") do |post|
@@ -80,6 +82,7 @@ Post.find_or_create_by!(title: "test3") do |post|
   post.user = lucas
   post.item = にゃんこいす
   post.star = 1
+  post.tag = "love"
 end
 
 admin1 = Admin.find_or_create_by!(email: "admin@example.com") do |admin|

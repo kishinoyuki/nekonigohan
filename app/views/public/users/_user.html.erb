@@ -137,7 +137,12 @@
               raty(elem, opt);
               });
              </script>
-             
+              <p>タグ:
+               <%= link_to tagsearches_search_path(word: post.tag) do %>
+                <%= post.tag %>
+               <% end %>
+              </p>
+
              <% if current_user.id == post.user_id %>
              <div class= "row mt-2 mx-auto">
               <%= link_to edit_post_path(post), class: "btn btn-secondary" do %>

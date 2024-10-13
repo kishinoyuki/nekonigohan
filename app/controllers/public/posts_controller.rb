@@ -25,14 +25,8 @@ class Public::PostsController < ApplicationController
     end
      all_validation << @item.valid?
 
-    
-    if Tag.where(content: params[:post][:tag_content]).exists?
-     @tag = Tag.find_by(content: params[:post][:tag_content])
-    else
-     @tag = Tag.new(content: params[:post][:tag_content])
-    end
-     all_validation << @tag.valid?
-
+     all_validation << @post.valid?
+     
     if all_validation == [true, true, true, true]
       @donation_destination.save
       @item.donation_destination_id = @donation_destination.id
@@ -97,7 +91,7 @@ class Public::PostsController < ApplicationController
   @post = Post.find(params[:id])
   @post.title = post_params[:title]
   @post.body = post_params[:body]
-  @post.review = post_params[:review]
+  @post.review = post_params[:tag]
   all_validation = []
   all_validation << @post.valid?
   
@@ -120,16 +114,7 @@ class Public::PostsController < ApplicationController
   all_validation << @donation_destination.valid?
  end
  
- if Tag.where(content: params[:post][:tag_content]).exists?
-  @tag = Tag.find_by(content: params[:post][:tag_content])
- else
-  @tag = @post.tag
-  @tag.content = params[:post][:tag_content]
-  all_validation << @tag.valid?
- end
-  
-  
-  if all_validation == [true, true, true, true]
+  if all_validation == [true, true, true]
    @post.update(post_params) && @item.update(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id], price: params[:post][:item_price]) && @donation_destination.update(name: params[:post][:donation_destination_name], location: params[:post][:donation_destination_location]) && @tag.update(content: params[:post][:tag_content])
    flash[:success] = "編集内容が保存されました！"
    redirect_to post_path(@post)
@@ -148,7 +133,7 @@ class Public::PostsController < ApplicationController
   
   private
    def post_params
-     params.require(:post).permit(:title, :body, :review, :star, :image)
+     params.require(:post).permit(:title, :body, :tag, :star, :image)
    end
    
    def ensure_guest_user

@@ -93,15 +93,13 @@
          });
         </script>
         
-        <% if @post.tag.content.present? %>
          <p>
           タグ:
-          <%= link_to tagsearches_search_path(content: @post.tag.content) do %>
+          <%= link_to tagsearches_search_path(word: @post.tag) do %>
            <%= @post.tag.content %>
           <% end %>
          </p>
-        <% end %>
-        
+
         <% if current_user.id == @post.user_id %>
          <%= link_to edit_post_path(@post), class: "btn btn-secondary" do %>
           編集する
