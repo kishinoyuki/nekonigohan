@@ -2,14 +2,13 @@ class Post < ApplicationRecord
 
     belongs_to :user
     belongs_to :item
-    belongs_to :tag
     has_many :post_comments, dependent: :destroy
     has_many :favorites, dependent: :destroy
 
     validates :title, presence: true
     validates :body, presence: true
     validates :star, presence: true
-    
+    validates :tag, presence: true
     has_one_attached :image
     
     def get_image(width, height)
