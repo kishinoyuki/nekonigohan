@@ -1,3 +1,21 @@
-<h2 class= "mt-2"><%= @word %>のタグ検索結果</h2>
+ <div class= "container">
+ <%= render 'public/posts/flash' %>
+  <div class= "row d-flex flex-row mx-auto">
+   <%= render 'public/users/search' %>
+  <div class="card h-25 col-sm-11 col-lg-5 mt-4 ml-3 mb-4 mx-auto">
+   <div class="card-header">絞り込み/並び替え</div>
+   <div class="card-body">
+    <%= form_tag({controller: "posts", action: "index"}, method: :get) do %>
+      <%= select_tag :search, options_for_select([["⭐️", 1],["⭐⭐️️", 2],["⭐️⭐️⭐️", 3],["⭐️⭐️⭐️⭐️", 4],["⭐️⭐️⭐️⭐️⭐️", 5]], params[:search]), class: 'form-control mt-2 mb-2', prompt: "評価を選択してください" %>
+      <%= select_tag :order, options_for_select(["評価が低い投稿から", "評価が高い投稿から", "投稿日時が新しい投稿から"], params[:order]), class: 'form-control mt-2 mb-2', prompt: "選択してください" %>
+      <%= submit_tag "絞り込み/並び替え" %>
+    <% end %>
+   </div>
+   </div>
+  </div>
 
-<%= render 'public/posts/post', posts: @posts %>
+  <div class= "card mt-4 mb-4 w-auto">
+   <h3 class= "card-header">"<%= @word %>"を含むタグの投稿一覧</h3>
+   <%= render 'public/posts/post', posts: @posts %>
+  </div>
+ </div>
