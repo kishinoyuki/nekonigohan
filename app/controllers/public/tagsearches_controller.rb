@@ -4,8 +4,5 @@ class Public::TagsearchesController < ApplicationController
      @word = params[:word]
      @posts = Post.where("tag LIKE?","%#{@word}%").page(params[:page]).per(4)
      render "tagsearches/tagsearch"
-     if @posts.nil?
-      flash[:natice] = "該当するタグが見つかりません"
-     end
     end
 end
