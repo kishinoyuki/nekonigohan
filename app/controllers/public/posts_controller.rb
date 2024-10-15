@@ -48,6 +48,10 @@ class Public::PostsController < ApplicationController
    if @search.present? && @order.present?
     if params[:order] == "投稿日時が新しい投稿から"
      @posts = Post.where(star: @search).order(created_at: :desc).page(params[:page]).per(4)
+    elsif params[:order] == "価格が安い商品から"
+     @posts = Post.where(star: @search).includes(:item).order("items.price ASC").page(params[:page]).per(4)
+    elsif params[:order] == "価格が高い商品から"
+     @posts = Post.where(star: @search).includes(:item).order("items.price DESC").page(params[:page]).per(4)
     else
      @posts = Post.where(star: @search).page(params[:page]).per(4)
     end
@@ -62,6 +66,10 @@ class Public::PostsController < ApplicationController
      @posts = Post.where(star: [1, 2, 3, 4, 5]).order(star: :desc).page(params[:page]).per(4)
     elsif params[:order] == "投稿日時が新しい投稿から"
      @posts = Post.order(created_at: :desc).page(params[:page]).per(4)
+    elsif params[:order] == "価格が安い商品から"
+     @posts = Post.includes(:item).order("items.price ASC").page(params[:page]).per(4)
+    elsif params[:order] == "価格が高い商品から"
+     @posts = Post.includes(:item).order("items.price DESC").page(params[:page]).per(4)
     end
     
    else
