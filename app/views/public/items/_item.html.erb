@@ -5,7 +5,8 @@
     <div class= "card-body">
      <%= form_tag({controller:"items",action:"index"}, method: :get) do %>
        <%= select_tag :search, options_for_select([["食品", 1],["化粧品", 2], ["キッチン用品", 3], ["インテリア", 4], ["日用雑貨", 5], ["ペット用品", 6]], params[:item_gernre_id]), class: 'form-control mt-2 mb-2', prompt: "商品のジャンルを選択してください" %>
-       <%= submit_tag "絞り込み" %>
+       <%= select_tag :order, options_for_select(["価格が安い商品から", "価格が高い商品から"], params[:order]), class: 'form-control mt-2 mb-2', prompt: "価格の並び替え" %>
+       <%= submit_tag "絞り込み/並び替え" %>
      <% end %>
     </div>
   </div>

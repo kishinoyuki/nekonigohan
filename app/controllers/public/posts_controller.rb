@@ -45,20 +45,25 @@ class Public::PostsController < ApplicationController
    @search = params[:search]
    @order = params[:order]
 
-   if @search.present? && params[:order] == "評価が低い投稿から" || params[:order] == "評価が高い投稿から"
-    @posts = Post.where(star: @search).page(params[:page]).per(4)
-   elsif @search.present? && params[:order] == "投稿日時が新しい投稿から"
-    @posts = Post.where(star: @search).order(created_at: @order).page(params[:page]).per(4)
-   elsif @search.present?
-    @posts = Post.where(star: @search).page(params[:page]).per(4)
-   elsif @order.present?
-    if params[:order] == "評価が低い投稿から"
-      @posts = Post.where(star: [1, 2, 3, 4, 5]).order(star: :asc).page(params[:page]).per(4)
-    elsif params[:order] == "評価が高い投稿から"
-      @posts = Post.where(star: [1, 2, 3, 4, 5]).order(star: :desc).page(params[:page]).per(4)
-    elsif params[:order] == "投稿日時が新しい投稿から"
-      @posts = Post.order(created_at: :desc).page(params[:page]).per(4)
+   if @search.present? && @order.present?
+    if params[:order] == "投稿日時が新しい投稿から"
+     @posts = Post.where(star: @search).order(created_at: :desc).page(params[:page]).per(4)
+    else
+     @posts = Post.where(star: @search).page(params[:page]).per(4)
     end
+    
+   elsif @search.present? && @order.blank?
+    @posts = Post.where(star: @search).page(params[:page]).per(4)
+    
+   elsif @search.blank? && @order.present?
+    if params[:order] == "評価が低い投稿から"
+     @posts = Post.where(star: [1, 2, 3, 4, 5]).order(star: :asc).page(params[:page]).per(4)
+    elsif params[:order] == "評価が高い投稿から"
+     @posts = Post.where(star: [1, 2, 3, 4, 5]).order(star: :desc).page(params[:page]).per(4)
+    elsif params[:order] == "投稿日時が新しい投稿から"
+     @posts = Post.order(created_at: :desc).page(params[:page]).per(4)
+    end
+    
    else
     @posts = Post.page(params[:page]).per(4)
    end
