@@ -27,13 +27,11 @@ class Public::PostsController < ApplicationController
 
      all_validation << @post.valid?
      
-    if all_validation == [true, true, true, true]
+    if all_validation == [true, true, true]
       @donation_destination.save
       @item.donation_destination_id = @donation_destination.id
       @item.save
-      @tag.save
       @post.item_id = @item.id
-      @post.tag_id = @tag.id
       @post.save
       flash[:success] = "投稿が完了しました！"
      redirect_to post_path(@post)
@@ -50,7 +48,7 @@ class Public::PostsController < ApplicationController
    if @search.present? && params[:order] == "評価が低い投稿から" || params[:order] == "評価が高い投稿から"
     @posts = Post.where(star: @search).page(params[:page]).per(4)
    elsif @search.present? && params[:order] == "投稿日時が新しい投稿から"
-    @post = Post.where(star: @search).order(created_at: @order).page(params[:page]).per(4)
+    @posts = Post.where(star: @search).order(created_at: @order).page(params[:page]).per(4)
    elsif @search.present?
     @posts = Post.where(star: @search).page(params[:page]).per(4)
    elsif @order.present?
@@ -91,7 +89,7 @@ class Public::PostsController < ApplicationController
   @post = Post.find(params[:id])
   @post.title = post_params[:title]
   @post.body = post_params[:body]
-  @post.review = post_params[:tag]
+  @post.tag = post_params[:tag]
   all_validation = []
   all_validation << @post.valid?
   
