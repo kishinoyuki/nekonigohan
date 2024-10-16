@@ -11,6 +11,8 @@ class Post < ApplicationRecord
     validates :tag, presence: true
     has_one_attached :image
     
+    scope :custom_order_scope, -> (column, order) {order("#{column} #{order}")}
+
     def get_image(width, height)
      unless image.attached?
       file_path = Rails.root.join('app/assets/images/no_image.jpg')
