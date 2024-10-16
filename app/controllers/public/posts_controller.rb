@@ -1,5 +1,5 @@
 class Public::PostsController < ApplicationController
-    
+ 
   before_action :ensure_guest_user, only: [:new, :edit]
     
   def new
@@ -46,35 +46,17 @@ class Public::PostsController < ApplicationController
    @order = params[:order]
 
    if @search.present? && @order.present?
-    if params[:order] == "投稿日時が新しい投稿から"
-     @posts = Post.where(star: @search).order(created_at: :desc).page(params[:page]).per(4)
-    elsif params[:order] == "価格が安い商品から"
-     @posts = Post.where(star: @search).includes(:item).order("items.price ASC").page(params[:page]).per(4)
-    elsif params[:order] == "価格が高い商品から"
-     @posts = Post.where(star: @search).includes(:item).order("items.price DESC").page(params[:page]).per(4)
-    else
-     @posts = Post.where(star: @search).page(params[:page]).per(4)
-    end
-    
+    @posts = combined_search_and_order
    elsif @search.present? && @order.blank?
-    @posts = Post.where(star: @search).page(params[:page]).per(4)
-    
+    @posts = posts_by_price_pulldown_search
    elsif @search.blank? && @order.present?
-    if params[:order] == "評価が低い投稿から"
-     @posts = Post.where(star: [1, 2, 3, 4, 5]).order(star: :asc).page(params[:page]).per(4)
-    elsif params[:order] == "評価が高い投稿から"
-     @posts = Post.where(star: [1, 2, 3, 4, 5]).order(star: :desc).page(params[:page]).per(4)
-    elsif params[:order] == "投稿日時が新しい投稿から"
-     @posts = Post.order(created_at: :desc).page(params[:page]).per(4)
-    elsif params[:order] == "価格が安い商品から"
-     @posts = Post.includes(:item).order("items.price ASC").page(params[:page]).per(4)
-    elsif params[:order] == "価格が高い商品から"
-     @posts = Post.includes(:item).order("items.price DESC").page(params[:page]).per(4)
-    end
-    
+    @posts = posts_by_params_order
    else
-    @posts = Post.page(params[:page]).per(4)
+    @posts = Post.all
    end
+   
+   @posts = @posts.page(params[:page]).per(4)
+   
   end
   
   def show
@@ -153,4 +135,43 @@ class Public::PostsController < ApplicationController
      redirect_to mypage_path
     end
    end
+   
+  def posts_by_price_pulldown_search
+   case params[:search]
+   when "~1000円"
+    Post.includes(:item).where("items.price <= 1000")
+   when "1000~3000円"
+    Post.includes(:item).where(items: {price: 1000..3000})
+   when "3000~5000円"
+    Post.includes(:item).where(items: {price: 3000..5000})
+   when "5000~10000円"
+    Post.includes(:item).where(items: {price: 5000..10000})
+   when "10000円~"
+    Post.includes(:item).where("items.price >= 10000")
+   end
+  end
+  
+  def posts_by_params_order
+   case params[:order]
+   when "評価が低い投稿から"
+    Post.custom_order_scope('star', 'ASC')
+   when "評価が高い投稿から"
+    Post.custom_order_scope('star', 'DESC')
+   when "投稿日時が新しい投稿から"
+    Post.custom_order_scope('created_at', 'DESC')
+   when "価格が安い商品から"
+    Post.includes(:item).custom_order_scope('items.price', 'ASC')
+   when "価格が高い商品から"
+    Post.includes(:item).custom_order_scope('items.price', 'DESC')
+   end
+  end
+  
+  def combined_search_and_order
+   posts = posts_by_price_pulldown_search
+   posts_by_params_order if posts.present?
+   return posts
+  end 
+   
+   
+    
 end
