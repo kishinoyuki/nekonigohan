@@ -46,7 +46,7 @@ class Public::PostsController < ApplicationController
    @order = params[:order]
 
    if @search.present? && @order.present?
-    @posts = combined_search_and_order
+    @posts = combined_posts_search_and_order
    elsif @search.present? && @order.blank?
     @posts = posts_by_price_pulldown_search
    elsif @search.blank? && @order.present?
@@ -139,7 +139,7 @@ class Public::PostsController < ApplicationController
   def posts_by_price_pulldown_search
    case params[:search]
    when "~1000円"
-    Post.includes(:item).where("items.price <= 1000")
+    Post.includes(:item).where(items: {price: ..1000})
    when "1000~3000円"
     Post.includes(:item).where(items: {price: 1000..3000})
    when "3000~5000円"
@@ -147,7 +147,7 @@ class Public::PostsController < ApplicationController
    when "5000~10000円"
     Post.includes(:item).where(items: {price: 5000..10000})
    when "10000円~"
-    Post.includes(:item).where("items.price >= 10000")
+    Post.includes(:item).where(items: {price: 10000..})
    end
   end
   
@@ -166,12 +166,9 @@ class Public::PostsController < ApplicationController
    end
   end
   
-  def combined_search_and_order
-   posts = posts_by_price_pulldown_search
-   posts_by_params_order if posts.present?
-   return posts
-  end 
-   
+  def combined_posts_search_and_order
+   posts_by_price_pulldown_search + (posts_by_params_order)
+  end
    
     
 end

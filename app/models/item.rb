@@ -7,6 +7,7 @@ class Item < ApplicationRecord
     validates :genre_id, presence: true
     validates :price, presence: true
     
+    scope :custom_order_scope, -> (column, order) {order("#{column} #{order}")}
    def self.looks(search, word)
      if search == "perfect_match"
       @item = Item.where("name LIKE ?", "#{word}")
