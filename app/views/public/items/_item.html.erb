@@ -4,7 +4,7 @@
    <div class= "card-header">絞り込み</div>
     <div class= "card-body">
      <%= form_tag({controller:"items",action:"index"}, method: :get) do %>
-       <%= select_tag :search, options_for_select([["食品", 1],["化粧品", 2], ["キッチン用品", 3], ["インテリア", 4], ["日用雑貨", 5], ["ペット用品", 6]], params[:item_gernre_id]), class: 'form-control mt-2 mb-2', prompt: "商品のジャンルを選択してください" %>
+       <%= select_tag :genre_search, options_for_select([["食品", 1],["化粧品", 2], ["キッチン用品", 3], ["インテリア", 4], ["日用雑貨", 5], ["ペット用品", 6],["~1000円"], ["1000~3000円"], ["3000~5000円"], ["5000~10000円"], ["10000円~"]], params[:search]), class: 'form-control mt-2 mb-2', prompt: "選択してください" %>
        <%= select_tag :order, options_for_select(["価格が安い商品から", "価格が高い商品から"], params[:order]), class: 'form-control mt-2 mb-2', prompt: "価格の並び替え" %>
        <%= submit_tag "絞り込み/並び替え" %>
      <% end %>
@@ -13,8 +13,8 @@
  </div>
 
 <% if items.count == 0 %>
- <div class= "row mt-2 mb-2 d-flex justify-content-center">
-  <div class= "btn btn-secondary  d-flex justify-content-center">該当ジャンルの商品が見つかりません</div>
+ <div class= "card-list-container py-5 mx-auto d-flex justify-content-center flex-wrap">
+  <p>該当の商品がありませんでした</p>
  </div>
 <% else %>
 <table class= "table ml-3">
