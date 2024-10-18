@@ -5,7 +5,7 @@
     <div class= "card-body">
      <%= form_tag({controller:"items",action:"index"}, method: :get) do %>
        <%= select_tag :search, options_for_select([["食品"], ["化粧品"], ["キッチン用品"], ["インテリア"], ["日用雑貨"], ["ペット用品"], ["~1000円"], ["1000~3000円"], ["3000~5000円"], ["5000~10000円"], ["10000円~"]], params[:search]), class: 'form-control mt-2 mb-2', prompt: "選択してください" %>
-       <%= select_tag :order, options_for_select(["価格が安い商品から", "価格が高い商品から"], params[:order]), class: 'form-control mt-2 mb-2', prompt: "価格の並び替え" %>
+       <%= select_tag :order, options_for_select(["価格が安い商品から", "価格が高い商品から", "評価が低い商品から", "評価が高い商品から"], params[:order]), class: 'form-control mt-2 mb-2', prompt: "価格/評価の並び替え" %>
        <%= submit_tag "絞り込み/並び替え" %>
      <% end %>
     </div>
@@ -25,6 +25,7 @@
    <th class= "price sm-col-2">商品価格</th>
    <th class= "donation_destination_name sm-col-3">寄付先</th>
    <th class= "donation_destination_location sm-col-2">寄付先都道府県</th>
+   <th class= "star_average">評価(平均値)</th>
   </tr>
  </thead>
  <% items.each do |item| %>
@@ -46,6 +47,26 @@
    </td>
    <td>
     <%= item.donation_destination.location_i18n %>
+   </td>
+   <td>
+    <div id="star_<%= item.id %>"></div>
+
+    <script>
+     $(document).on('turbolinks:load', function() {
+     let elem = document.querySelector('#star_<%= item.id %>');
+     if(elem == null) return;
+
+     elem.innerHTML = ""
+     let opt = {
+     starOn: "<%= asset_path('star-on.png') %>",
+     starOff: "<%= asset_path('star-off.png') %>",
+     starHalf: "<%= asset_path('star-half.png') %>",
+     score: <%= item.posts.pluck(:star).sum/item.posts.count.to_f.round(1) %>,
+     readOnly: true,
+     };
+     raty(elem, opt);
+    });
+    </script>
    </td>
   </tr>
  </tbody>
