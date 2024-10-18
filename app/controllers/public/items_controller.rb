@@ -42,7 +42,7 @@ def items_by_pulldown_search
  when "5000~10000円"
   Item.where(price: 5000..10000)
  when "10000円~"
-  Item.where(price: ..10000)
+  Item.where(price: 10000..)
  when "食品"
   Item.where(genre_id: 1)
  when "化粧品"
