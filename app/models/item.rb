@@ -8,6 +8,10 @@ class Item < ApplicationRecord
     validates :price, presence: true
     
     scope :custom_order_scope, -> (column, order) {order("#{column} #{order}")}
+    scope :average_rating, -> (order = 'DESC') {
+    joins(:posts).group('items.id').order("AVG(posts.star) #{order}")
+    }
+
    def self.looks(search, word)
      if search == "perfect_match"
       @item = Item.where("name LIKE ?", "#{word}")
