@@ -124,9 +124,23 @@ class Public::PostsController < ApplicationController
     redirect_to mypage_path
   end
   
+  def toggle_status
+   @posts = Post.find(params[:id])
+   if @post.private == false
+    @post.update(private: true)
+    flash[:success] = "投稿を非公開にしました！"
+   else
+    @post.update(private: false)
+    flash[:success] = "投稿を非表示を解除しました！"
+   end
+   
+   redirect_to post_path(@post)
+  end
+
+  
   private
    def post_params
-     params.require(:post).permit(:title, :body, :tag, :star, :image)
+     params.require(:post).permit(:title, :body, :tag, :star, :image, :private)
    end
    
    def ensure_guest_user
