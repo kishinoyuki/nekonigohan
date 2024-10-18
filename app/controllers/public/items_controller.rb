@@ -64,6 +64,10 @@ def items_by_params_order
   Item.custom_order_scope('price', 'ASC')
  when "価格が高い商品から"
   Item.custom_order_scope('price', 'DESC')
+ when "評価が低い商品から"
+  Item.average_rating('ASC')
+ when "評価が高い商品から"
+  Item.average_rating('DESC')
  end
 end
 
