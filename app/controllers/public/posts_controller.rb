@@ -46,16 +46,16 @@ class Public::PostsController < ApplicationController
    @order = params[:order]
 
    if @search.present? && @order.present?
-    @posts = combined_posts_search_and_order
+    @posts = Post.combined_posts_search_and_order(@search, @order)
    elsif @search.present? && @order.blank?
-    @posts = posts_by_price_pulldown_search
+    @posts = Post.posts_by_price_pulldown_search(@search)
    elsif @search.blank? && @order.present?
-    @posts = posts_by_params_order
+    @posts = Post.posts_by_params_order(@order)
    else
     @posts = Post.all
    end
    
-   @posts = @posts.page(params[:page]).per(4)
+   @posts = Kaminari.paginate_array(@posts).page(params[:page]).per(4)
    
   end
   
@@ -150,39 +150,8 @@ class Public::PostsController < ApplicationController
     end
    end
    
-  def posts_by_price_pulldown_search
-   case params[:search]
-   when "~1000円"
-    Post.includes(:item).where(items: {price: ..1000})
-   when "1000~3000円"
-    Post.includes(:item).where(items: {price: 1000..3000})
-   when "3000~5000円"
-    Post.includes(:item).where(items: {price: 3000..5000})
-   when "5000~10000円"
-    Post.includes(:item).where(items: {price: 5000..10000})
-   when "10000円~"
-    Post.includes(:item).where(items: {price: 10000..})
-   end
-  end
   
-  def posts_by_params_order
-   case params[:order]
-   when "評価が低い投稿から"
-    Post.custom_order_scope('star', 'ASC')
-   when "評価が高い投稿から"
-    Post.custom_order_scope('star', 'DESC')
-   when "投稿日時が新しい投稿から"
-    Post.custom_order_scope('created_at', 'DESC')
-   when "価格が安い商品から"
-    Post.includes(:item).custom_order_scope('items.price', 'ASC')
-   when "価格が高い商品から"
-    Post.includes(:item).custom_order_scope('items.price', 'DESC')
-   end
-  end
   
-  def combined_posts_search_and_order
-   posts_by_price_pulldown_search + (posts_by_params_order)
-  end
-   
-    
+  
+  
 end
