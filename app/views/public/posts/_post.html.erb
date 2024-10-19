@@ -105,6 +105,17 @@
             <%= link_to post_path(post), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger" do %>
              削除する
             <% end %>
+            <div class= "row mt-2 mx-auto">
+             <% if post.private == false %>
+              <%= link_to post_private_path(post), method: :patch do %>
+               非公開にする
+              <% end %>
+             <% else %>
+              <%= link_to post_private_path(post), method: :patch do %>
+               公開する
+              <% end %>
+             <% end %>
+             </div>
           <% end %>
           <div class= "row mt-2 mx-auto">
            <%= link_to post_path(post), class: "btn btn-info" do %>

@@ -14,6 +14,7 @@ scope module: :public do
   resource :favorite, only: [:create, :destroy]
   resources :post_comments, only: [:create, :edit, :update, :destroy]
  end
+ patch '/post/:id/private' => 'posts#toggle_status', as: 'post_private'
  get '/mypage' => 'users#mypage', as: 'mypage'
  get '/users/:id/favorite_index' => 'users#favorite_index', as: 'favorite_index'
 
