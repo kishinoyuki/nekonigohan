@@ -99,20 +99,18 @@
            </p>
 
           <% if current_user.id == post.user_id %>
-            <%= link_to edit_post_path(post), class: "btn btn-secondary" do %>
+           <div class= "row mt-2 mx-auto">
+            <%= link_to edit_post_path(post), class: "btn btn-secondary mr-2" do %>
              編集する
             <% end %>
             <%= link_to post_path(post), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger" do %>
              削除する
             <% end %>
+            </div>
             <div class= "row mt-2 mx-auto">
              <% if post.private == false %>
               <%= link_to post_private_path(post), method: :patch do %>
-               非公開にする
-              <% end %>
-             <% else %>
-              <%= link_to post_private_path(post), method: :patch do %>
-               公開する
+               <i class="fa-solid fa-mask"></i>非公開にする
               <% end %>
              <% end %>
              </div>
