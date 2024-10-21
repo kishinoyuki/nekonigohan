@@ -1,9 +1,6 @@
 <div class= "container">
- <% if flash[:success].present? %>
-  <div class= "alert alert-success mt-2" role= "alert">
-   <%= flash[:success] %>
-  </div>
- <% end %>
+ <%= render 'public/posts/flash' %>
+  
  <div class= "card mt-4 mb-4 w-auto">
   <h3 class= "card-header">投稿一覧(管理者)</h3>
   <div class= "card-body">
@@ -26,9 +23,9 @@
           <p class= "card-item-genre">商品ジャンル：
            <%= post.item.genre.name %>
           </p>
-       
-          <p class= "card-review">レビュー:
-           <%= post.review_i18n %>
+          
+          <p class= "card-item-price">商品価格:
+           <%= post.item.price %>円
           </p>
           
           <p class= "card-donation_destination_name">寄付先：
@@ -41,6 +38,35 @@
           
           <p class= "card-post_comments_counts">コメント件数:
            <%= post.post_comments.count %>件
+          </p>
+          
+          <p>
+           ブックマーク:
+           <%= post.favorites.count %>件
+          </p>
+          
+          <p id= "star_<%= post.id %>">評価</p>
+          
+          <script>
+           $(document).on('turbolinks:load', function() {
+           let elem = document.querySelector('#star_<%= post.id %>');
+           if (elem == null) return;
+  
+            elem.innerHTML = "";
+            let opt = {  
+            starOn: "<%= asset_path('star-on.png') %>",
+            starOff: "<%= asset_path('star-off.png') %>",
+            score: "<%= post.star %>",
+            half: false,
+            readOnly: true,
+            };
+            raty(elem, opt);
+           });
+          </script>
+          
+          <p>
+           タグ: 
+           <%= post.tag %>
           </p>
           
           <%= link_to admin_post_path(post), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger" do %>
