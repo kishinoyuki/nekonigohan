@@ -1,7 +1,7 @@
 class Public::PostsController < ApplicationController
  
   before_action :ensure_guest_user, only: [:new, :edit]
-    
+  before_action :ensure_private_mode, only: [:show] 
   def new
     @post = Post.new
   end
@@ -46,13 +46,13 @@ class Public::PostsController < ApplicationController
    @order = params[:order]
 
    if @search.present? && @order.present?
-    @posts = Post.combined_posts_search_and_order(@search, @order)
+    @posts = Post.public_posts.combined_posts_search_and_order(@search, @order)
    elsif @search.present? && @order.blank?
-    @posts = Post.posts_by_price_pulldown_search(@search)
+    @posts = Post.public_posts.posts_by_price_pulldown_search(@search)
    elsif @search.blank? && @order.present?
-    @posts = Post.posts_by_params_order(@order)
+    @posts = Post.public_posts.posts_by_params_order(@order)
    else
-    @posts = Post.all
+    @posts = Post.public_posts
    end
    
    @posts = Kaminari.paginate_array(@posts).page(params[:page]).per(4)
@@ -125,7 +125,7 @@ class Public::PostsController < ApplicationController
   end
   
   def toggle_status
-   @posts = Post.find(params[:id])
+   @post = Post.find(params[:id])
    if @post.private == false
     @post.update(private: true)
     flash[:success] = "投稿を非公開にしました！"
@@ -147,6 +147,14 @@ class Public::PostsController < ApplicationController
     if current_user.email == "guest@example.com"
      flash[:alert] = "ゲストユーザーは新規投稿、投稿の編集を行う事はできません"
      redirect_to mypage_path
+    end
+   end
+    
+   def ensure_private_mode
+    @post = Post.find(params[:id])
+    if @post.user_id != current_user.id && @post.private == true
+     flash[:alert] = "この投稿は表示できません"
+     redirect_to posts_path
     end
    end
    

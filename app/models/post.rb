@@ -11,6 +11,7 @@ class Post < ApplicationRecord
     validates :tag, presence: true
     has_one_attached :image
     
+    scope :public_posts, -> {where(private: false)}
     scope :custom_order_scope, -> (column, order) {order("#{column} #{order}")}
     
     def get_image(width, height)

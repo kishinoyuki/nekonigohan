@@ -100,14 +100,28 @@
           <% end %>
          </p>
 
-        <% if current_user.id == @post.user_id %>
-         <%= link_to edit_post_path(@post), class: "btn btn-secondary" do %>
-          編集する
-         <% end %>
-         <%= link_to post_path(@post), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger" do %>
-          削除する
-         <% end %>
-        <% end %>
+         <% if current_user.id == @post.user_id %>
+          <div class= "row mt-2 mx-auto">
+           <%= link_to edit_post_path(@post), class: "btn btn-secondary mr-2" do %>
+            編集する
+           <% end %>
+           <%= link_to post_path(@post), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger" do %>
+            削除する
+           <% end %>
+          </div>
+          <div class= "row mt-2 mx-auto">
+           <% if @post.private == false %>
+            <%= link_to post_private_path(@post), method: :patch do %>
+             <i class="fa-solid fa-mask"></i>非公開にする
+            <% end %>
+           <% else %>
+            <%= link_to post_private_path(@post), method: :patch do %>
+             <i class="fa-solid fa-mask"></i><i class="fa-solid fa-xmark"></i>公開する
+            <% end %>
+           <% end %>
+          </div>
+          <% end %>
+
         </div>
         
         <% if current_user.email != "guest@example.com" && current_user.id != @post.user_id %>
