@@ -31,8 +31,8 @@
           <%= @post.item.genre.name %>
          </p>
        
-         <p class= "card-review">レビュー:
-          <%= @post.review_i18n %>
+         <p class= "card-item-price">商品価格:
+          <%= @post.item.price %>
          </p>
       
          <p class= "card-item-donation_destination_name">寄付先:
@@ -43,13 +43,43 @@
           <%= @post.item.donation_destination.location_i18n %>
          </p>
       
-         <p class = "card-item-body">本文:
+         <p>本文:
           <%= @post.body %>
          </p>
          
          <p class= "card-post_comments_count">コメント件数:
           <%= @post.post_comments.count %>件
          </p>
+         
+         <p>
+          ブックマーク:
+          <%= @post.favorites.count %>件
+         </p>
+         
+         <p id= "star_<%= @post.id %>"></p>
+        
+         <script>
+          $(document).on('turbolinks:load', function() {
+          let elem = document.querySelector('#star_<%= @post.id %>');
+          if (elem == null) return;
+  
+          elem.innerHTML = "";
+          let opt = {  
+          starOn: "<%= asset_path('star-on.png') %>",
+          starOff: "<%= asset_path('star-off.png') %>",
+          score: "<%= @post.star %>",
+          half: false,
+          readOnly: true,
+          };
+          raty(elem, opt);
+          });
+         </script>
+         
+         <p>
+          タグ:
+          <%= @post.tag %>
+         </p>
+        
         
          <%= link_to admin_post_path(@post), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger" do %>
           削除する
@@ -89,7 +119,7 @@
    </table>
    <%= paginate @post_comments %>
   <% else %>
-   <div class= "card mb-4 mx-auto">
+   <div class= "card mt-4 mx-auto">
     <div class= "card-body">
      この投稿にはまだコメントがありません
     </div>
