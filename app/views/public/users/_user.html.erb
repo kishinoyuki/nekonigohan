@@ -33,7 +33,7 @@
    <% end %>
     
     <% unless user.email == "guest@example.com" %>
-    <div class= "card mt-4">
+    <div class= "card mt-4 mb-4">
      <h4 class= "card-header">ブックマークした投稿一覧</h4>
       <div class= "card-body">
        <p>
@@ -64,6 +64,13 @@
     <h3 class="card-header"><%= user.name %>さんの投稿一覧</h3>
      <div class="card-body">
       <div class="d-flex flex-wrap justify-content-center">
+       <% if posts.count == 0 %>
+        <div>
+         <p>まだ投稿がありません。</p>
+         <br>
+         <p>商品の感想、レビューの投稿をお待ちしています！</p>
+        </div>
+       <% end %>
        <% posts.each do |post| %>
         <div class="card mt-4 mr-2 col-sm-12 col-lg-5">
          <%= image_tag post.get_image(300, 200), class: "card-image-top" %>

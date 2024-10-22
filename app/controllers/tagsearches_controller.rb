@@ -1,4 +1,4 @@
-class Public::TagsearchesController < ApplicationController
+class TagsearchesController < ApplicationController
     def search
      @model = Post
      @word = params[:word]

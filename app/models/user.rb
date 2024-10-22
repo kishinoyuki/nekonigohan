@@ -44,4 +44,9 @@ class User < ApplicationRecord
       @user = User.all
     end
   end
+  
+   def admin?
+    email == "admin@example.com"
+   end
+  
 end
