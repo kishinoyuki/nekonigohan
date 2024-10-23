@@ -2,7 +2,21 @@ class Admin::PostsController < ApplicationController
  layout 'admin'
 
   def index
-   @posts = Post.page(params[:page]).per(4)
+   @search = params[:search]
+   @order = params[:order]
+   
+   if @search.present? && @order.present?
+    @posts = Post.combined_posts_search_and_order(@search, @order)
+   elsif @search.present? && @order.blank?
+    @posts = Post.posts_by_price_pulldown_search(@search)
+   elsif @search.blank? && @order.present?
+    @posts = Post.posts_by_params_order(@order)
+   else
+    @posts = Post.all
+   end
+   
+   @posts = Kaminari.paginate_array(@posts).page(params[:page]).per(4)
+   
   end
   
   def show
