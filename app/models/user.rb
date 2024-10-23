@@ -45,8 +45,8 @@ class User < ApplicationRecord
     end
   end
   
-   def admin?
-    email == "admin@example.com"
+   def guest_user?
+    email == "guest@example.com"
    end
   
 end
