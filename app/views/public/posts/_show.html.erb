@@ -8,15 +8,25 @@
       <div class= "card-body">
        <div class= "row">
         <div class= "col-3 mr-2">
-         <% if post.user_id != current_user.id || !current_user.present? && current_user%>
-          <%= link_to mypage_path do %>
-           <%= image_tag post.user.get_profile_image(100,100) %>
-           <%= current_user.name %>
-          <% end %>
-         <% else %>
-          <%= link_to user_path(post.user_id) do %>
+         
+         <% if current_admin.present? %>
+          <%= link_to admin_user_path(post.user_id) do %>
            <%= image_tag post.user.get_profile_image(100,100) %>
            <%= post.user.name %>
+          <% end %>
+         <% end %>
+         
+         <% if current_user.present? %>
+          <% if post.user_id == current_user.id %>
+           <%= link_to mypage_path do %>
+            <%= image_tag post.user.get_profile_image(100,100) %>
+            <%= current_user.name %>
+           <% end %>
+          <% else %>
+           <%= link_to user_path(post.user_id) do %>
+            <%= image_tag post.user.get_profile_image(100,100) %>
+            <%= post.user.name %>
+           <% end %>
           <% end %>
          <% end %>
         </div>
@@ -51,7 +61,7 @@
        
         <p>コメント件数：<%= post.post_comments.count %>件</p>
         
-        <% unless current_user.email.in?(["guest@example.com", "admin@example.com"]) %>
+        <% if current_user.present? && !current_user.guest_user? %>
          <% if @post.favorited_by?(current_user) %>
           <p>
            <%= link_to post_favorite_path(post), method: :delete do %>
@@ -98,7 +108,7 @@
           <% end %>
          </p>
 
-         <% if current_user.id == post.user_id %>
+         <% if current_user.present? && current_user.id == post.user_id %>
           <div class= "row mt-2 mx-auto">
            <%= link_to edit_post_path(post), class: "btn btn-secondary mr-2" do %>
             編集
@@ -120,7 +130,7 @@
           </div>
          <% end %>
           
-         <% if current_user.email == "admin@example.com" %>
+         <% if current_admin.present? %>
           <div class= "row mt-2 mx-auto">
            <%= link_to admin_post_path(post), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger" do %>
             削除
@@ -131,7 +141,7 @@
 
         </div>
         
-        <% unless current_user.email.in?(["guest@example.com", "admin@example.com"]) && current_user.id == post.user_id %>
+        <% if current_user.present? && post.user_id != current_user.id && !current_user.guest_user? %>
          <div class= "card h-50 w-75 mx-auto">
          <p class= "card-header bg-primary text-light">コメント投稿フォーム</p>
          <% if flash[:comment_alert].present? %>
@@ -170,7 +180,7 @@
      <tr>
       <td class= "w-25"><%= post_comment.user.name %></td>
       <td><%= post_comment.comment %></td>
-      <% if post_comment.user == current_user %>
+      <% if current_user.present? && post_comment.user == current_user %>
        <td class= "w-25">
         <%= link_to edit_post_post_comment_path(post_comment.post, post_comment), class: "btn btn-secondary" do %>
          編集
@@ -180,7 +190,7 @@
         <% end %>
        </td>
       <% end %>
-      <% if current_user.email == "admin@example.com"%>
+      <% if current_admin.present? %>
        <td>
         <%= link_to admin_post_post_comment_path(post_comment.post, post_comment), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger" do %>
          削除
