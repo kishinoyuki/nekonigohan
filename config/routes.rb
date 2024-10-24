@@ -29,9 +29,12 @@ scope module: :public do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.htm
  root to: 'homes#top'
  get 'search' => 'searches#search'
- get 'tagsearches/search', to: 'tagsearches#search'
+ get 'tagsearches/search' => 'tagsearches#search'
  
 end
+
+ 
+
  
  devise_for :admin, skip: [:registrations, :password], controllers: {
   sessions: 'admin/sessions'
@@ -48,6 +51,9 @@ end
    resources :post_comments, only: [:destroy]
   end
  end
+ 
+ get 'admin/search' => 'admin/searches#search'
+ get 'admin/tagsearches/search' => 'admin/tagsearches#search'
  
  
 end
