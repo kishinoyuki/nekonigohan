@@ -1,6 +1,5 @@
-class SearchesController < ApplicationController
- before_action :authenticate_user!
- 
+class Admin::SearchesController < ApplicationController
+ layout 'admin'
  def search
   @range = params[:range]
   if params[:search].present? && params[:word].present?

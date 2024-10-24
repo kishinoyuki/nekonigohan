@@ -1,0 +1,75 @@
+<h2 class= "mt-4 mb-4 ml-3">検索結果</h2>
+<%= render 'public/users/search' %>
+<table class="table table-hover table-inverse">
+  <% if range == "User" %>
+   <% if users.count == 0 %>
+    <div class= "card">
+     <div class= "card-body d-flex justify-content-center">該当するデータがありません</div>
+    </div>
+   <% else %>
+    <thead>
+     <th class= "profile_image">プロフィール画像</th>
+     <th class="name">ニックネーム</th>
+     <th class="introduction">一言</th>
+    </thead>
+    <tbody>
+      <% users.each do |user| %>
+        <tr>
+          <td class= "w-25">
+           <%= image_tag user.get_profile_image(100, 100) %>
+          </td>
+          <td class= "w-25">
+           <%= link_to user_path(user) do %>
+            <%= user.name %>
+           <% end %>
+          </td>
+          <td class= "w-50"><%= user.introduction %></td>
+        </tr>
+      <% end %>
+    </tbody>
+   <% end %>
+  <% elsif range == "Item" %>
+   <% if items.count == 0 %>
+    <div class= "card">
+     <div class= "card-body d-flex justify-content-center">該当するデータがありません</div>
+    </div>
+   <% else %>
+    <thead>
+     <th class= "name">商品名</th>
+     <th class= "genre">商品ジャンル</th>
+    </thead>
+    <tbody>
+      <% items.each do |item| %>
+        <tr>
+          <td class= "w-25">
+            <%= link_to item_path(item) do %>
+             <%= item.name %>
+            <% end %>
+          </td>
+          <td class= "w-25"><%= item.genre.name %></td>
+        </tr>
+      <% end %>
+    </tbody>
+   <% end %>
+  <% elsif range == "DonationDestination" %>
+   <% if donation_destinations.count == 0 %>
+    <div class= "card">
+     <div class= "card-body d-flex justify-content-center">該当するデータがありません</div>
+    </div>
+   <% else %>
+    <thead>
+     <th class= "name">寄付先</th>
+     <th class= "location">寄付先都道府県</th>
+    </thead>
+    <tbody>
+      <% donation_destinations.each do |donation_destination| %>
+       <tr>
+        <td class= "w-25"><%= donation_destination.name %></td>
+        <td class= "w-25"><%= donation_destination.location_i18n %></td>   
+       </tr>
+      <% end %>
+    </tbody>
+   <% end %>
+  <% else %>
+  <% end %>
+</table>
