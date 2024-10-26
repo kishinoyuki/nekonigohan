@@ -7,15 +7,15 @@
    </div>
   <% end %>
   <div class= "search_form" >
-  <% if current_admin.present? %>
-   <%= form_with url: admin_search_path, local: true, method: :get do |f| %>
+  <% if current_user.present? %>
+   <%= form_with url: search_path, local: true, method: :get do |f| %>
     <%= f.text_field :word, autofocus: true, class: "form-control" %>
     <%= f.select :range, options_for_select([['User'], ['Item'], ['DonationDestination']]), class: "mt-2 mr-2" %>
     <%= f.select :search, options_for_select([["完全一致","perfect_match"], ["前方一致","forward_match"],  ["後方一致","backward_match"], ["部分一致","partial_match"]]), class: "mt-2" %>
     <%= f.submit "検索", class: "btn btn-primary mt-2" %>
    <% end %>
   <% else %>
-   <%= form_with url: search_path, local: true, method: :get do |f| %>
+   <%= form_with url: admin_search_path, local: true, method: :get do |f| %>
     <%= f.text_field :word, autofocus: true, class: "form-control" %>
     <%= f.select :range, options_for_select([['User'], ['Item'], ['DonationDestination']]), class: "mt-2 mr-2" %>
     <%= f.select :search, options_for_select([["完全一致","perfect_match"], ["前方一致","forward_match"],  ["後方一致","backward_match"], ["部分一致","partial_match"]]), class: "mt-2" %>
@@ -33,9 +33,16 @@
    </div>
   <% end %>
   <div class= "search_form" >
-   <%= form_with url: tagsearches_search_path, local: true, method: :get do |f| %>
-    <%= f.text_field :word, autofocus: true, class: "form-control" %>
-    <%= f.submit "検索", class: "btn btn-primary mt-2" %>
+   <% if current_admin.present? %>
+    <%= form_with url: admin_tagsearch_path, local: true, method: :get do |f| %>
+     <%= f.text_field :word, autofocus: true, class: "form-control" %>
+     <%= f.submit "検索", class: "btn btn-primary mt-2" %>
+    <% end %>
+   <% else %>
+    <%= form_with url: tagsearches_search_path, local: true, method: :get do |f| %>
+     <%= f.text_field :word, autofocus: true, class: "form-control" %>
+     <%= f.submit "検索", class: "btn btn-primary mt-2" %>
+    <% end %>
    <% end %>
   </div>
  </div>

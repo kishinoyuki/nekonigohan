@@ -50,11 +50,10 @@ end
   resources :posts, only: [:index, :show, :destroy] do
    resources :post_comments, only: [:destroy]
   end
- end
  
- get 'admin/search' => 'admin/searches#search'
- get 'admin/tagsearches/search' => 'admin/tagsearches#search'
+ get 'search' => 'searches#search', as: 'search'
+ get 'tagsearches/search' => 'tagsearches#search', as: 'tagsearch'
  
- 
+end 
 end
 
