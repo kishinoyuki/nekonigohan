@@ -16,8 +16,16 @@
     </tr>
    </tbody>
   </table>
-    
-  <% unless user.email == "guest@example.com" && user.email != current_user.email %>
+  
+  <% if current_admin.present? %>
+   <div class= "row mb-3">
+    <div class= "col-6">
+     <%= link_to withdraw_admin_user_path(user), method: :delete, "data-confirm" => "本当に退会させますか？", class: "btn btn-danger" do %>
+      退会
+     <% end %>
+    </div>
+   </div>
+  <% elsif user.email != "guest@example.com" && user.email == current_user.email %>
    <div class= "row mb-3">
     <div class= "col-6">
      <%= link_to edit_user_path(user), class: "btn btn-secondary" do %>
@@ -30,35 +38,25 @@
      <% end %>
     </div>
    </div>
-   <% end %>
+  <% end %>
     
-    <% unless user.email == "guest@example.com" %>
-    <div class= "card mt-4 mb-4">
-     <h4 class= "card-header">ブックマークした投稿一覧</h4>
-      <div class= "card-body">
-       <p>
-        ブックマークした投稿:
-        <%= user.favorites.count %>件
-       </p>
-       <%= link_to  favorite_index_path(user), class: "btn btn-info" do %>
-        ブックマークした投稿一覧
-       <% end %>
-      </div>
-    </div>
-    <% end %>
-  </div>
-  
-  <% if user.email == "guest@example.com" %>
-   <div class= "col-sm-12 col-lg-8 mt-3">
-    <div class= "card mb-4 ml-5">
-    <h3 class= "card-header">ご案内</h3>
+  <% if current_user.present? && user.email != "guest@example.com" %>
+   <div class= "card mt-4 mb-4">
+    <h4 class= "card-header">ブックマークした投稿一覧</h4>
      <div class= "card-body">
-      <p>会員登録すると、あなたもレビューを投稿できるようになります！</p><br/>
-      <p>ログアウト後、新規会員登録をよろしくお願いします。</p>
+      <p>
+       ブックマークした投稿:
+       <%= user.favorites.count %>件
+      </p>
+      <%= link_to  favorite_index_path(user), class: "btn btn-info" do %>
+       ブックマークした投稿一覧
+      <% end %>
      </div>
-    </div>
    </div>
-   <% else %>
+  <% end %>
+ </div>
+  
+  <% if user.email != "guest@example.com" %>
    <div class="col-sm-12 col-lg-8 mt-3">
     <div class="card mt-4 mb-4">
     <h3 class="card-header"><%= user.name %>さんの投稿一覧</h3>
@@ -105,7 +103,7 @@
               <%= post.post_comments.count %>件
              </p>
              
-             <% unless current_user.email == "guest@example.com" %>
+             <% if current_user.present? && current_user.email != "guest@example.com" %>
               <% if post.favorited_by?(current_user) %>
                <p>
                 <%= link_to post_favorite_path(post), method: :delete do %>
@@ -145,36 +143,56 @@
               });
              </script>
               <p>タグ:
-               <%= link_to tagsearches_search_path(word: post.tag) do %>
-                <%= post.tag %>
+               <% if current_user.present? %>
+                <%= link_to tagsearches_search_path(word: post.tag) do %>
+                 <%= post.tag %>
+                <% end %>
+               <% else %>
+                <%= link_to admin_tagsearches_search_path(word: post.tag) do %>
+                 <%= post.tag %>
+                <% end %>
                <% end %>
               </p>
 
-             <% if current_user.id == post.user_id %>
-              <div class= "row mt-2 mx-auto">
-               <%= link_to edit_post_path(post), class: "btn btn-secondary" do %>
-                編集する
-               <% end %>
-               <%= link_to post_path(post), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger" do %>
-                削除する
-               <% end %>
-              </div>
-              <div class= "row mt-2 mx-auto">
-               <% if post.private == false %>
-                <%= link_to post_private_path(post), method: :patch do %>
-                 <i class="fa-solid fa-mask"></i>非公開にする
+             <% if current_user.present? %>
+              <% if current_user.id == post.user_id %>
+               <div class= "row mt-2 mx-auto">
+                <%= link_to edit_post_path(post), class: "btn btn-secondary" do %>
+                 編集
                 <% end %>
-               <% else %>
-                <%= link_to post_private_path(post), method: :patch do %>
-                 <i class="fa-solid fa-mask"></i><i class="fa-solid fa-xmark"></i>公開する
+                <%= link_to post_path(post), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger" do %>
+                 削除
                 <% end %>
-               <% end %>
-              </div>
-             <% end %>
-             <div class="row mt-2 mx-auto">
-              <%= link_to post_path(post), class: "btn btn-info" do %>
-               詳細
+               </div>
+               <div class= "row mt-2 mx-auto">
+                <% if post.private == false %>
+                 <%= link_to post_private_path(post), method: :patch do %>
+                  <i class="fa-solid fa-mask"></i>非公開にする
+                 <% end %>
+                <% else %>
+                 <%= link_to post_private_path(post), method: :patch do %>
+                  <i class="fa-solid fa-mask"></i><i class="fa-solid fa-xmark"></i>公開する
+                 <% end %>
+                <% end %>
+               </div>
               <% end %>
+             <% else %>
+              <div class= "row mt-2 mx-auto">
+               <%= link_to admin_post_path(post), method: :delete, "data-confirm" => "本当に削除しますか？",class: "btn btn-danger" do %>
+                削除
+               <% end %>
+              </div>
+             <div class="row mt-2 mx-auto">
+              <% if current_user.present? %>
+               <%= link_to post_path(post), class: "btn btn-info" do %>
+                詳細
+               <% end %>
+              <% else %>
+               <%= link_to admin_post_path(post), class: "btn btn-info" do %>
+                詳細
+               <% end %>
+              <% end %>
+             <% end %>
              </div>
             </div>
            </div>
@@ -186,8 +204,17 @@
       </div>
      </div>
     </div>
+   <% else %>
+    <div class= "col-sm-12 col-lg-8 mt-3">
+     <div class= "card mb-4 ml-5">
+     <h3 class= "card-header">ご案内</h3>
+      <div class= "card-body">
+       <p>会員登録すると、あなたもレビューを投稿できるようになります！</p><br/>
+       <p>ログアウト後、新規会員登録をよろしくお願いします。</p>
+      </div>
+     </div>
+    </div>
    <% end %>
-  </div>
-  </div>
+ </div>
   
   
