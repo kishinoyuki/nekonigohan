@@ -8,7 +8,7 @@ class Admin::TagsearchesController < ApplicationController
     redirect_to admin_posts_path
    else
     @posts = Post.where("tag LIKE?","%#{@word}%").page(params[:page]).per(4)
-    render "admin/tagsearches/search"
+    render 'admin/tagsearches/search'
    end
  end
     

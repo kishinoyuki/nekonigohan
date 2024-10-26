@@ -7,7 +7,6 @@ class Public::TagsearchesController < ApplicationController
       redirect_to posts_path
      else
       @posts = Post.where("tag LIKE?","%#{@word}%").page(params[:page]).per(4)
-      render "tagsearches/search"
      end
     end
     
