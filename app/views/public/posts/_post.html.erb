@@ -6,13 +6,13 @@
     <% if current_admin.present? %>
      <%= form_tag({controller: "admin/posts", action: "index"}, method: :get) do %>
       <%= select_tag :search, options_for_select([["~1000円"], ["1000~3000円"], ["3000~5000円"], ["5000~10000円"], ["10000円~"]], params[:search]), class: 'form-control mt-2 mb-2', prompt: "価格を選択してください" %>
-      <%= select_tag :order, options_for_select(["評価が低い投稿から", "評価が高い投稿から", "投稿日時が新しい投稿から", "価格が安い商品から", "価格が高い商品から"], params[:order]), class: 'form-control mt-2 mb-2', prompt: "選択してください" %>
+      <%= select_tag :order, options_for_select(["評価が低い投稿から", "評価が高い投稿から", "投稿日時が新しい投稿から", "価格が安い商品から", "価格が高い商品から"], params[:order]), class: 'form-control mt-2 mb-2', prompt: "並び替え" %>
       <%= submit_tag "絞り込み/並び替え" %>
      <% end %>
     <% else %>
      <%= form_tag({controller: "posts", action: "index"}, method: :get) do %>
       <%= select_tag :search, options_for_select([["~1000円"], ["1000~3000円"], ["3000~5000円"], ["5000~10000円"], ["10000円~"]], params[:search]), class: 'form-control mt-2 mb-2', prompt: "価格を選択してください" %>
-      <%= select_tag :order, options_for_select(["評価が低い投稿から", "評価が高い投稿から", "投稿日時が新しい投稿から", "価格が安い商品から", "価格が高い商品から"], params[:order]), class: 'form-control mt-2 mb-2', prompt: "選択してください" %>
+      <%= select_tag :order, options_for_select(["評価が低い投稿から", "評価が高い投稿から", "投稿日時が新しい投稿から", "価格が安い商品から", "価格が高い商品から"], params[:order]), class: 'form-control mt-2 mb-2', prompt: "並び替え" %>
       <%= submit_tag "絞り込み/並び替え" %>
      <% end %>
     <% end %>
