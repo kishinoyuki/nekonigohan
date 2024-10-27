@@ -33,13 +33,13 @@ class Admin::SessionsController < Devise::SessionsController
     new_admin_session_path # ログアウト後にリダイレクトするパス
    end
    
-   def check_session_expiry
-    if session[:admin_last_seen].present? && Time.now - session[:last_seen] > 10.minutes
+   def check_admin_session_expiry
+    if session[:admin_last_visited_at].present? && Time.now - session[:last_visited_at] > 30.minutes
      session[:admin_id] = nil
      flash[:alert] = "管理者セッションがタイムアウトしました。再度ログインしてください。"
      redirect_to new_admin_session_path
     else
-     session[:admin_last_seen] = Time.now
+     session[:admin_last_visited_at] = Time.now
     end
    end
      
