@@ -4,6 +4,7 @@ class Public::Users::SessionsController < Devise::SessionsController
   #before_action :configure_sign_in_params, only: [:create]
   before_action :reject_user, only: [:create]
   before_action :check_admin_login, only: [:create]
+  before_action :check_session_expiry
   
   def guest_sign_in
    user = User.guest
@@ -29,6 +30,7 @@ class Public::Users::SessionsController < Devise::SessionsController
     else
       flash[:alert] = "該当するユーザーが見つかりません。"
     end
+  end
     
   def check_admin_login
    if current_admin
@@ -37,8 +39,17 @@ class Public::Users::SessionsController < Devise::SessionsController
     redirect_to new_user_session_path
    end
   end
-    
+  
+  def check_sesision_expiry
+   if session[:last_seen].present? && Time.now - session[:last_seen] > 10.minutes
+    session[:user_id] = nil
+    flash[:alert] = "セッションがタイムアウトしました。再度ログインしてください"
+    redirect_to new_user_session_path
+   else
+     session[:last_seen] = Time.now
+   end 
   end
+  
 end
   #GET /resource/sign_in
   #def new
