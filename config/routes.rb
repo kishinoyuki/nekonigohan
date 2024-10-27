@@ -50,6 +50,9 @@ end
   resources :posts, only: [:index, :show, :destroy] do
    resources :post_comments, only: [:destroy]
   end
+  
+  resources :post_comments, only: [:index]
+ delete 'post_comments/:id' => 'post_comments#destroy_from_index', as: 'destroy_from_index'
  
  get 'search' => 'searches#search', as: 'search'
  get 'tagsearches/search' => 'tagsearches#search', as: 'tagsearch'

@@ -17,15 +17,7 @@
    </tbody>
   </table>
   
-  <% if current_admin.present? %>
-   <div class= "row mb-3">
-    <div class= "col-6">
-     <%= link_to withdraw_admin_user_path(user), method: :delete, "data-confirm" => "本当に退会させますか？", class: "btn btn-danger" do %>
-      退会
-     <% end %>
-    </div>
-   </div>
-  <% elsif user.email != "guest@example.com" && user.email == current_user.email %>
+  <% if current_user.present? && user.email != "guest@example.com" && user.id == current_user.id %>
    <div class= "row mb-3">
     <div class= "col-6">
      <%= link_to edit_user_path(user), class: "btn btn-secondary" do %>
@@ -35,6 +27,14 @@
     <div class= "col-6">
      <%= link_to users_confirm_path(user), class: "btn btn-danger" do %>
       退会する
+     <% end %>
+    </div>
+   </div>
+  <% elsif current_admin.present? %> 
+   <div class= "row mb-3">
+    <div class= "col-6">
+     <%= link_to withdraw_admin_user_path(user), method: :delete, "data-confirm" => "本当に退会させますか？", class: "btn btn-danger" do %>
+      退会
      <% end %>
     </div>
    </div>
