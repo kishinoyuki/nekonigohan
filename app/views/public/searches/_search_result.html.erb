@@ -19,8 +19,14 @@
            <%= image_tag user.get_profile_image(100, 100) %>
           </td>
           <td class= "w-25">
-           <%= link_to user_path(user) do %>
-            <%= user.name %>
+           <% if current_user.present? %>
+            <%= link_to user_path(user) do %>
+             <%= user.name %>
+            <% end %>
+           <% else %>
+            <%= link_to admin_user_path(user) do %>
+             <%= user.name %>
+            <% end %>
            <% end %>
           </td>
           <td class= "w-50"><%= user.introduction %></td>
@@ -42,9 +48,13 @@
       <% items.each do |item| %>
         <tr>
           <td class= "w-25">
+           <% if current_user.present? %>
             <%= link_to item_path(item) do %>
              <%= item.name %>
             <% end %>
+           <% else %>
+            <%= item.name %>
+           <% end %>
           </td>
           <td class= "w-25"><%= item.genre.name %></td>
         </tr>

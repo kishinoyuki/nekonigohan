@@ -104,7 +104,7 @@ class Public::PostsController < ApplicationController
     flash[:success] = "投稿を非表示を解除しました！"
    end
    
-   redirect_to post_path(@post)
+   redirect_to mypage_path
   end
 
   

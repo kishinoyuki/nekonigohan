@@ -68,6 +68,13 @@
     });
     </script>
    </td>
+   <% if item.posts.present? %>
+    <td>
+     <%= item.posts.pluck(:star).sum/item.posts.count.to_f.round(1) %>
+     (<%= item.posts.count %>)
+    </td>
+   <% else %>
+   <% end %>
   </tr>
  </tbody>
  <% end %>
