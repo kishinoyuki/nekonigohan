@@ -70,9 +70,11 @@ ja:
         title: "タイトル"
         body: "本文"
         star: "評価"
+        tag: "タグ"
       
       item:
         name: "商品名"
+        price: "価格"
         
       donation_destination: 
         name: "寄付先"
