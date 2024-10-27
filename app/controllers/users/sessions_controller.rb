@@ -3,6 +3,7 @@
 class Public::Users::SessionsController < Devise::SessionsController
   #before_action :configure_sign_in_params, only: [:create]
   before_action :reject_user, only: [:create]
+  before_action :check_admin_login, only: [:create]
   
   def guest_sign_in
    user = User.guest
@@ -28,8 +29,16 @@ class Public::Users::SessionsController < Devise::SessionsController
     else
       flash[:alert] = "該当するユーザーが見つかりません。"
     end
-    
   end
+    
+  def check_admin_login
+   if current_admin
+    sign_out :user if user_signed_in?
+    flash[:alert] = "管理者がログイン中です。利用者はログインできません。"
+    redirect_to new_user_session_path
+   end
+  end
+    
 end
   #GET /resource/sign_in
   #def new
