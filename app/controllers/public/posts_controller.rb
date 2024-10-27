@@ -75,48 +75,18 @@ class Public::PostsController < ApplicationController
 
     @item = @post.item
     @donation_destination = @item.donation_destination
-    if @post.tag.content.present?
-     @tag = @post.tag
-    end
   end
   
  def update
   @post = Post.find(params[:id])
-  @post.title = post_params[:title]
-  @post.body = post_params[:body]
-  @post.tag = post_params[:tag]
-  all_validation = []
-  all_validation << @post.valid?
-  
-  
- if Item.where(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id], price: params[:post][:item_price]).exists?
-  @item = Item.find_by(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id], price: params[:post][:item_price])
- else
-  @item = @post.item
-  @item.name = params[:post][:item_name]
-  @item.genre_id = params[:post][:item_genre_id]
-  all_validation << @item.valid?
- end
-  
- if DonationDestination.where(name: params[:post][:donation_destination_name], location: params[:post][:donation_destination_location]).exist?
-  @donation_destination = DonationDestination.find_by(name: params[:post][:donation_destination_name], location: params[:post][:donation_destination_location])
- else 
-  @donation_destination = @item.donation_destination
-  @donation_destination.name = params[:post][:donation_destination_name]
-  @donation_destination.location = params[:post][:donation_destination_location]
-  all_validation << @donation_destination.valid?
- end
- 
-  if all_validation == [true, true, true]
-   @post.update(post_params) && @item.update(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id], price: params[:post][:item_price]) && @donation_destination.update(name: params[:post][:donation_destination_name], location: params[:post][:donation_destination_location]) && @tag.update(content: params[:post][:tag_content])
-   flash[:success] = "編集内容が保存されました！"
+  if @post.update(post_params)
+   flash[:success] = "投稿を編集しました！"
    redirect_to post_path(@post)
   else
-   @all_validation = false
    render :edit
   end
  end
-
+  
   def destroy
     @post = Post.find(params[:id])
     @post.destroy

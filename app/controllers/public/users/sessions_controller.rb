@@ -40,13 +40,13 @@ class Public::Users::SessionsController < Devise::SessionsController
    end
   end
   
-  def check_sesision_expiry
-   if session[:last_seen].present? && Time.now - session[:last_seen] > 10.minutes
+  def check_session_expiry
+   if session[:last_visited_at].present? && Time.now - session[:last_visited_at].to_time > 30.minutes
     session[:user_id] = nil
     flash[:alert] = "セッションがタイムアウトしました。再度ログインしてください"
     redirect_to new_user_session_path
    else
-     session[:last_seen] = Time.now
+     session[:last_visited_at] = Time.now
    end 
   end
   
