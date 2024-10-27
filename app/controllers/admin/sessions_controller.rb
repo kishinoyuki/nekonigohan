@@ -2,6 +2,7 @@
 
 class Admin::SessionsController < Devise::SessionsController
  layout 'admin'
+ before_action :check_admin_session_expiry
   # before_action :configure_sign_in_params, only: [:create]
 
   # GET /resource/sign_in
@@ -31,7 +32,17 @@ class Admin::SessionsController < Devise::SessionsController
     flash[:success] = "ログアウトしました！"
     new_admin_session_path # ログアウト後にリダイレクトするパス
    end
-
+   
+   def check_session_expiry
+    if session[:admin_last_seen].present? && Time.now - session[:last_seen] > 10.minutes
+     session[:admin_id] = nil
+     flash[:alert] = "管理者セッションがタイムアウトしました。再度ログインしてください。"
+     redirect_to new_admin_session_path
+    else
+     session[:admin_last_seen] = Time.now
+    end
+   end
+     
   # If you have extra params to permit, append them to the sanitizer.
   # def configure_sign_in_params
   #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
