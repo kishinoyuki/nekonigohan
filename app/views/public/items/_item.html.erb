@@ -49,24 +49,28 @@
     <%= item.donation_destination.location_i18n %>
    </td>
    <td>
-    <div id="star_<%= item.id %>"></div>
+    <% unless item.posts.count == 0 %>
+     <div id="star_<%= item.id %>"></div>
 
-    <script>
-     $(document).on('turbolinks:load', function() {
-     let elem = document.querySelector('#star_<%= item.id %>');
-     if(elem == null) return;
+     <script>
+      $(document).on('turbolinks:load', function() {
+      let elem = document.querySelector('#star_<%= item.id %>');
+      if(elem == null) return;
 
-     elem.innerHTML = ""
-     let opt = {
-     starOn: "<%= asset_path('star-on.png') %>",
-     starOff: "<%= asset_path('star-off.png') %>",
-     starHalf: "<%= asset_path('star-half.png') %>",
-     score: <%= item.posts.pluck(:star).sum/item.posts.count.to_f.round(1) %>,
-     readOnly: true,
-     };
-     raty(elem, opt);
-    });
-    </script>
+      elem.innerHTML = ""
+      let opt = {
+      starOn: "<%= asset_path('star-on.png') %>",
+      starOff: "<%= asset_path('star-off.png') %>",
+      starHalf: "<%= asset_path('star-half.png') %>",
+      score: <%= item.posts.pluck(:star).sum/item.posts.count.to_f.round(1) %>,
+      readOnly: true,
+      };
+      raty(elem, opt);
+     });
+     </script>
+     
+    <% else %>
+    <% end %>
    </td>
    <% if item.posts.present? %>
     <td>

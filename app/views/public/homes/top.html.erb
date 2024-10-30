@@ -4,16 +4,10 @@
 <div class= "container">
 
 <% flash.each do |key, value| %>
- <div class= "alert alert-success mt-2 mb-2" role= "alert">
-  <%= content_tag :div, value, class: "flash #{key}" %>
- </div>
-<% end %>
- 
- <% if flash[:success].present? %>
-  <div class= "alert alert-success mt-2 mb-2" role= "alert">
-   <%= flash[:success] %>
+  <div class="alert <%= key == :special_flash ? 'alert-danger' : 'alert-success' %> mt-2 mb-2" role="alert">
+    <%= content_tag :div, value, class: "flash #{key}" %>
   </div>
- <% end %>
+<% end %>
  
  <div class= "row mt-4">
   <div class= "col-lg-8 col-md-9 col-sm-12">
