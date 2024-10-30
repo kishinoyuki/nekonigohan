@@ -26,7 +26,7 @@
     </div>
     <div class= "col-6">
      <%= link_to users_confirm_path(user), class: "btn btn-danger" do %>
-      退会
+      <i class="fa-solid fa-user-xmark mr-2"></i>退会
      <% end %>
     </div>
    </div>
@@ -35,7 +35,7 @@
     <div class= "row mb-3">
      <div class= "col-6">
       <%= link_to withdraw_admin_user_path(user), method: :patch, "data-confirm" => "本当に退会させますか？", class: "btn btn-danger" do %>
-       退会
+       <i class="fa-solid fa-user-xmark mr-2"></i>退会
       <% end %>
      </div>
     </div>
@@ -59,7 +59,7 @@
        <%= user.favorites.count %>件
       </p>
       <%= link_to  favorite_index_path(user), class: "btn btn-info" do %>
-       ブックマークした投稿一覧
+       <i class="fa-solid fa-heart mr-2"></i>ブックマークした投稿一覧
       <% end %>
      </div>
    </div>
@@ -168,20 +168,20 @@
               <% if current_user.id == post.user_id %>
                <div class= "row mt-2 mx-auto">
                 <%= link_to edit_post_path(post), class: "btn btn-secondary mr-2" do %>
-                 編集
+                 <i class="fa-solid fa-gear mr-2"></i>編集
                 <% end %>
                 <%= link_to post_path(post), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger" do %>
-                 削除
+                 <i class="fa-solid fa-xmark mr-2"></i>削除
                 <% end %>
                </div>
                <div class= "row mt-2 mx-auto">
                 <% if post.private == false %>
                  <%= link_to post_private_path(post), method: :patch do %>
-                  <i class="fa-solid fa-mask"></i>非公開にする
+                  <i class="fa-solid fa-lock mr-2"></i>非公開にする
                  <% end %>
                 <% else %>
                  <%= link_to post_private_path(post), method: :patch do %>
-                  <i class="fa-solid fa-mask"></i><i class="fa-solid fa-xmark"></i>公開する
+                  <i class="fa-solid fa-lock-open mr-2"></i>公開する
                  <% end %>
                 <% end %>
                </div>
@@ -199,7 +199,7 @@
               </div>
               <div class= "row mt-2 mx-auto">
                <%= link_to admin_post_path(post), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger" do %>
-                削除
+                <i class="fa-solid fa-xmark mr-2"></i>削除
                <% end %>
               </div>
              <% end %>
