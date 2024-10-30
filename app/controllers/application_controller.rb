@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
  before_action :configure_authentication
  before_action :authenticate_user!, except: [:top], unless: :admin_controller?
+ before_action :check_admin_page_access, if: :admin_controller?
  before_action :configure_permitted_parameters, if: :devise_controller?
  
   def after_sign_in_path_for(resource)
@@ -28,7 +29,14 @@ class ApplicationController < ActionController::Base
    def action_is_public?
     controller_name == 'homes' && action_name == 'top'
    end
-
+   
+   def check_admin_page_access
+    unless current_admin.present?
+     flash[:alert] = "アクセスできません"
+     redirect_to root_path
+    end
+   end
+   
   protected
   
  
