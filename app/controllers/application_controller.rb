@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
    end
    
    def check_admin_page_access
-    unless current_admin.present?
+    if current_user.present? && !current_admin.present?
      flash[:alert] = "アクセスできません"
      redirect_to root_path
     end
