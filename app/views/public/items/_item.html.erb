@@ -1,7 +1,7 @@
  <div class= "row d-flex flex-row">
   <%= render 'public/users/search' %>
   <div class= "card h-25 col-sm-11 col-lg-5 mt-4 ml-3 mb-4 mx-auto">
-   <div class= "card-header">絞り込み</div>
+   <div class= "card-header"><i class="fa-solid fa-filter mr-2"></i>絞り込み/<i class="fa-solid fa-sort ml-2 mr-2"></i>並び替え</div>
     <div class= "card-body">
      <%= form_tag({controller:"items",action:"index"}, method: :get) do %>
        <%= select_tag :search, options_for_select([["食品"], ["化粧品"], ["キッチン用品"], ["インテリア"], ["日用雑貨"], ["ペット用品"], ["~1000円"], ["1000~3000円"], ["3000~5000円"], ["5000~10000円"], ["10000円~"]], params[:search]), class: 'form-control mt-2 mb-2', prompt: "選択してください" %>
@@ -20,12 +20,13 @@
 <table class= "table ml-3">
  <thead>
   <tr>
-   <th class= "name sm-col-3">商品名</th>
-   <th class= "genre sm-col-2">商品ジャンル</th>
-   <th class= "price sm-col-2">商品価格</th>
-   <th class= "donation_destination_name sm-col-3">寄付先</th>
-   <th class= "donation_destination_location sm-col-2">寄付先都道府県</th>
+   <th class= "name">商品名</th>
+   <th class= "genre">商品ジャンル</th>
+   <th class= "price">商品価格</th>
+   <th class= "donation_destination_name">寄付先</th>
+   <th class= "donation_destination_location">寄付先都道府県</th>
    <th class= "star_average">評価(平均値)</th>
+   <th class= "review_count">レビュー数</th>
   </tr>
  </thead>
  <% items.each do |item| %>
@@ -70,6 +71,7 @@
      </script>
      
     <% else %>
+    レビューがありません
     <% end %>
    </td>
    <% if item.posts.present? %>

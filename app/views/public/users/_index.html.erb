@@ -2,17 +2,15 @@
  <thead>
   <tr>
    <% if current_user.present? %>
-    <th class= "image col-sm-4">プロフィール画像</th>
-   <% end %>
-   <th class= "name col-sm-2">ユーザ名</th>
-   <% if current_admin.present? %>
-    <th class= "e-mail col-sm-3">メールアドレス</th>
-   <% end %>
-    <th class= "show col-sm-2">詳細</th>
-   <% if current_admin.present? %>
-    <th class= "status col-sm-3">会員ステータス</th>
+    <th class= "image">プロフィール画像</th>
+    <th class= "name">ユーザ名</th>
+    <th class= "show">詳細</th>
+    <th class= "current_user"></th>
    <% else %>
-    <th class= "current_user col-sm-4"></th>
+    <th class= "name">ユーザ名</th>
+    <th class= "e-mail">メールアドレス</th>
+    <th class= "show">詳細</th>
+    <th class= "status">会員ステータス</th>
    <% end %>
 　</tr>
  </thead>
@@ -25,50 +23,59 @@
       <td>
        <%= image_tag user.get_profile_image(100,100) %>
       </td>
-     <% end %>
+      
       <td>
        <%= user.name %>
       </td>
-     <% if current_admin.present? %>
+      
+      <td>
+       <% if user.id == current_user.id  %>
+        <%= link_to "マイページ", mypage_path %>
+       <% else %>
+        <%= link_to "詳細", user_path(user) %>
+       <% end %>
+      </td>
+      
+      <td>
+       <% if user.id == current_user.id %>
+        <div>
+         <%= link_to edit_user_path(user.id), class: "btn btn-secondary" do %>
+          <i class="fa-solid fa-user-gear"></i> ユーザ編集
+         <% end %>
+        </div>
+        <div class= "mt-2">
+         <%= link_to users_confirm_path(user.id), class: "btn btn-danger" do %>
+          <i class="fa-solid fa-user-xmark mr-2"></i>退会
+         <% end %>
+        </div>
+       <% end %>
+      </td>
+      
+     <% else %>
+     
+      <td>
+       <%= user.name %>
+      </td>
+      
       <td>
        <%= user.email %>
       </td>
-     <% end %>
+      
       <td>
-       <% if current_user.present? %>
-        <% if user.id == current_user.id %>
-         <%= link_to "マイページ", mypage_path %>
-        <% else %>
-         <%= link_to "詳細", user_path(user) %>
-        <% end %>
-       <% else %>
-        <%= link_to "詳細", admin_user_path(user) %>
-       <% end %>
+       <%= link_to "詳細", admin_user_path(user) %>
       </td>
-     <% if current_admin.present? %>
+      
       <td>
        <% if user.is_active == true %>
         <button class= "btn btn-success">有効</button>
         <%= link_to withdraw_admin_user_path(user), method: :patch, "data-confirm" => "本当に退会させますか？", class: "btn btn-danger" do %>
-         退会
+         <i class="fa-solid fa-user-xmark mr-2"></i>退会
         <% end %>
        <% else %>
         <button class= "btn btn-danger">退会済み</button>
        <% end %>
       </td>
-     <% elsif user.id == current_user.id && current_user.email != "guest@example.com" %>
-      <td>
-       <div>
-        <%= link_to edit_user_path(user.id), class: "btn btn-secondary" do %>
-         <i class="fa-solid fa-user-gear"></i> ユーザ編集
-        <% end %>
-       </div>
-       <div class= "mt-2">
-        <%= link_to users_confirm_path(user.id), class: "btn btn-danger" do %>
-         <i class="fa-solid fa-user-xmark mr-2"></i>退会
-        <% end %>
-       </div>
-      </td>
+      
      <% end %>
     </tr>   
    </tbody>
