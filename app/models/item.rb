@@ -7,6 +7,7 @@ class Item < ApplicationRecord
     validates :genre_id, presence: true
     validates :price, presence: true
     
+    scope :price_range, -> (min_price, max_price) {where(price: min_price..max_price)}
     scope :custom_order_scope, -> (column, order) {order("#{column} #{order}")}
     scope :average_rating, -> (order = 'DESC') {
     joins(:posts).group('items.id').order("AVG(posts.star) #{order}")

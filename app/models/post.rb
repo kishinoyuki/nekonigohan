@@ -26,22 +26,12 @@ class Post < ApplicationRecord
      favorites.exists?(user_id: user.id)
     end
     
-    
-  def self.posts_by_price_pulldown_search(params_search)
-   case params_search
-   when "~1000円"
-    self.includes(:item).where(items: {price: ..1000})
-   when "1000~3000円"
-    self.includes(:item).where(items: {price: 1000..3000})
-   when "3000~5000円"
-    self.includes(:item).where(items: {price: 3000..5000})
-   when "5000~10000円"
-    self.includes(:item).where(items: {price: 5000..10000})
-   when "10000円~"
-    self.includes(:item).where(items: {price: 10000..})
-   end
+  def self.price_range(min_price, max_price)
+    includes(:item).where(items: { price: min_price..max_price })
   end
-    
+   
+  
+  
   def self.posts_by_params_order(params_order)
    case params_order
    when "評価が低い投稿から"
@@ -58,7 +48,4 @@ class Post < ApplicationRecord
    end
   end
   
-  def self.combined_posts_search_and_order(params_search, params_order)
-   self.posts_by_price_pulldown_search(params_search).posts_by_params_order(params_order)
-  end
 end

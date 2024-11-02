@@ -3,10 +3,12 @@
   <div class= "card h-25 col-sm-11 col-lg-5 mt-4 ml-3 mb-4 mx-auto">
    <div class= "card-header"><i class="fa-solid fa-filter mr-2"></i>絞り込み/<i class="fa-solid fa-sort ml-2 mr-2"></i>並び替え</div>
     <div class= "card-body">
-     <%= form_tag({controller:"items",action:"index"}, method: :get) do %>
-       <%= select_tag :search, options_for_select([["食品"], ["化粧品"], ["キッチン用品"], ["インテリア"], ["日用雑貨"], ["ペット用品"], ["~1000円"], ["1000~3000円"], ["3000~5000円"], ["5000~10000円"], ["10000円~"]], params[:search]), class: 'form-control mt-2 mb-2', prompt: "選択してください" %>
+      <%= form_tag({controller:"items",action:"index"}, method: :get) do %>
+       <%= select_tag :search, options_for_select([["食品"], ["化粧品"], ["キッチン用品"], ["インテリア"], ["日用雑貨"], ["ペット用品"]], params[:search]), class: 'form-control mt-2 mb-2', prompt: "ジャンルを選択してください" %>
+       <%= number_field_tag :min_price, params[:min_price], class: 'form-control mt-2 mb-2 w-75', placeholder: "最低金額を入力してください", min: 0 %>
+       <%= number_field_tag :max_price, params[:max_price], class: 'form-control mb-2 w-75', placeholder: "最高金額を入力してください", min: 0 %>
        <%= select_tag :order, options_for_select(["価格が安い商品から", "価格が高い商品から", "評価が低い商品から", "評価が高い商品から"], params[:order]), class: 'form-control mt-2 mb-2', prompt: "並び替え" %>
-       <%= submit_tag "絞り込み/並び替え" %>
+       <%= submit_tag "絞り込み/並び替え" %> 
      <% end %>
     </div>
   </div>

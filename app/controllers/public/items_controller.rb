@@ -3,19 +3,33 @@ class Public::ItemsController < ApplicationController
  before_action :redirect_unless_current_user
  
  def index
+  @min_price = params[:min_price]
+  @max_price = params[:max_price]
   @search = params[:search]
   @order = params[:order]
   
-  if @search.present? && @order.present?
-   @items = Item.combined_items_search_and_order(@search, @order)
-  elsif @search.present? && @order.blank?
-   @items = Item.items_by_pulldown_search(@search)
-  elsif @search.blank? && @order.present?
-   @items = Item.items_by_params_order(@order)
+  if @min_price.present? && @max_price.present?
+   if @search.present? && @order.present?
+    @items = Item.combined_items_search_and_order(@search, @order).price_range(@min_price, @max_price)
+   elsif @search.present? && @order.blank?
+    @items = Item.items_by_pulldown_search(@search).price_range(@min_price, @max_price)
+   elsif @search.blank? && @order.present?
+    @items = Item.price_range(@min_price, @max_price).items_by_params_order(@order)
+   else
+    @items = Item.price_range(@min_price, @max_price)
+   end
   else
-   @items = Item.all
-  end 
-  
+   if @search.present? && @order.present?
+    @items = Item.combined_items_search_and_order(@search, @order)
+   elsif @search.present? && @order.blank?
+    @items = Item.items_by_pulldown_search(@search)
+   elsif @search.blank? && @order.present?
+    @items = Item.items_by_params_order(@order)
+   else
+    @items = Item.all
+   end
+  end
+   
   @items = Kaminari.paginate_array(@items).page(params[:page]).per(10)
  end
 
