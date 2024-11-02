@@ -42,17 +42,22 @@ class Public::PostsController < ApplicationController
   end
   
   def index
-   @search = params[:search]
+   @min_price = params[:min_price]
+   @max_price = params[:max_price]
    @order = params[:order]
 
-   if @search.present? && @order.present?
-    @posts = Post.public_posts.combined_posts_search_and_order(@search, @order)
-   elsif @search.present? && @order.blank?
-    @posts = Post.public_posts.posts_by_price_pulldown_search(@search)
-   elsif @search.blank? && @order.present?
-    @posts = Post.public_posts.posts_by_params_order(@order)
+   if @min_price.present? && @max_price.present?
+    if @order.present?
+     @posts = Post.public_posts.price_range(@min_price, @max_price).posts_by_params_order(@order)
+    else
+     @posts = Post.public_posts.price_range(@min_price, @max_price)
+    end
    else
-    @posts = Post.public_posts
+    if @order.present?
+     @posts = Post.posts_by_params_order(@order)
+    else
+     @posts = Post.public_posts
+    end
    end
    
    @posts = Kaminari.paginate_array(@posts).page(params[:page]).per(4)
