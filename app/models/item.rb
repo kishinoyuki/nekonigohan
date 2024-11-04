@@ -27,18 +27,8 @@ class Item < ApplicationRecord
      end
    end
    
-   def self.items_by_pulldown_search(params_search)
+   def self.items_by_genre_search(params_search)
     case params_search
-    when "~1000円"
-     self.where(price: ..1000)
-    when "1000~3000円"
-     self.where(price: 1000..3000)
-    when "3000~5000円"
-     self.where(price: 3000..5000)
-    when "5000~10000円"
-     self.where(price: 5000..10000)
-    when "10000円~"
-     self.where(price: 10000..)
     when "食品"
      self.where(genre_id: 1)
     when "化粧品"
@@ -67,7 +57,19 @@ class Item < ApplicationRecord
     end
    end
    
-   def self.combined_items_search_and_order(params_search, params_order)
-    self.items_by_pulldown_search(params_search).items_by_params_order(params_order)
+   def self.combined_items_genre_search_and_order(params_search, params_order)
+    self.items_by_genre_search(params_search).items_by_params_order(params_order)
+   end
+   
+   def self.combined_items_genre_search_and_price_range(params_search, params_min_price, params_max_price)
+    self.items_by_genre_search(params_search).price_range(params_min_price, params_max_price)
+   end
+   
+   def self.combined_items_price_range_and_order(params_min_price, params_max_price, params_order)
+    self.price_range(params_min_price, params_max_price).items_by_params_order(params_order)
+   end
+   
+   def self.combined_items_genre_search_and_price_range_and_order(params_search, params_min_price, params_max_price, params_order)
+    self.items_by_genre_search(params_search).price_range(params_min_price, params_max_price).items_by_params_order(params_order)
    end
 end
