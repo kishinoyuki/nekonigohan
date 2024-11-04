@@ -48,7 +48,7 @@ class Public::PostsController < ApplicationController
 
    if @min_price.present? && @max_price.present?
     if @order.present?
-     @posts = Post.public_posts.price_range(@min_price, @max_price).posts_by_params_order(@order)
+     @posts = Post.public_posts.combined_price_range_and_order(@min_price, @max_price, @order)
     else
      @posts = Post.public_posts.price_range(@min_price, @max_price)
     end

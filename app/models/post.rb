@@ -26,18 +26,15 @@ class Post < ApplicationRecord
      favorites.exists?(user_id: user.id)
     end
     
-  def self.price_range(min_price, max_price)
-    includes(:item).where(items: { price: min_price..max_price })
+  def self.price_range(params_min_price, params_max_price)
+    includes(:item).where(items: { price: params_min_price..params_max_price })
   end
    
-  
-  
   def self.posts_by_params_order(params_order)
    case params_order
    when "評価が低い投稿から"
     self.custom_order_scope('star', 'ASC')
    when "評価が高い投稿から"
-    #byebug
     self.custom_order_scope('star', 'DESC')
    when "投稿日時が新しい投稿から"
     self.custom_order_scope('posts.created_at', 'DESC')
@@ -48,4 +45,7 @@ class Post < ApplicationRecord
    end
   end
   
+  def self.combined_price_range_and_order(params_min_price, params_max_price, params_order)
+   self.price_range(params_min_price, params_max_price).posts_by_params_order(params_order)
+  end
 end
