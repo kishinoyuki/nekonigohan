@@ -1,7 +1,7 @@
 <div class= "row mt-4 d-flex flex-row">
 <div class= "col-sm-10 col-lg-4 mt-3 mx-auto">
  <h2>プロフィール</h2>
-  <%= image_tag user.get_profile_image(100, 100) %>
+  <%= image_tag user.get_profile_image(100, 100), class: "mb-2" %>
   <table class= "table">
    <thead>
     <tr>
@@ -81,7 +81,7 @@
        <% end %>
        <% posts.each do |post| %>
         <div class="card mt-4 mr-2 col-sm-12 col-lg-5">
-         <%= image_tag post.get_image(300, 200), class: "card-image-top" %>
+         <%= image_tag post.get_image(300, 200), class: "card-image-top mt-3" %>
           <div class="card-body">
            <div class="row">
             <div class="col-10 mx-auto">
