@@ -28,20 +28,10 @@ class Item < ApplicationRecord
    end
    
    def self.items_by_genre_search(params_search)
-    case params_search
-    when "食品"
-     self.where(genre_id: 1)
-    when "化粧品"
-     self.where(genre_id: 2)
-    when "キッチン用品"
-     self.where(genre_id: 3)
-    when "インテリア"
-     self.where(genre_id: 4)
-    when "日用雑貨"
-     self.where(genre_id: 5)
-    when "ペット用品"
-     self.where(genre_id: 6)
-    end
+    genre = Genre.find_by(name: params_search)
+    return unless genre
+
+    self.where(genre_id: genre.id)
    end
    
    def self.items_by_params_order(params_order)
