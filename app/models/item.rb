@@ -47,19 +47,13 @@ class Item < ApplicationRecord
     end
    end
    
-   def self.combined_items_genre_search_and_order(params_search, params_order)
-    self.items_by_genre_search(params_search).items_by_params_order(params_order)
-   end
-   
-   def self.combined_items_genre_search_and_price_range(params_search, params_min_price, params_max_price)
-    self.items_by_genre_search(params_search).price_range(params_min_price, params_max_price)
-   end
-   
-   def self.combined_items_price_range_and_order(params_min_price, params_max_price, params_order)
-    self.price_range(params_min_price, params_max_price).items_by_params_order(params_order)
-   end
-   
    def self.combined_items_genre_search_and_price_range_and_order(params_search, params_min_price, params_max_price, params_order)
-    self.items_by_genre_search(params_search).price_range(params_min_price, params_max_price).items_by_params_order(params_order)
-   end
+    items = self
+  
+    items = items.items_by_genre_search(params_search) if params_search.present?
+    items = items.price_range(params_min_price, params_max_price) if params_min_price.present? && params_max_price.present?
+    items = items.items_by_params_order(params_order) if params_order.present?
+
+    items
+   end 
 end
