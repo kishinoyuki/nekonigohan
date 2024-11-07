@@ -8,29 +8,14 @@ class Public::ItemsController < ApplicationController
   @search = params[:search]
   @order = params[:order]
   
-  if @min_price.present? && @max_price.present?
-   if @search.present? && @order.present?
-    @items = Item.combined_items_genre_search_and_price_range_and_order(@search, @min_price, @max_price, @order)
-   elsif @search.present? && @order.blank?
-    @items = Item.combined_items_genre_search_and_price_range(@search, @min_price, @max_price)
-   elsif @search.blank? && @order.present?
-    @items = Item.combined_items_price_range_and_order(@min_price, @max_price, @order)
-   else
-    @items = Item.price_range(@min_price, @max_price)
-   end
+  if @search.present? || @min_price.present? || @max_price.present? || @order.present?
+   @items = Item.combined_items_genre_search_and_price_range_and_order(@search, @min_price, @max_price, @order)
   else
-   if @search.present? && @order.present?
-    @items = Item.combined_items_genre_search_and_order(@search, @order)
-   elsif @search.present? && @order.blank?
-    @items = Item.items_by_genre_search(@search)
-   elsif @search.blank? && @order.present?
-    @items = Item.items_by_params_order(@order)
-   else
-    @items = Item.all
-   end
+   @items = Item.all
   end
-   
+ 
   @items = Kaminari.paginate_array(@items).page(params[:page]).per(10)
+
  end
 
  def show
