@@ -46,6 +46,11 @@ class Post < ApplicationRecord
   end
   
   def self.combined_price_range_and_order(params_min_price, params_max_price, params_order)
-   self.price_range(params_min_price, params_max_price).posts_by_params_order(params_order)
+   posts = self
+   
+   posts = posts.price_range(params_min_price, params_max_price) if params_min_price.present? && params_max_price.present?
+   posts = posts.posts_by_params_order(params_order) if params_order.present?
+   
+   posts
   end
 end
