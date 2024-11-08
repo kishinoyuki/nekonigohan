@@ -45,19 +45,11 @@ class Public::PostsController < ApplicationController
    @min_price = params[:min_price]
    @max_price = params[:max_price]
    @order = params[:order]
-
-   if @min_price.present? && @max_price.present?
-    if @order.present?
-     @posts = Post.public_posts.combined_price_range_and_order(@min_price, @max_price, @order)
-    else
-     @posts = Post.public_posts.price_range(@min_price, @max_price)
-    end
+   
+   if @min_price.present? && @max_price.present? || @order.present?
+    @posts = Post.public_posts.combined_price_range_and_order(@min_price, @max_price, @order)
    else
-    if @order.present?
-     @posts = Post.posts_by_params_order(@order)
-    else
-     @posts = Post.public_posts
-    end
+    @posts = Post.public_posts
    end
    
    @posts = Kaminari.paginate_array(@posts).page(params[:page]).per(4)
