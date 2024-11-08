@@ -8,7 +8,7 @@ class Public::ItemsController < ApplicationController
   @search = params[:search]
   @order = params[:order]
   
-  if @search.present? || @min_price.present? || @max_price.present? || @order.present?
+  if @search.present? || @min_price.present? && @max_price.present? || @order.present?
    @items = Item.combined_items_genre_search_and_price_range_and_order(@search, @min_price, @max_price, @order)
   else
    @items = Item.all
