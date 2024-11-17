@@ -54,6 +54,6 @@ class Item < ApplicationRecord
     items = items.price_range(params_min_price, params_max_price) if params_min_price.present? && params_max_price.present?
     items = items.items_by_params_order(params_order) if params_order.present?
 
-    items
+   items
    end 
 end
