@@ -31,4 +31,3 @@ def redirect_unless_current_user
 end
 
 end
-
