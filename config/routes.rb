@@ -23,7 +23,15 @@ scope module: :public do
   post "user/guest/sign_in", to: "users/sessions#guest_sign_in"
  end
 
- resources :users, only: [:index, :show, :edit, :update]
+ resources :users, only: [:index, :show, :edit, :update] do
+  
+  member do
+   get :follows, :followers
+  end
+  
+  resources :relationships, only: [:create, :destroy]
+ end
+  
  get '/users/:id/confirm' => 'users#confirm', as: 'users_confirm'
  patch 'users/:id/withdraw' => 'users#withdraw', as: 'users_withdraw'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.htm

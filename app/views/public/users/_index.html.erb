@@ -2,17 +2,19 @@
  <thead>
   <tr>
    <% if current_user.present? %>
-    <th class= "image">プロフィール画像</th>
+    <th class= "d-none d-md-block">プロフィール画像</th>
     <th class= "name">ユーザ名</th>
     <th class= "show">詳細</th>
     <th class= "current_user"></th>
+    <th class= "follow/follower">フォロー/フォロワー</th>
+    <th></th>
    <% else %>
     <th class= "name">ユーザ名</th>
     <th class= "e-mail">メールアドレス</th>
     <th class= "show">詳細</th>
     <th class= "status">会員ステータス</th>
    <% end %>
-　</tr>
+  </tr>
  </thead>
  <% users.each do |user| %>
   <% if user.email == "guest@example.com" %>
@@ -20,7 +22,7 @@
    <tbody>
     <tr>
      <% if current_user.present? %>
-      <td>
+      <td class= "d-none d-md-block">
        <%= image_tag user.get_profile_image(100,100) %>
       </td>
       
@@ -48,6 +50,31 @@
           <i class="fa-solid fa-user-xmark mr-2"></i>退会
          <% end %>
         </div>
+       <% end %>
+      </td>
+      
+      <td>
+       <div>
+        フォロー
+         <%= link_to follows_user_path(user) do %>
+          <%= user.followers.count %>
+         <% end %>
+       </div>
+       <div>
+        フォロワー
+         <%= link_to followers_user_path(user) do %>
+          <%= user.followeds.count %>
+         <% end %>
+       </div>
+      </td>
+      
+      <td>
+       <% if current_user != user %>
+        <% if current_user.following?(user) %>
+         <%= link_to 'フォローを外す', user_relationships_path(user.id), method: :delete, class: "btn btn-danger" %>
+        <% else %>
+         <%= link_to 'フォローする', user_relationships_path(user.id), method: :post, class: "btn btn-success" %>
+        <% end %>
        <% end %>
       </td>
       
@@ -82,4 +109,4 @@
   <% end %>
  <% end %>
 </table>
-<%= paginate users %>
+<%#= paginate users %>
