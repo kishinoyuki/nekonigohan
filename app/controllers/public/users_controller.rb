@@ -58,6 +58,16 @@ class Public::UsersController < ApplicationController
      redirect_to new_user_registration_path
   end
   
+ def follows
+  user = User.find(params[:id])
+  @users = user.following_users
+ end
+ 
+ def followers
+  user = User.find(params[:id])
+  @users = user.follower_users
+ end
+  
   private
   def user_params
     params.require(:user).permit(:name, :is_active, :introduction, :profile_image)
