@@ -4,6 +4,7 @@ class Post < ApplicationRecord
     belongs_to :item
     has_many :post_comments, dependent: :destroy
     has_many :favorites, dependent: :destroy
+    has_many :notifications, as: :notifiable, dependent: :destroy
 
     validates :title, presence: true
     validates :body, presence: true
@@ -53,4 +54,12 @@ class Post < ApplicationRecord
    
    posts
   end
+  
+   after_create do
+    user.followings.each do |following|
+     notifications.create(user_id: following.id)
+     puts "Notification created: #{notification.inspect}"
+    end
+   end
+   
 end

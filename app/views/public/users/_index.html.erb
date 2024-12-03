@@ -6,10 +6,10 @@
   <tr>
    <% if current_user.present? %>
     <th class= "d-none d-md-block">プロフィール画像</th>
-    <th class= "name">ユーザ名</th>
-    <th class= "show">詳細</th>
-    <th class= "current_user"></th>
-    <th class= "follow/follower">フォロー/フォロワー</th>
+    <th class= "name sm-3">ユーザ名</th>
+    <th class= "show sm-3">詳細</th>
+    <th class= "current_user sm-3"></th>
+    <th class= "follow/follower sm-3"></th>
     <th></th>
    <% else %>
     <th class= "name">ユーザ名</th>
@@ -58,13 +58,13 @@
       
       <td>
        <div>
-        フォロー
+        フォロー</br>
          <%= link_to follows_user_path(user) do %>
           <%= user.followings.count %>
          <% end %>
        </div>
        <div>
-        フォロワー
+        フォロワー</br>
          <%= link_to followers_user_path(user) do %>
           <%= user.followeds.count %>
          <% end %>

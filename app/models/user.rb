@@ -21,6 +21,7 @@ class User < ApplicationRecord
                    dependent: :destroy
   has_many :followings, through: :active_relationships, source: :followed
   has_many :followeds, through: :passive_relationships, source: :follower
+  has_many :notifications, as: :notifiable, dependent: :destroy
   has_one_attached :profile_image
   validates :name, presence: true
 
