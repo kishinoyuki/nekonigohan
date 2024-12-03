@@ -56,9 +56,8 @@ class Post < ApplicationRecord
   end
   
    after_create do
-    user.followings.each do |following|
-     notifications.create(user_id: following.id)
-     puts "Notification created: #{notification.inspect}"
+    user.followeds.each do |followed|
+     notifications.create(user_id: followed.id)
     end
    end
    

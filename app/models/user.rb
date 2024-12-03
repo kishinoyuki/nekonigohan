@@ -19,8 +19,8 @@ class User < ApplicationRecord
                    class_name: "Relationship",
                    foreign_key: "followed_id",
                    dependent: :destroy
-  has_many :followings, through: :active_relationships, source: :followed
-  has_many :followeds, through: :passive_relationships, source: :follower
+  has_many :followings, through: :active_relationships, source: :follower
+  has_many :followeds, through: :passive_relationships, source: :followed
   has_many :notifications, as: :notifiable, dependent: :destroy
   has_one_attached :profile_image
   validates :name, presence: true
@@ -61,11 +61,11 @@ class User < ApplicationRecord
    end
    
   def follow(user_id)
-    active_relationships.create(followed_id: user_id)
+    active_relationships.create(follower_id: user_id)
   end
   
   def unfollow(user_id)
-    active_relationships.find_by(followed_id: user_id).destroy
+    activerelationships.find_by(follower_id: user_id).destroy
   end
   
   def following?(user)
