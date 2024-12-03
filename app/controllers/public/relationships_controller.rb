@@ -2,9 +2,7 @@ class Public::RelationshipsController < ApplicationController
     before_action :ensure_guest_user
     
     def create
-        user = User.find(params[:user_id])
-        current_user.follow(user)
-        flash[:success] = "#{user.name}さんをフォローしました！"
+        current_user.follow(params[:user_id])
         redirect_to request.referer
     end
     
