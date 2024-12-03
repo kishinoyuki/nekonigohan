@@ -29,7 +29,7 @@ scope module: :public do
    get :follows, :followers
   end
   
-  resources :relationships, only: [:create, :destroy]
+  resource :relationships, only: [:create, :destroy]
  end
   
  get '/users/:id/confirm' => 'users#confirm', as: 'users_confirm'
