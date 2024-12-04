@@ -18,7 +18,7 @@ class Public::PostsController < ApplicationController
     all_validation = []
     all_validation << @donation_destination.valid?
     
-    if Item.where(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id]).exists?
+    if Item.where(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id], price: params[:post][:item_price]).exists?
      @item = Item.find_by(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id], price: params[:post][:item_price])
     else
      @item = Item.new(name: params[:post][:item_name], genre_id: params[:post][:item_genre_id], price: params[:post][:item_price])

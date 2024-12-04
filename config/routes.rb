@@ -39,6 +39,8 @@ scope module: :public do
  get 'search' => 'searches#search'
  get 'tagsearches/search' => 'tagsearches#search'
  
+ resources :notifications, only: [:update]
+ 
 end
 
  
