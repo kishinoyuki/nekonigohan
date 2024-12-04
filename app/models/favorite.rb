@@ -6,6 +6,6 @@ class Favorite < ApplicationRecord
  validates :user_id, uniqueness: {scope: :post_id}
  
  after_create do
-  notification.create(user_id: post.user_id)
+  create_notification(user_id: post.user_id)
  end
 end
