@@ -17,7 +17,7 @@
    </tbody>
   </table>
   
-  <% if user.email != "guest@example.com" %>
+  <% unless current_admin.present? && user.email = "guest@example.com"  %>
    <table class= "table">
     <thead>
      <tr>
@@ -39,7 +39,7 @@
        <% end %>
       </td>
       <td>
-       <% if current_user != user %>
+       <% if current_user != user  %>
         <% if current_user.following?(user) %>
           <%= link_to 'フォローを外す', user_relationships_path(user.id), method: :delete, class: "btn btn-danger" %>
          <% else %>
@@ -114,135 +114,137 @@
          <p>商品の感想、レビューの投稿をお待ちしています！</p>
         </div>
        <% end %>
-       <% posts.each do |post| %>
-        <div class="card mt-4 mr-2 col-sm-12 col-lg-5">
-         <%= image_tag post.get_image(300, 200), class: "card-image-top mt-3" %>
-          <div class="card-body">
-           <div class="row">
-            <div class="col-10 mx-auto">
-             <p class="card-title">タイトル:
-              <%= post.title %>
-             </p>
+  <% else %>
+   <% posts.each do |post| %>
+    <div class="card mt-4 mr-2 col-sm-12 col-lg-5">
+     <%= image_tag post.get_image(300, 200), class: "card-image-top mt-3" %>
+      <div class="card-body">
+       <div class="row">
+        <div class="col-10 mx-auto">
+         <p class="card-title">タイトル:
+          <%= post.title %>
+         </p>
              
-             <p class="card-item_title">商品名:
-              <%= post.item.name %>
-             </p>
+         <p class="card-item_title">商品名:
+          <%= post.item.name %>
+         </p>
              
-             <p class="card-item-genre">商品ジャンル:
-              <%= post.item.genre.name %>
-             </p>
+         <p class="card-item-genre">商品ジャンル:
+          <%= post.item.genre.name %>
+         </p>
              
-             <p class= "card-item-price">商品価格:
-              <%= post.item.price %>円
-             </p>
+         <p class= "card-item-price">商品価格:
+          <%= post.item.price %>円
+         </p>
              
-             <p class="card-donation_destination_name">寄付先:
-              <%= post.item.donation_destination.name %>
-             </p>
+         <p class="card-donation_destination_name">寄付先:
+          <%= post.item.donation_destination.name %>
+         </p>
              
-             <p class="card-donation_destination_location">寄付先都道府県:
-              <%= post.item.donation_destination.location_i18n %>
-             </p>
+         <p class="card-donation_destination_location">寄付先都道府県:
+          <%= post.item.donation_destination.location_i18n %>
+         </p>
              
-             <p class= "card-post_comments_count">コメント件数:
-              <%= post.post_comments.count %>件
-             </p>
+         <p class= "card-post_comments_count">コメント件数:
+          <%= post.post_comments.count %>件
+         </p>
              
-             <% if current_user.present? && current_user.email != "guest@example.com" %>
-              <% if post.favorited_by?(current_user) %>
-               <p>
-                <%= link_to post_favorite_path(post), method: :delete do %>
-                 <i class="fa-solid fa-heart" style= "color :red;"></i><%= post.favorites.count %>
-                <% end %>
-               </p>
-              <% else %>
-               <p>
-                <%= link_to post_favorite_path(post), method: :post do %>
-                 <i class="fa-regular fa-heart"></i><%= post.favorites.count %>
-                <% end %>
-               </p>
-              <% end %>
-             <% else %>
-              <p>
-               ブックマーク:
-               <%= post.favorites.count %>件
-              </p>
-             <% end %>
+         <% if current_user.present? && current_user.email != "guest@example.com" %>
+          <% if post.favorited_by?(current_user) %>
+           <p>
+            <%= link_to post_favorite_path(post), method: :delete do %>
+             <i class="fa-solid fa-heart" style= "color :red;"></i><%= post.favorites.count %>
+            <% end %>
+           </p>
+          <% else %>
+           <p>
+            <%= link_to post_favorite_path(post), method: :post do %>
+             <i class="fa-regular fa-heart"></i><%= post.favorites.count %>
+            <% end %>
+           </p>
+          <% end %>
+         <% else %>
+           <p>
+            ブックマーク:
+            <%= post.favorites.count %>件
+           </p>
+         <% end %>
              
-             <p id= "star_<%= post.id %>">評価</p>
+         <p id= "star_<%= post.id %>">評価</p>
           
-             <script>
-              $(document).on('turbolinks:load', function() {
-              let elem = document.querySelector('#star_<%= post.id %>');
-              if (elem == null) return;
+         <script>
+          $(document).on('turbolinks:load', function() {
+          let elem = document.querySelector('#star_<%= post.id %>');
+          if (elem == null) return;
   
-              elem.innerHTML = "";
-              let opt = {  
-              starOn: "<%= asset_path('star-on.png') %>",
-              starOff: "<%= asset_path('star-off.png') %>",
-              score: "<%= post.star %>",
-              half: false,
-              readOnly: true,
-              };
-              raty(elem, opt);
-              });
-             </script>
-              <p><i class="fa-solid fa-tag mr-1"></i>タグ:
-               <% if current_user.present? %>
-                <%= link_to tagsearches_search_path(word: post.tag) do %>
-                 <%= post.tag %>
-                <% end %>
-               <% else %>
-                <%= link_to admin_tagsearch_path(word: post.tag) do %>
-                 <%= post.tag %>
-                <% end %>
-               <% end %>
-              </p>
+          elem.innerHTML = "";
+          let opt = {  
+          starOn: "<%= asset_path('star-on.png') %>",
+          starOff: "<%= asset_path('star-off.png') %>",
+          score: "<%= post.star %>",
+          half: false,
+          readOnly: true,
+          };
+          raty(elem, opt);
+          });
+         </script>
+         <p><i class="fa-solid fa-tag mr-1"></i>タグ:
+           <% if current_user.present? %>
+            <%= link_to tagsearches_search_path(word: post.tag) do %>
+             <%= post.tag %>
+            <% end %>
+           <% else %>
+            <%= link_to admin_tagsearch_path(word: post.tag) do %>
+             <%= post.tag %>
+            <% end %>
+           <% end %>
+         </p>
 
-             <% if current_user.present? %>
-              <% if current_user.id == post.user_id %>
-               <div class= "row mt-2 mx-auto">
-                <%= link_to edit_post_path(post), class: "btn btn-secondary mr-2" do %>
-                 <i class="fa-solid fa-gear mr-2"></i>編集
-                <% end %>
-                <%= link_to post_path(post), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger" do %>
-                 <i class="fa-solid fa-xmark mr-2"></i>削除
-                <% end %>
-               </div>
-               <div class= "row mt-2 mx-auto">
-                <% if post.private == false %>
-                 <%= link_to post_private_path(post), method: :patch do %>
-                  <i class="fa-solid fa-lock mr-2"></i>非公開にする
-                 <% end %>
-                <% else %>
-                 <%= link_to post_private_path(post), method: :patch do %>
-                  <i class="fa-solid fa-lock-open mr-2"></i>公開する
-                 <% end %>
-                <% end %>
-               </div>
-              <% end %>
-              <div class= "row mt-2 mx-auto">
-               <%= link_to post_path(post), class: "btn btn-info" do %>
-                詳細
-               <% end %>
-              </div>
-             <% else %>
-              <div class="row mt-2 mx-auto">
-               <%= link_to admin_post_path(post), class: "btn btn-info" do %>
-                詳細
-               <% end %>
-              </div>
-              <div class= "row mt-2 mx-auto">
-               <%= link_to admin_post_path(post), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger" do %>
-                <i class="fa-solid fa-xmark mr-2"></i>削除
-               <% end %>
-              </div>
-             <% end %>
-            </div>
+         <% if current_user.present? %>
+          <% if current_user.id == post.user_id %>
+           <div class= "row mt-2 mx-auto">
+            <%= link_to edit_post_path(post), class: "btn btn-secondary mr-2" do %>
+             <i class="fa-solid fa-gear mr-2"></i>編集
+            <% end %>
+            <%= link_to post_path(post), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger" do %>
+             <i class="fa-solid fa-xmark mr-2"></i>削除
+            <% end %>
            </div>
+           <div class= "row mt-2 mx-auto">
+            <% if post.private == false %>
+             <%= link_to post_private_path(post), method: :patch do %>
+              <i class="fa-solid fa-lock mr-2"></i>非公開にする
+             <% end %>
+            <% else %>
+             <%= link_to post_private_path(post), method: :patch do %>
+              <i class="fa-solid fa-lock-open mr-2"></i>公開する
+             <% end %>
+            <% end %>
+           </div>
+          <% end %>
+          <div class= "row mt-2 mx-auto">
+           <%= link_to post_path(post), class: "btn btn-info" do %>
+            詳細
+           <% end %>
           </div>
-         </div>
-        <% end %>
+         <% else %>
+          <div class="row mt-2 mx-auto">
+           <%= link_to admin_post_path(post), class: "btn btn-info" do %>
+            詳細
+           <% end %>
+          </div>
+          <div class= "row mt-2 mx-auto">
+           <%= link_to admin_post_path(post), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger" do %>
+            <i class="fa-solid fa-xmark mr-2"></i>削除
+           <% end %>
+          </div>
+         <% end %>
+        </div>
+       </div>
+      </div>
+     </div>
+     <% end %>
+    <% end %>
        </div>
        <%= paginate posts %>
       </div>
