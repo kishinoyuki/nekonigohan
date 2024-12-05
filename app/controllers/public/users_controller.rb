@@ -59,13 +59,13 @@ class Public::UsersController < ApplicationController
   end
   
  def follows
-  user = User.find(params[:id])
-  @users = user.followings
+  @user = User.find(params[:id])
+  @users = @user.followings.page(params[:page]).per(10)
  end
  
  def followers
-  user = User.find(params[:id])
-  @users = user.followeds
+  @user = User.find(params[:id])
+  @users = @user.followeds.page(params[:page]).per(10)
  end
   
   private
