@@ -1,7 +1,9 @@
-<table class="table mb-4 ml-3 mr-3">
- <% if users.count == 0 %>
-  <p class= "text-center">表示できるユーザーがいません。</p>
- <% else %>
+<% if users.count == 0 %>
+ <div class= "card w-50 mx-auto bg-secondary text-white d-flex align-item-center mb-2">
+  <p class= "mb-0 text-center">表示できるユーザーがいません。</p>
+ </div>
+<% else %>
+ <table class="table mb-4 ml-3 mr-3">
  <thead>
   <tr>
    <% if current_user.present? %>
@@ -111,6 +113,6 @@
    </tbody>
   <% end %>
  <% end %>
- <% end %>
-</table>
-<%#= paginate users %>
+ </table>
+ <%= paginate users %>
+<% end %>

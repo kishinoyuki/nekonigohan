@@ -17,6 +17,7 @@
     <nav class= "navbar navbar-dark bg-dark">
     <div class= "container">
      <a class= "navbar-brand" href= "/"><span>ねこにごはん ～猫を助ける商品、集めました。～</span></a>
+     <% if user_signed_in? %>
       <li class= "dropdown">
        <button class= "btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         通知
@@ -33,12 +34,13 @@
          <% end %>
         </div>
        </li>
+      <% end %>
       <button class= "navbar-toggler collapsed" type= "button" data-toggle= "collapse" data-target= "#navbarNavDropdown" aria-controls= "navbarDropdown" aria-expanded= "false" aria-label= "Toggle navigation">
        <span class= "text-light"><i class="fa-solid fa-bars mr-2"></i>メニュー</span>
       </button>
       <div class= "navbar-collapse collapse" id= "navbarNavDropdown" style= "">
        <ul class= "navbar-nav w-50">
-        <% if user_signed_in? %>
+       <% if user_signed_in? %>
         <li>
          <%= link_to root_path, class: 'nav-link text-light' do %>
           <i class= "fa-solid fa-house"></i> Home
