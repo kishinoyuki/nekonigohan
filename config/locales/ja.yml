@@ -92,5 +92,9 @@ ja:
               confirmation: "がパスワードと一致しません。"
             password:
               too_short: "が短すぎます。最低%{count}文字以上で入力してください。"
+              
+  time:
+    formats:
+      default: "%Y/%m/%d %H:%M:%S"
 
 
