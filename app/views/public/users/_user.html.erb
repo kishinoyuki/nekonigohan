@@ -17,7 +17,7 @@
    </tbody>
   </table>
   
-  <% unless current_admin.present? && user.email = "guest@example.com"  %>
+  <% if current_user.present? && user.email != "guest@example.com"  %>
    <table class= "table">
     <thead>
      <tr>
@@ -114,7 +114,6 @@
          <p>商品の感想、レビューの投稿をお待ちしています！</p>
         </div>
        <% end %>
-  <% else %>
    <% posts.each do |post| %>
     <div class="card mt-4 mr-2 col-sm-12 col-lg-5">
      <%= image_tag post.get_image(300, 200), class: "card-image-top mt-3" %>
@@ -244,7 +243,6 @@
       </div>
      </div>
      <% end %>
-    <% end %>
        </div>
        <%= paginate posts %>
       </div>
