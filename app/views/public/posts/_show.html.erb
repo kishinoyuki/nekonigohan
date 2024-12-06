@@ -169,6 +169,7 @@
       <tr>
        <th class= "name w-25">ユーザ名</th>
        <th class= "comment">コメント</th>
+       <th class= "created_at">投稿日時</th>
        <th class= "w-25"></th>
       </tr>
      </thead>
@@ -177,6 +178,7 @@
      <tr>
       <td class= "w-25"><%= post_comment.user.name %></td>
       <td><%= post_comment.comment %></td>
+      <td><%= post_comment.created_at %></td>
       <% if current_user.present? && post_comment.user == current_user %>
        <td class= "w-25">
         <%= link_to edit_post_post_comment_path(post_comment.post, post_comment), class: "btn btn-secondary mb-2" do %>
