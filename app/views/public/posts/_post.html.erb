@@ -7,14 +7,14 @@
      <%= form_tag({controller: "admin/posts", action: "index"}, method: :get) do %>
       <%= number_field_tag :min_price, "", class: 'form-control mt-2 mb-2 w-75', placeholder: "最低金額を入力してください（円）", min: 0 %>
       <%= number_field_tag :max_price, "", class: 'form-control mb-3 w-75', placeholder: "最高金額を入力してください（円）", min: 0 %>
-      <%= select_tag :order, options_for_select(["評価が低い投稿から", "評価が高い投稿から", "投稿日時が新しい投稿から", "価格が安い商品から", "価格が高い商品から"], params[:order]), class: 'form-control mt-4 mb-2', prompt: "並び替え" %>
+      <%= select_tag :order, options_for_select(["評価が低い投稿から", "評価が高い投稿から", "投稿日時が前の投稿から", "価格が安い商品から", "価格が高い商品から"], params[:order]), class: 'form-control mt-4 mb-2', prompt: "並び替え" %>
       <%= submit_tag "絞り込み/並び替え" %>
      <% end %>
     <% else %>
      <%= form_tag({controller: "posts", action: "index"}, method: :get) do %>
       <%= number_field_tag :min_price, "", class: 'form-control mt-2 mb-2 w-75', placeholder: "最低金額を入力してください（円）", min: 0 %>
       <%= number_field_tag :max_price, "", class: 'form-control mb-3 w-75', placeholder: "最高金額を入力してください（円）", min: 0 %>
-      <%= select_tag :order, options_for_select(["評価が低い投稿から", "評価が高い投稿から", "投稿日時が新しい投稿から", "価格が安い商品から", "価格が高い商品から"], params[:order]), class: 'form-control mt-4 mb-2', prompt: "並び替え" %>
+      <%= select_tag :order, options_for_select(["評価が低い投稿から", "評価が高い投稿から", "投稿日時が前の投稿から", "価格が安い商品から", "価格が高い商品から"], params[:order]), class: 'form-control mt-4 mb-2', prompt: "並び替え" %>
       <%= submit_tag "絞り込み/並び替え" %>
      <% end %>
     <% end %>
@@ -55,6 +55,10 @@
                <%= post.user.name %>
               <% end %>
              <% end %>
+             <div>
+              投稿日時
+              <%= post.created_at %>
+             </div>
              
             </div>
             

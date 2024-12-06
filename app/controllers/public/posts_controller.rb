@@ -49,7 +49,7 @@ class Public::PostsController < ApplicationController
    if @min_price.present? && @max_price.present? || @order.present?
     @posts = Post.public_posts.combined_price_range_and_order(@min_price, @max_price, @order)
    else
-    @posts = Post.public_posts
+    @posts = Post.public_posts.custom_order_scope('posts.created_at', 'DESC')
    end
    
    @posts = Kaminari.paginate_array(@posts).page(params[:page]).per(4)

@@ -16,7 +16,7 @@ class Admin::PostsController < ApplicationController
     if @order.present?
      @posts = Post.posts_by_params_order(@order)
     else
-     @posts = Post.all
+     @posts = Post.all.custom_order_scope('posts.created_at', 'DESC')
     end
    end
    
