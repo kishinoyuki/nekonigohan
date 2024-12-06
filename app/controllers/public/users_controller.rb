@@ -14,13 +14,13 @@ class Public::UsersController < ApplicationController
     if @user.id == current_user.id
      redirect_to mypage_path
     else
-     @posts = @user.posts.page(params[:page]).per(4)
+     @posts = @user.posts.custom_order_scope('posts.created_at', 'DESC').page(params[:page]).per(4)
     end
   end
   
   def mypage
     @user = User.find(current_user.id)
-    @posts = @user.posts.page(params[:page]).per(4)
+    @posts = @user.posts.custom_order_scope('posts.created_at', 'DESC').page(params[:page]).per(4)
   end
   
   def favorite_index

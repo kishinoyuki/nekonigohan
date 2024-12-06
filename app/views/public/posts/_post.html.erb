@@ -55,14 +55,15 @@
                <%= post.user.name %>
               <% end %>
              <% end %>
-             <div>
-              投稿日時
-              <%= post.created_at %>
-             </div>
-             
+
             </div>
             
             <div class= "col-8 mx-auto">
+             
+             <p class= "card-created_at">投稿日時:
+              <%= post.created_at %>
+             </p>
+             
              <p class= "card-title">タイトル:
               <%= post.title %>
              </p>
