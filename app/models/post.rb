@@ -37,8 +37,8 @@ class Post < ApplicationRecord
     self.custom_order_scope('star', 'ASC')
    when "評価が高い投稿から"
     self.custom_order_scope('star', 'DESC')
-   when "投稿日時が新しい投稿から"
-    self.custom_order_scope('posts.created_at', 'DESC')
+   when "投稿日時が前の投稿から"
+    self.custom_order_scope('posts.created_at', 'ASC')
    when "価格が安い商品から"
     self.includes(:item).custom_order_scope('items.price', 'ASC')
    when "価格が高い商品から"
