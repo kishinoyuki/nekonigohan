@@ -30,6 +30,10 @@
         </div>
         
         <div class= "col-8 mx-auto">
+         
+        <p class= "created_at">投稿日時:
+         <%= l post.created_at %>
+        </p>
         <p class= "card-title">タイトル:
          <%= post.title %>
         </p>
@@ -178,7 +182,7 @@
      <tr>
       <td class= "w-25"><%= post_comment.user.name %></td>
       <td><%= post_comment.comment %></td>
-      <td><%= post_comment.created_at %></td>
+      <td><%= l post_comment.created_at %></td>
       <% if current_user.present? && post_comment.user == current_user %>
        <td class= "w-25">
         <%= link_to edit_post_post_comment_path(post_comment.post, post_comment), class: "btn btn-secondary mb-2" do %>
