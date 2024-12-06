@@ -26,7 +26,7 @@ class Admin::PostsController < ApplicationController
   
   def show
    @post = Post.find(params[:id])
-   @post_comments = @post.post_comments.page(params[:page]).per(10)
+   @post_comments = @post.post_comments.custom_order_scope('post_comments.created_at', 'DESC').page(params[:page]).per(10)
   end
   
   def destroy

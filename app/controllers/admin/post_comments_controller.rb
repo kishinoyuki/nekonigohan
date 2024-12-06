@@ -3,7 +3,7 @@ class Admin::PostCommentsController < ApplicationController
  before_action :authenticate_admin!, only: [:destroy]
  
  def index
-  @post_comments = PostComment.page(params[:page]).per(10)
+  @post_comments = PostComment.custom_order_scope('post_comments.created_at', 'DESC').page(params[:page]).per(10)
  end
  
  def destroy_from_index
