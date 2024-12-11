@@ -22,42 +22,42 @@ lucas = User.find_or_create_by!(email: "lucas@example.com") do |user|
 end
 
 猫達の森 = DonationDestination.find_or_create_by!(name: "猫達の森") do |donation_destination|
- donation_destination.location = "akita"
+  donation_destination.location = "akita"
 end
 
 猫三昧 = DonationDestination.find_or_create_by!(name: "猫三昧") do |donation_destination|
- donation_destination.location = "osaka"
+  donation_destination.location = "osaka"
 end
 
 ヤマネコ本舗 = DonationDestination.find_or_create_by!(name: "ヤマネコ本舗") do |donation_destination|
- donation_destination.location = "kagoshima"
+  donation_destination.location = "kagoshima"
 end
 
 
-食品 = Genre.find_or_create_by!(name:"食品")
-化粧品 = Genre.find_or_create_by!(name:"化粧品")
-キッチン用品 = Genre.find_or_create_by!(name:"キッチン用品")
-インテリア = Genre.find_or_create_by!(name:"インテリア")
-日用雑貨 = Genre.find_or_create_by!(name:"日用雑貨")
-ペット用品 = Genre.find_or_create_by!(name:"ペット用品")
+食品 = Genre.find_or_create_by!(name: "食品")
+Genre.find_or_create_by!(name: "化粧品")
+Genre.find_or_create_by!(name: "キッチン用品")
+インテリア = Genre.find_or_create_by!(name: "インテリア")
+日用雑貨 = Genre.find_or_create_by!(name: "日用雑貨")
+Genre.find_or_create_by!(name: "ペット用品")
 
 
 猫まんま = Item.find_or_create_by!(name: "猫まんま") do |item|
- item.genre = 食品
- item.donation_destination = 猫達の森
- item.price = 800
+  item.genre = 食品
+  item.donation_destination = 猫達の森
+  item.price = 800
 end
 
 ほかほかにゃんこ = Item.find_or_create_by!(name: "ほかほかにゃんこ") do |item|
- item.genre = 日用雑貨
- item.donation_destination = 猫三昧
- item.price = 1000
+  item.genre = 日用雑貨
+  item.donation_destination = 猫三昧
+  item.price = 1000
 end
 
 にゃんこいす = Item.find_or_create_by!(name: "にゃんこいす") do |item|
- item.genre = インテリア
- item.donation_destination = ヤマネコ本舗
- item.price = 1200
+  item.genre = インテリア
+  item.donation_destination = ヤマネコ本舗
+  item.price = 1200
 end
 
 
@@ -88,7 +88,7 @@ Post.find_or_create_by!(title: "test3") do |post|
   post.private = "false"
 end
 
-admin1 = Admin.find_or_create_by!(email: "admin@example.com") do |admin|
+Admin.find_or_create_by!(email: "admin@example.com") do |admin|
   admin.password = "password"
 end
 
