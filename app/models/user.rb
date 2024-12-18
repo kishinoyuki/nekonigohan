@@ -24,7 +24,7 @@ class User < ApplicationRecord
   has_many :followeds, through: :passive_relationships, source: :follower
   has_many :notifications, dependent: :destroy
   has_one_attached :profile_image
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: true, length: {in: 2..20}
 
   def get_profile_image(width, height)
     unless profile_image.attached?
