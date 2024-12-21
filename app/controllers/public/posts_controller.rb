@@ -1,6 +1,7 @@
 class Public::PostsController < ApplicationController
   before_action :ensure_guest_user, only: [:new, :edit]
   before_action :ensure_private_mode, only: [:show]
+  
   def new
     @post = Post.new
   end
