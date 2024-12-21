@@ -258,10 +258,32 @@ describe '[STEP1] ユーザログイン前のテスト' do
             
             it 'ログアウトリンクが表示されている: 上から７番目のリンクが「ログアウト」である', spec_category: "ログイン状況に合わせた画面表示や機能制限のロジック設定" do
                 log_out_link = find_all('a')[7].text
-                expect(log_out_link).to match(/ログアウト)
+                expect(log_out_link).to match(/ログアウト/)
             end
         end
     end
     
-    
+    describe 'ユーザーログアウトのテスト' do
+        let(:user) { create(:user) }
+        
+        before do
+            visit new_user_session_path
+            fill_in 'user[email]', with: user.email
+            fill_in 'user[password]', with: user.password
+            click_button 'ログイン'
+            log_out_link = find_all('a')[7].text
+            log_out_link = log_out_link.gsub(/\n/, '').gsub(/\A\s*/, '').gsub(/\s*\Z/, '')
+            click_link log_out_link
+        end
+        
+        context 'ログアウト機能のテスト' do
+            it '正しくログアウトできている: ログアウトのリダイレクト先においてログイン画面へのリンクが表示されている', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+                expect(page).to have_link 'ログイン', href: '/users/sign_in'
+            end
+            
+            it 'ログアウト後のリダイレクト先がトップページである', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+                expect(current_path).to eq '/'
+            end
+        end
+    end
 end
