@@ -103,7 +103,7 @@ describe '[STEP1] ユーザログイン前のテスト' do
         end
     end
     
-    describe 'ユーザー新規登録のテスト' do
+    describe 'ユーザ新規登録のテスト' do
         before do
             visit new_user_registration_path
         end
@@ -138,7 +138,7 @@ describe '[STEP1] ユーザログイン前のテスト' do
             end
         end
         
-        context '新規投稿成功のテスト' do
+        context '新規登録成功のテスト' do
             before do
                 fill_in 'user[name]', with: Faker::Lorem.characters(number: 5)
                 fill_in 'user[email]', with: Faker::Internet.email
@@ -157,7 +157,7 @@ describe '[STEP1] ユーザログイン前のテスト' do
         end
     end
     
-    describe 'ユーザーログイン' do
+    describe 'ユーザログイン' do
         let(:user) { create(:user) }
         
         before do
@@ -197,7 +197,7 @@ describe '[STEP1] ユーザログイン前のテスト' do
                 click_button 'ログイン'
             end
             
-            it 'ログイン後のリダイレクト先が、ログインしたユーザーのマイページになっている', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+            it 'ログイン後のリダイレクト先が、ログインしたユーザのマイページになっている', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
                 expect(current_path).to eq '/mypage'
             end
         end
@@ -251,7 +251,7 @@ describe '[STEP1] ユーザログイン前のテスト' do
                 expect(items_index_link).to match(/商品一覧/)
             end
             
-            it 'ユーザー一覧リンクが表示されている: 上から６番目のリンクが「ユーザー一覧」である', spec_category: "ログイン状況に合わせた画面表示や機能制限のロジック設定" do
+            it 'ユーザ一覧リンクが表示されている: 上から６番目のリンクが「ユーザー一覧」である', spec_category: "ログイン状況に合わせた画面表示や機能制限のロジック設定" do
                 users_index_link = find_all('a')[6].text
                 expect(users_index_link).to match(/ユーザー一覧/)
             end
@@ -263,7 +263,7 @@ describe '[STEP1] ユーザログイン前のテスト' do
         end
     end
     
-    describe 'ユーザーログアウトのテスト' do
+    describe 'ユーザログアウトのテスト' do
         let(:user) { create(:user) }
         
         before do
