@@ -156,7 +156,120 @@ describe '[STEP2] ユーザログイン後のテスト' do
     end
     
     describe '新規投稿のテスト' do
-        
+       before do
+           visit new_post_path
+       end 
+       
+       context '表示内容の確認' do
+           it '「新規投稿」と表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+               expect(page).to have_content '新規投稿'
+           end
+           
+           it 'URLが正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+               expect(current_path).to eq '/posts/new'
+           end
+           
+           it 'タイトルフォームが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+               expect(page).to have_field 'post[title]'
+           end
+           
+           it 'タイトルフォームに値が入っていない', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+               expect(find_field('post[title]').value).to be_blank
+           end
+           
+           it '本文のフォームが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+              expect(page).to have_field 'post[body]' 
+           end
+           
+           it '本文のフォームに値が入っていない', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+              expect(find_field('post[body]').value).to be_blank 
+           end
+           
+           it '評価フォームが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+              expect(page).to have_field 'post[star]'           
+           end
+           
+           it '評価フォームに値が入っていない', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+               expect(find_field('post[star]').value).to be_black
+           end
+           
+           it 'タグのフォームが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+               expect(page).to have_field 'post[tag]'
+           end
+           
+           it 'タグのフォームに値が入っていない', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+               expect(find_field('post[tag]').value).to be_black
+           end
+           
+           it '商品名のフォームが表示される' , spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+               expect(page).to have_field 'item[name]'
+           end
+           
+           it '商品名のフォームに値が入っていない', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+              expect(find_field('item[name]').value).to be_blank 
+           end
+           
+           it '商品ジャンルのフォームが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+               expect(page).to have_select('item_genre_id')
+           end
+           
+           it '商品価格のフォームが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+              expect(page).to have_field 'item[price]' 
+           end
+           
+           it '商品価格のフォームに値が入っていない', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+               expect(find_field('item[price]').value).to be_blank
+           end
+           
+           it '寄付先のフォームが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+               expect(page).to have_field 'donation_destination[name]'       
+           end
+           
+           it '寄付先のフォームに値が入っていない', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+              expect(find_field('donation_destination[name]').value).to be_blank 
+           end
+           
+           it '寄付先都道府県のフォームが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+              expect(page).to have_select('donation_destination_location')
+           end
+           
+           it '投稿ボタンが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+              expect(page).to have_button '投稿'  
+           end
+       end
+       
+       context '投稿成功のテスト' do
+           before do
+               post = create(:post)
+               
+               fill_in 'post[title]', with: post.title
+               fill_in 'post[body]', with: post.body
+               fill_in 'post[star]', with: post.star
+               fill_in 'post[tag]', with: post.tag
+               
+               item = create(:item)
+               
+               fill_in 'item[name]', with: item.name
+               fill_in 'item[price]', with: item.price
+               
+               genre = create(:genre)
+               
+               item.update(genre: genre)
+               
+               donation_destination = create(:donation_destination)
+               
+               fill_in 'donation_destination[name]', with: donation_destination.name
+               fill_in 'donation_destination[location]', with: donation_destination.location
+           end
+           
+           it '自分の新しい投稿が正しく保存されている', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+               expect { click_button '投稿' }.to change(user.posts, :count).by(1)
+           end
+           
+           it 'リダイレクト先が、保存できた投稿の詳細画面になっている', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+              expect(current_path).to eq '/posts/' + Post.last.id.to_s 
+           end
+       end
     end
     
     describe '投稿一覧画面のテスト' do
@@ -254,6 +367,47 @@ describe '[STEP2] ユーザログイン後のテスト' do
             end
         end
     end
+    
+    describe '商品一覧画面のテスト' do
+        before do
+            visit items_path
+        end
+        
+        context '表示内容の確認' do
+            it '「商品一覧」と表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content '商品一覧'    
+            end
+            
+            it 'URLが正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(current_path).to eq '/items'
+            end
+            
+            it '商品名が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content item.name
+            end
+            
+            it '商品名のリンク先が正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_link "#{item.name}", href: item_path(item)
+            end
+            
+            it '商品ジャンルが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content item.genre.name    
+            end
+            
+            it '商品価格が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content item.price
+            end
+            
+            it '寄付先が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content donation_destination.name
+            end
+            
+            it '寄付先都道府県が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content donation_destination.location    
+            end
+        end
+    end
+    
     
     
     
