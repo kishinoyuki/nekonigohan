@@ -384,26 +384,70 @@ describe '[STEP2] ユーザログイン後のテスト' do
             
             it '商品名が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
                 expect(page).to have_content item.name
+                expect(page).to have_content other_item.name
             end
             
             it '商品名のリンク先が正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
                 expect(page).to have_link "#{item.name}", href: item_path(item)
+                expect(page).to have_link "#{other_item.name}", href: item_path(other_item)
             end
             
             it '商品ジャンルが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
-                expect(page).to have_content item.genre.name    
+                expect(page).to have_content item.genre.name
+                expect(page).to have_content other_item.genre.name
             end
             
             it '商品価格が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
                 expect(page).to have_content item.price
+                expect(page).to have_content other_item.price
             end
             
             it '寄付先が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
                 expect(page).to have_content donation_destination.name
+                expect(page).to have_content other_donation_destinaton.name
             end
             
             it '寄付先都道府県が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
-                expect(page).to have_content donation_destination.location    
+                expect(page).to have_content donation_destination.location 
+                expect(page).to have_content other_donation_destination.location
+            end
+        end
+    end
+    
+    describe 'ユーザ一覧のテスト' do
+        before do
+            visit users_path
+        end
+        
+        context '表示内容の確認' do
+            it '「ユーザ一覧」と表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content 'ユーザ一覧'
+            end
+            
+            it 'URLが正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(current_path).to eq '/users'
+            end
+            
+            it '自分と他人のユーザ名が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content user.name
+                expect(page).to have_content other_user.name
+            end
+            
+            it '「マイページ」が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_css('a', text: 'マイページ', count: 2)
+            end
+            
+            it 'マイページのリンク先が正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                second_mypage_link = all('a', text: 'マイページ')[1]['href']
+                expect(second_mypage_link).to eq '/mypage'
+            end
+            
+            it '「詳細」が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content '詳細'
+            end
+            
+            it '詳細のリンク先が正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_link '詳細', href: user_path(other_user)    
             end
         end
     end

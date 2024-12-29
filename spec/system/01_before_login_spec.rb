@@ -89,16 +89,16 @@ describe '[STEP1] ユーザログイン前のテスト' do
                 sign_up_link = find_all('a')[2].text
                 sign_up_link = sign_up_link.delete(' ')
                 sign_up_link = sign_up_link.gsub(/\n/, '').gsub(/\A\s*/, '').gsub(/\s*\Z/, '')
-                click_link sign_up_link
-                is_expected.to eq 'users/sign_up'
+                click_link sign_up_link, match: :first
+                is_expected.to eq '/users/sign_up'
             end
             
             it 'ログインを押すと、ログイン画面に遷移する', spec_category: "ルーティング・URL設定の理解(ログイン状況に合わせた応用)" do
                 log_in_link = find_all('a')[3].text
                 log_in_link = log_in_link.delete(' ')
                 log_in_link = log_in_link.gsub(/\n/, '').gsub(/\A\s*/, '').gsub(/\s*\Z/, '')
-                click_link log_in_link
-                is_expected.to eq 'users/sign_in'
+                click_link log_in_link, match: :first
+                is_expected.to eq '/users/sign_in'
             end
         end
     end
@@ -253,7 +253,7 @@ describe '[STEP1] ユーザログイン前のテスト' do
             
             it 'ユーザ一覧リンクが表示されている: 上から６番目のリンクが「ユーザー一覧」である', spec_category: "ログイン状況に合わせた画面表示や機能制限のロジック設定" do
                 users_index_link = find_all('a')[6].text
-                expect(users_index_link).to match(/ユーザー一覧/)
+                expect(users_index_link).to match(/ユーザ一覧/)
             end
             
             it 'ログアウトリンクが表示されている: 上から７番目のリンクが「ログアウト」である', spec_category: "ログイン状況に合わせた画面表示や機能制限のロジック設定" do
