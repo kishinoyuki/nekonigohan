@@ -540,6 +540,256 @@ describe '[STEP2] ユーザログイン後のテスト' do
         end
     end
     
+    describe '他人の投稿詳細画面のテスト' do
+        before do
+            visit post_path(other_post)
+        end
+        
+        context '表示内容の確認' do
+            it 'URLが正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(current_path).to eq '/posts/' + other_post.id.to_s
+            end
+            
+            it '「投稿詳細」と表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content '投稿詳細'    
+            end
+            
+            it 'ユーザ画像・名前のリンク先が正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_link other_post.user.name, href: user_path(other_user)    
+            end
+            
+            it '投稿のタイトルが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content other_post.title    
+            end
+            
+            it '投稿の本文が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content other_post.body    
+            end
+            
+            it '投稿の評価が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content other_post.star    
+            end
+            
+            it '投稿のタグが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content other_post.tag
+            end
+            
+            it '商品名が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content other_item.name
+            end
+            
+            it '商品ジャンルが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content other_item.genre.name    
+            end
+            
+            it '商品価格が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content other_item.price    
+            end
+            
+            it '寄付先が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content other_donation_destination.name  
+            end
+            
+            it '寄付先都道府県が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content other_donation_destination.location    
+            end
+        end
+    end
+    
+    describe '他人のユーザー詳細画面のテスト' do
+        before do
+            visit user_path(other_user)
+        end
+        
+        context '表示内容の確認' do
+            it 'URLが正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(current_path).to eq '/users/' + other_user.id.to_s    
+            end
+            
+            it '「プロフィール」と表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content 'プロフィール'    
+            end
+            
+            it '投稿のタイトルが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content other_post.title    
+            end
+            
+            it '投稿の本文が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content other_post.body    
+            end
+            
+            it '投稿の評価が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content other_post.star    
+            end
+            
+            it '投稿のタグが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content other_post.tag    
+            end
+            
+            it '商品名が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content other_item.name    
+            end
+            
+            it '商品ジャンルが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+               expect(page).to have_content other_item.genre.name    
+            end
+            
+            it '商品価格が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+               expect(page).to have_content other_item.price    
+            end
+            
+            it '寄付先が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+               expect(page).to have_content other_donation_destination.name   
+            end
+            
+            it '寄付先都道府県が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+               expect(page).to have_content other_donation_destination.location    
+            end
+            
+            it '詳細ボタンが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+               expect(page).to have_button '詳細'    
+            end
+            
+            it '詳細ボタンのリンク先が正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+               expect(page).to have_link '詳細', href: post_path(other_post)    
+            end
+        end
+        
+        context 'サイドバーの確認' do
+            it 'ユーザの名前が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+               expect(page).to have_content other_user.name    
+            end
+        end
+    end
+    
+    describe '自分の投稿した商品の詳細画面のテスト' do
+        before do
+            visit item_path(item)
+        end
+        
+        context '表示内容の確認' do
+            it 'URLが正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(current_path).to eq '/items/' + item.id.to_s
+            end
+            
+            it '「該当の商品名」の投稿一覧と表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content "#{item.name}"    
+            end
+            
+            it '投稿のタイトルが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content item.post.title     
+            end
+            
+            it '投稿の本文が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content item.post.body    
+            end
+            
+            it '投稿の評価が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content item.post.star    
+            end
+            
+            it '投稿のタグが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content item.post.tag    
+            end
+            
+            it '商品名が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content item.name    
+            end
+            
+            it '商品ジャンルが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content item.genre.name    
+            end
+            
+            it '商品価格が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content item.price    
+            end
+            
+            it '寄付先が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content item.donation_destination.name    
+            end
+            
+            it '寄付先都道府県が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content item.donation_destination.location
+            end
+            
+            it '編集ボタンが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_button '編集'    
+            end
+            
+            it '編集ボタンのリンク先が正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_link '編集', href: edit_post_path(item.post)    
+            end
+            
+            it '削除ボタンが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_button '削除'
+            end
+            
+            it '削除ボタンのリンク先が正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_link '削除', href: post_path(item.post)
+            end
+        end
+    end
+    
+    describe '他人の投稿した商品詳細画面のテスト' do
+        before do
+            visit item_path(other_item)
+        end
+        
+        context '表示内容の確認' do
+            it 'URLが正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(current_path).to eq '/items/' + other_item.id.to_s
+            end
+            
+            it '「該当の商品名」の投稿一覧と表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content "#{other_item.name}"    
+            end
+            
+            it '投稿のタイトルが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content other_item.post.name
+            end
+            
+            it '投稿の本文が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content other_item.post.body
+            end
+            
+            it '投稿の評価が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+               expect(page).to have_content other_item.post.star    
+            end
+            
+            it '投稿のタグが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content other_item.post.tag
+            end
+            
+            it '商品名が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content other_item.name    
+            end
+            
+            it '商品ジャンルが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content other_item.genre.name    
+            end
+            
+            it '商品価格が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content other_item.price
+            end
+            
+            it '寄付先が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content other_item.donation_destination.name
+            end
+            
+            it '寄付先都道府県が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_content other_item.donation_destination.location    
+            end
+            
+            it '詳細ボタンが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_button '詳細'    
+            end
+            
+            it '詳細ボタンのリンク先が正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_link '詳細', href: post_path(other_item.post)
+            end
+        end
+    end
+    
     
     
     
