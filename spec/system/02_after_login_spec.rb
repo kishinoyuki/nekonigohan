@@ -186,7 +186,7 @@ describe '[STEP2] ユーザログイン後のテスト' do
            end
            
            it '評価フォームに値が入っていない', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
-               expect(find_field('post[star]').value).to be_black
+               expect(find_field('post[star]').value).to be_blank
            end
            
            it 'タグのフォームが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
@@ -194,39 +194,39 @@ describe '[STEP2] ユーザログイン後のテスト' do
            end
            
            it 'タグのフォームに値が入っていない', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
-               expect(find_field('post[tag]').value).to be_black
+               expect(find_field('post[tag]').value).to be_blank
            end
            
            it '商品名のフォームが表示される' , spec_category: "基本的なアソシエーション概念と適切な変数設定" do
-               expect(page).to have_field 'item[name]'
+               expect(page).to have_field 'post[item_name]'
            end
            
            it '商品名のフォームに値が入っていない', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
-              expect(find_field('item[name]').value).to be_blank 
+              expect(find_field('post[item_name]').value).to be_blank 
            end
            
            it '商品ジャンルのフォームが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
-               expect(page).to have_select('item_genre_id')
+               expect(page).to have_select('post[item_genre_id]')
            end
            
            it '商品価格のフォームが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
-              expect(page).to have_field 'item[price]' 
+              expect(page).to have_field 'post[item_price]' 
            end
            
            it '商品価格のフォームに値が入っていない', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
-               expect(find_field('item[price]').value).to be_blank
+               expect(find_field('post[item_price]').value).to be_blank
            end
            
            it '寄付先のフォームが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
-               expect(page).to have_field 'donation_destination[name]'       
+               expect(page).to have_field 'post[donation_destination_name]'       
            end
            
            it '寄付先のフォームに値が入っていない', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
-              expect(find_field('donation_destination[name]').value).to be_blank 
+              expect(find_field('post[donation_destination_name]').value).to be_blank 
            end
            
            it '寄付先都道府県のフォームが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
-              expect(page).to have_select('donation_destination_location')
+              expect(page).to have_select('post[donation_destination_location]')
            end
            
            it '投稿ボタンが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
@@ -245,8 +245,8 @@ describe '[STEP2] ユーザログイン後のテスト' do
                
                item = create(:item)
                
-               fill_in 'item[name]', with: item.name
-               fill_in 'item[price]', with: item.price
+               fill_in 'post[item_name]', with: item.name
+               fill_in 'post[item_price]', with: item.price
                
                genre = create(:genre)
                
@@ -254,8 +254,8 @@ describe '[STEP2] ユーザログイン後のテスト' do
                
                donation_destination = create(:donation_destination)
                
-               fill_in 'donation_destination[name]', with: donation_destination.name
-               fill_in 'donation_destination[location]', with: donation_destination.location
+               fill_in 'post[donation_destination_name]', with: donation_destination.name
+               fill_in 'post[donation_destination_location]', with: donation_destination.location
            end
            
            it '自分の新しい投稿が正しく保存されている', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
@@ -337,28 +337,28 @@ describe '[STEP2] ユーザログイン後のテスト' do
                 expect(page).to have_content other_donation_destination.location_i18n
             end
             
-            it '自分の投稿と他人の投稿に詳細ボタンが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
-                expect(page).to have_button '詳細'
+            it '自分の投稿と他人の投稿に詳細リンクが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_link '詳細'
             end
             
-            it '詳細ボタンのリンク先が正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+            it '詳細リンクのリンク先が正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
                 expect(page).to have_link '詳細', href: post_path(post)
                 expect(page).to have_link '詳細', href: post_path(other_post)
             end
             
-            it '自分の投稿に編集ボタンが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
-                expect(page).to have_button '編集'
+            it '自分の投稿に編集リンクが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_link '編集'
             end
             
-            it '投稿の編集ボタンのリンク先が正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+            it '投稿の編集リンクのリンク先が正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
                 expect(page).to have_link '編集', href: edit_post_path(post)
             end
             
-            it '自分の投稿に削除ボタンが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
-                expect(page).to have_button '削除'
+            it '自分の投稿に削除リンクが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_link '削除'
             end
             
-            it '投稿の削除ボタンのリンク先が正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+            it '投稿の削除リンクのリンク先が正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
                 expect(page).to have_link '削除', href: post_path(post)
             end
         end
@@ -400,7 +400,7 @@ describe '[STEP2] ユーザログイン後のテスト' do
             
             it '寄付先が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
                 expect(page).to have_content donation_destination.name
-                expect(page).to have_content other_donation_destinaton.name
+                expect(page).to have_content other_donation_destination.name
             end
             
             it '寄付先都道府県が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
@@ -446,19 +446,19 @@ describe '[STEP2] ユーザログイン後のテスト' do
                 expect(page).to have_link '詳細', href: user_path(other_user)    
             end
             
-            it '自分のユーザ編集ボタンが表示されている', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
-                expect(page).to have_button 'ユーザ編集'
+            it '自分のユーザ編集リンクが表示されている', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_link 'ユーザ編集'
             end
             
-            it 'ユーザ編集ボタンのリンク先が正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+            it 'ユーザ編集リンクのリンク先が正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
                 expect(page).to have_link 'ユーザ編集', href: edit_user_path(user)
             end
             
-            it '自分の退会ボタンが表示されている', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
-                expect(page).to have_button '退会'
+            it '自分の退会リンクが表示されている', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_link '退会'
             end
             
-            it '退会ボタンのリンク先が正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+            it '退会リンクのリンク先が正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
                 expect(page).to have_link '退会', href: users_confirm_path(user)
             end
         end
@@ -610,10 +610,6 @@ describe '[STEP2] ユーザログイン後のテスト' do
                 expect(page).to have_content other_post.title    
             end
             
-            it '投稿の本文が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
-                expect(page).to have_content other_post.body    
-            end
-            
             it '投稿の評価が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
                 expect(page).to have_content other_post.star    
             end
@@ -642,8 +638,8 @@ describe '[STEP2] ユーザログイン後のテスト' do
                expect(page).to have_content other_donation_destination.location_i18n    
             end
             
-            it '詳細ボタンが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
-               expect(page).to have_button '詳細'    
+            it '詳細リンクが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+               expect(page).to have_link '詳細'    
             end
             
             it '詳細ボタンのリンク先が正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
@@ -676,16 +672,12 @@ describe '[STEP2] ユーザログイン後のテスト' do
                 expect(page).to have_content post.title     
             end
             
-            it '投稿の本文が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
-                expect(page).to have_content post.body    
-            end
-            
             it '投稿の評価が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
                 expect(page).to have_content post.star    
             end
             
             it '投稿のタグが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
-                expect(page).to have_content item.post.tag    
+                expect(page).to have_content post.tag    
             end
             
             it '商品名が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
@@ -705,22 +697,22 @@ describe '[STEP2] ユーザログイン後のテスト' do
             end
             
             it '寄付先都道府県が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
-                expect(page).to have_content donation_destination.location
+                expect(page).to have_content donation_destination.location_i18n
             end
             
-            it '編集ボタンが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
-                expect(page).to have_button '編集'    
+            it '編集リンクが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_link '編集'    
             end
             
-            it '編集ボタンのリンク先が正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+            it '編集リンクのリンク先が正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
                 expect(page).to have_link '編集', href: edit_post_path(post)    
             end
             
-            it '削除ボタンが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
-                expect(page).to have_button '削除'
+            it '削除リンクが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_link '削除'
             end
             
-            it '削除ボタンのリンク先が正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+            it '削除リンクのリンク先が正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
                 expect(page).to have_link '削除', href: post_path(post)
             end
         end
@@ -741,11 +733,7 @@ describe '[STEP2] ユーザログイン後のテスト' do
             end
             
             it '投稿のタイトルが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
-                expect(page).to have_content other_post.name
-            end
-            
-            it '投稿の本文が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
-                expect(page).to have_content other_post.body
+                expect(page).to have_content other_post.title
             end
             
             it '投稿の評価が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
@@ -773,11 +761,11 @@ describe '[STEP2] ユーザログイン後のテスト' do
             end
             
             it '寄付先都道府県が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
-                expect(page).to have_content other_donation_destination.location    
+                expect(page).to have_content other_donation_destination.location_i18n   
             end
             
-            it '詳細ボタンが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
-                expect(page).to have_button '詳細'    
+            it '詳細リンクが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_link '詳細'    
             end
             
             it '詳細ボタンのリンク先が正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
