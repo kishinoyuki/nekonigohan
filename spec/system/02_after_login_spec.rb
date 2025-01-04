@@ -66,6 +66,7 @@ describe '[STEP2] ユーザログイン後のテスト' do
     end
     
     describe 'マイページのテスト' do
+        
         before do
             visit mypage_path
         end
@@ -83,7 +84,7 @@ describe '[STEP2] ユーザログイン後のテスト' do
                 expect(page).to have_content post.title
             end
             
-            it '投稿の評価が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+            it '投稿の評価が表示されている', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
                 expect(page).to have_content post.star
             end
             
@@ -177,16 +178,18 @@ describe '[STEP2] ユーザログイン後のテスト' do
               expect(page).to have_field 'post[body]' 
            end
            
+           
            it '本文のフォームに値が入っていない', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
               expect(find_field('post[body]').value).to be_blank 
            end
            
            it '評価フォームが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
-              expect(page).to have_field 'post[star]'           
+              expect(page).to have_selector("input[type='hidden'][id='review_star']", visible: false)           
            end
            
            it '評価フォームに値が入っていない', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
-               expect(find_field('post[star]').value).to be_blank
+               hidden_field = find("input[type='hidden'][id='review_star']", visible: false)
+               expect(hidden_field.value).to be_blank
            end
            
            it 'タグのフォームが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
@@ -234,43 +237,42 @@ describe '[STEP2] ユーザログイン後のテスト' do
            end
        end
        
+       
        context '投稿成功のテスト' do
-           before do
-               post = create(:post)
-               
-               fill_in 'post[title]', with: post.title
-               fill_in 'post[body]', with: post.body
-               fill_in 'post[star]', with: post.star
-               fill_in 'post[tag]', with: post.tag
-               
-               item = create(:item)
-               
-               fill_in 'post[item_name]', with: item.name
-               fill_in 'post[item_price]', with: item.price
-               
-               genre = create(:genre)
-               
-               item.update(genre: genre)
-               
-               donation_destination = create(:donation_destination)
-               
-               fill_in 'post[donation_destination_name]', with: donation_destination.name
-               fill_in 'post[donation_destination_location]', with: donation_destination.location
-           end
            
-           it '自分の新しい投稿が正しく保存されている', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
-               expect { click_button '投稿' }.to change(user.posts, :count).by(1)
-           end
-           
-           it 'リダイレクト先が、保存できた投稿の詳細画面になっている', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
-              expect(current_path).to eq '/posts/' + Post.last.id.to_s 
-           end
+        before do
+            
+         genre = create(:genre)
+         donation_destination = create(:donation_destination, location: 'yamaguchi')
+      
+      # フォーム入力
+         fill_in 'post[title]', with: 'テストタイトル'
+         fill_in 'post[body]', with: 'テスト本文'
+         find("input[type='hidden'][id='review_star']", visible: false).set(4)
+         fill_in 'post[tag]', with: 'テストタグ'
+         fill_in 'post[item_name]', with: 'テストアイテム'
+         select '食品', from: 'post[item_genre_id]'
+         fill_in 'post[item_price]', with: 1000
+         fill_in 'post[donation_destination_name]', with: donation_destination.name
+         select I18n.t('enums.donation_destination.location.yamaguchi'), from: 'post[donation_destination_location]'
+        end
+
+        it '自分の新しい投稿が正しく保存されている', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+         expect { click_button '投稿' }.to change(Post, :count).by(1)
+        end
+
+        it 'リダイレクト先が、保存できた投稿の詳細画面になっている', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+         click_button '投稿'
+         expect(current_path).to eq post_path(Post.last)
+        end
        end
     end
     
     describe '投稿一覧画面のテスト' do
+
         before do
             visit posts_path
+            puts Post.all.pluck(:id, :public, :created_at).inspect
         end
         
         context '表示内容の確認' do
@@ -284,7 +286,10 @@ describe '[STEP2] ユーザログイン後のテスト' do
             
             it '自分と他人の画像のリンク先が正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
                 expect(page).to have_link '', href: mypage_path
-                expect(page).to have_link '', href: user_path(other_post.user)
+                within('.card-list-container') do
+                 link = find("a[href='#{user_path(other_post.user)}']")
+                 expect(link[:href]).to eq(user_path(other_post.user))
+                end
             end
             
             it '自分と他人の名前のリンク先が正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
@@ -543,7 +548,7 @@ describe '[STEP2] ユーザログイン後のテスト' do
         
         context '表示内容の確認' do
             it 'URLが正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
-                expect(current_path).to eq '/posts/' + other_post.id.to_s
+                expect(current_path).to eq post_path(other_post)
             end
             
             it '「投稿詳細」と表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do

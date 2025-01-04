@@ -1,17 +1,17 @@
-require 'rails-helper'
+require 'rails_helper'
 
-Rspec.describe Item, 'Itemモデルに関するテスト', type: :model do
+RSpec.describe Item, 'Itemモデルに関するテスト', type: :model do
     
     describe '空白のバリデーションチェック' do
         it 'nameが空白の場合にエラーメッセージが表示されるか', spec_category: "バリデーションとメッセージの表示" do
             item = FactoryBot.build(:item, name: '')
-            expect(item.errors.messages[:name]).to_include("can't be blank")
+            expect(item.errors.messages[:name]).to include("を入力して下さい。")
             expect(page).to have_content('商品名を入力してください')
         end
         
         it 'priceが空白の場合にエラーメッセージが表示されるか', spec_category: "バリデーションとメッセージの表示" do
             item = FactoryBot.build(:item, price: '')
-            expect(item.errors.messages[:price]).to_include("can't be blank")
+            expect(item.errors.messages[:price]).to include("を入力して下さい")
             expect(page).to have_content('価格を入力してください')
         end
     end
