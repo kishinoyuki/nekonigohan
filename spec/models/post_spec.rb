@@ -5,30 +5,26 @@ RSpec.describe Post, 'Postモデルに関するテスト', type: :model do
     describe '空白のバリデーションチェック' do
         it 'titleが空白の場合にエラーメッセージが表示されるか', spec_category: "バリデーションとメッセージ表示" do
             post = FactoryBot.build(:post, title: '')
-            expect(post).to be_invalid
-            expect(post.errors.messages[:title]).to include("can't be blank")
-            expect(page).to have_content 'タイトルを入力してください'
+            post.valid?
+            expect(post.errors.messages[:title]).to include("を入力して下さい。")
         end
         
         it 'bodyが空白の場合にエラーメッセージが表示されるか', spec_category: "バリデーションとメッセージ表示" do
             post = FactoryBot.build(:post, body: '')
-            expect(post).to be_invalid
-            expect(post.errors.messages[:body]).to include("can't be blank")
-            expect(page).to have_content '本文を入力してください'
+            post.valid?
+            expect(post.errors.messages[:body]).to include("を入力して下さい。")
         end
         
         it 'starが空白の場合にエラーメッセージが表示されるか', spec_category: "バリデーションとメッセージ表示" do
             post = FactoryBot.build(:post, star: '')
-            expect(post).to be_invalid
-            expect(post.errors.messages[:star]).to include("can't be blank")
-            expect(page).to have_content '評価を入力してください'
+            post.valid?
+            expect(post.errors.messages[:star]).to include("を入力して下さい。")
         end
         
         it 'tagが空白の場合にエラーメッセージが表示されるか', spec_category: "バリデーションとメッセージ表示" do
             post = FactoryBot.build(:post, tag: '')
-            expect(post).to be_invalid
-            expect(post.errors.messages[:tag]).to include("can't be blank")
-            expect(page).to have_content 'タグを入力してください'  
+            post.valid?
+            expect(post.errors.messages[:tag]).to include("を入力して下さい。")
         end
     end
     

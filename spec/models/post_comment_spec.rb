@@ -4,8 +4,8 @@ RSpec.describe PostComment, 'PostCommentモデルのテスト', type: :model do
     describe '空白のバリデーションチェック' do
         it 'commentが空白の場合にエラーメッセージが表示されるか', spec_category: "バリデーションとメッセージ表示" do
             post_comment = FactoryBot.build(:post_comment, comment: '')
-            expect(post_comment.errors.messages[:post_comment]).to include("can't be blank")
-            expect(page).to have_content 'コメントを入力してください'
+            post_comment.valid?
+            expect(post_comment.errors.messages[:comment]).to include("を入力して下さい。")
         end
     end
     
