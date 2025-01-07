@@ -4,7 +4,7 @@ FactoryBot.define do
         body {Faker::Lorem.characters(number: 30)}
         star {rand(1..5)}
         tag {Faker::Lorem.characters(number: 5)}
-        private { true }
+        private { false }
         user
         item
     end

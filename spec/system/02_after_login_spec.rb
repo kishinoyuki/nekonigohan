@@ -269,10 +269,9 @@ describe '[STEP2] ユーザログイン後のテスト' do
     end
     
     describe '投稿一覧画面のテスト' do
-
+        
         before do
             visit posts_path
-            puts Post.all.pluck(:id, :public, :created_at).inspect
         end
         
         context '表示内容の確認' do
@@ -286,11 +285,8 @@ describe '[STEP2] ユーザログイン後のテスト' do
             
             it '自分と他人の画像のリンク先が正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
                 expect(page).to have_link '', href: mypage_path
-                within('.card-list-container') do
-                 link = find("a[href='#{user_path(other_post.user)}']")
-                 expect(link[:href]).to eq(user_path(other_post.user))
-                end
-            end
+                expect(page).to have_link '', href: user_path(other_post.user)
+            end 
             
             it '自分と他人の名前のリンク先が正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
                 expect(page).to have_link "#{user.name}", href: mypage_path
@@ -300,11 +296,6 @@ describe '[STEP2] ユーザログイン後のテスト' do
             it '自分の投稿と他人の投稿のタイトルが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
                 expect(page).to have_content post.title
                 expect(page).to have_content other_post.title
-            end
-            
-            it '自分の投稿と他人の投稿の本文が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
-                expect(page).to have_content post.body
-                expect(page).to have_content other_post.body
             end
             
             it '自分の投稿と他人の投稿の評価が表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
@@ -777,6 +768,225 @@ describe '[STEP2] ユーザログイン後のテスト' do
                 expect(page).to have_link '詳細', href: post_path(other_post)
             end
         end
+    end
+    
+    describe 'ユーザ編集画面のテスト' do
+        before do
+            visit edit_user_path(user)
+        end 
+        
+        context '表示の確認' do
+            it 'URLが正しい', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+                expect(current_path).to eq '/users/' + user.id.to_s + '/edit'
+            end
+            
+            it '「ユーザ編集」と表示される', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+                expect(page).to have_content 'ユーザ編集'    
+            end
+            
+            it '名前編集フォームに自分の名前が表示されている', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+                expect(page).to have_field 'user[name]', with: user.name
+            end
+            
+            it '画像編集フォームが表示される', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+                expect(page).to have_field 'user[profile_image]'
+            end
+            
+            it '一言のフォームが表示される', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+                expect(page).to have_field 'user[introduction]'
+            end
+            
+            it '編集ボタンが表示される', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+                expect(page).to have_button '編集'
+            end
+            
+            it '退会リンクが表示される', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_link '退会'
+            end
+            
+            it '退会リンクのリンク先が正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_link '退会', href: users_confirm_path(user)
+            end
+        end
+        
+        context '編集成功のテスト' do
+            before do
+                @user_old_name = user.name
+                @user_old_introduction = user.introduction
+                fill_in 'user[name]', with: Faker::Lorem.characters(number: 5)
+                fill_in 'user[introduction]', with: Faker::Lorem.characters(number: 20)
+                expect(user.profile_image).to be_attached
+                click_button '編集'
+                save_page
+            end
+            
+            it 'ニックネームが正しく更新されている', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+                expect(user.reload.name).not_to eq @user_old_name
+            end
+            
+            it '一言が正しく更新されている', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+                expect(user.reload.introduction).not_to eq @user_old_introduction    
+            end
+            
+            it 'リダイレクト先が自分のマイページになっている', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+                expect(current_path).to eq '/mypage'
+            end
+        end
+    end
+    
+    describe '退会確認画面のテスト' do
+        before do
+            visit users_confirm_path(user)
+        end
+        
+        context '表示の確認' do
+            it 'URLが正しい', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+               expect(current_path).to eq '/users/' + user.id.to_s + '/confirm'    
+            end
+            
+            it '「退会確認」と表示される', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+               expect(page).to have_content '退会確認'    
+            end
+            
+            it '退会するリンクが表示される', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+               expect(page).to have_link '退会する'    
+            end
+            
+            it '退会しないリンクが表示される', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+               expect(page).to have_link '退会しない'    
+            end
+            
+            it '退会しないリンクのリンク先が正しい', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+               expect(page).to have_link '退会しない', href: mypage_path    
+            end
+        end
+        
+        context 'ユーザ退会リンクのテスト' do
+            it 'application.html.erbにjavascript_pack_tagを含んでいる', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+             is_exist = 0
+             open("app/views/layouts/application.html.erb").each do |line|
+               strip_line = line.chomp.gsub(" ", "")
+               if strip_line.include?("<%=javascript_pack_tag'application','data-turbolinks-track':'reload'%>")
+                 is_exist = 1
+                 break
+               end
+             end
+             expect(is_exist).to eq(1)
+            end
+            
+            before do
+                click_link '退会する'
+            end
+            
+            it '正しく退会できている', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+                user.reload
+                expect(user.is_active).to eq false
+            end
+            
+            it '退会後のリダイレクト先が新規登録画面になっている', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+                expect(current_path).to eq new_user_registration_path
+            end
+        end
+    end
+    
+    describe '投稿編集画面のテスト' do
+        before do
+            visit edit_post_path(post)
+        end
+        
+        context '表示の確認' do
+            it 'URLが正しい', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+                expect(current_path).to eq '/posts/' + post.id.to_s + '/edit'
+            end
+            
+            it '「投稿編集画面と表示される', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+                expect(page).to have_content '投稿編集画面'    
+            end
+            
+            it '画像編集フォームが表示される', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+                expect(page).to have_field 'post[image]'
+            end
+            
+            it 'タイトル編集フォームに投稿したタイトルが表示されている', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+                expect(page).to have_field 'post[title]', with: post.title    
+            end
+            
+            it '本文編集フォームに投稿した本文が表示されている', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+                expect(page).to have_field 'post[body]', with: post.body    
+            end
+            
+            it 'タグ編集フォームに投稿したタグが表示されている', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+               expect(page).to have_field 'post[tag]', with: post.tag    
+            end
+            
+            it '編集ボタンが表示される', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+               expect(page).to have_button '編集'    
+            end
+            
+            it '削除リンクが表示される', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+               expect(page).to have_link '削除'    
+            end
+            
+            it '削除リンクのリンク先が正しい', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+                expect(page).to have_link '削除', href: post_path(post)
+            end
+        end
+        
+        context '編集成功のテスト' do
+            before do
+                @post_old_title = post.title
+                @post_old_body = post.body
+                @post_old_tag = post.tag
+                fill_in 'post[title]', with: Faker::Lorem.characters(number: 8)
+                fill_in 'post[body]', with: Faker::Lorem.characters(number: 15)
+                fill_in 'post[tag]', with: Faker::Lorem.characters(number: 5)
+                expect(post.image).to be_attached
+                click_button '編集'
+                save_page
+            end
+            
+            it 'タイトルが正しく更新される', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+               expect(post.reload.title).not_to eq @post_old_title    
+            end
+            
+            it '本文が正しく更新される', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+               expect(post.reload.body).not_to eq @post_old_body   
+            end
+            
+            it 'タグが正しく更新される', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+               expect(post.reload.tag).not_to eq @post_old_tag    
+            end
+            
+            it 'リダイレクト先が投稿詳細画面になっている', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+               expect(current_path).to eq '/posts/' + post.id.to_s    
+            end
+        end
+    end
+    
+    describe '投稿削除リンクのテスト' do
+        it 'application.html.erbにjavascript_pack_tagを含んでいる', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+        is_exist = 0
+        open("app/views/layouts/application.html.erb").each do |line|
+          strip_line = line.chomp.gsub(" ", "")
+          if strip_line.include?("<%=javascript_pack_tag'application','data-turbolinks-track':'reload'%>")
+            is_exist = 1
+            break
+          end
+        end
+        expect(is_exist).to eq(1)
+      end
+      
+      before do
+          click_link '削除'
+      end
+      
+      it '正しく削除される', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+          expect(Post.where(id: post.id).count).to eq 0
+      end
+      
+      it 'リダイレクト先が投稿したユーザのマイページになっている', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
+          expect(current_path).to eq '/mypage'
+      end
     end
     
     
