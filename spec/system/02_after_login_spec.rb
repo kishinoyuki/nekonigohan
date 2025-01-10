@@ -65,6 +65,26 @@ describe '[STEP2] ユーザログイン後のテスト' do
         end
     end
     
+    describe 'トップ画面のテスト' do
+        before do
+            visit root_path
+        end
+        
+        context '表示内容の確認' do
+            it 'URLが正しい', spec_category: "ルーティング・URL設定の理解(ログイン状況に合わせた応用)" do
+                expect(current_path).to eq '/'
+            end
+            
+            it 'マイページリンクが表示されている', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_link 'マイページ'
+            end
+            
+            it 'マイページのリンク先が正しい', spec_category: "基本的なアソシエーション概念と適切な変数設定" do
+                expect(page).to have_link 'マイページ', href: mypage_path    
+            end
+        end
+    end
+    
     describe 'マイページのテスト' do
         
         before do
@@ -775,7 +795,7 @@ describe '[STEP2] ユーザログイン後のテスト' do
             visit edit_user_path(user)
         end 
         
-        context '表示の確認' do
+        context '表示内容の確認' do
             it 'URLが正しい', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
                 expect(current_path).to eq '/users/' + user.id.to_s + '/edit'
             end
@@ -839,7 +859,7 @@ describe '[STEP2] ユーザログイン後のテスト' do
             visit users_confirm_path(user)
         end
         
-        context '表示の確認' do
+        context '表示内容の確認' do
             it 'URLが正しい', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
                expect(current_path).to eq '/users/' + user.id.to_s + '/confirm'    
             end
@@ -894,7 +914,7 @@ describe '[STEP2] ユーザログイン後のテスト' do
             visit edit_post_path(post)
         end
         
-        context '表示の確認' do
+        context '表示内容の確認' do
             it 'URLが正しい', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
                 expect(current_path).to eq '/posts/' + post.id.to_s + '/edit'
             end
