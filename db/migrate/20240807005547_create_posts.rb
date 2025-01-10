@@ -7,6 +7,7 @@ class CreatePosts < ActiveRecord::Migration[6.1]
       t.text :body
       t.integer :star, null: false
       t.string :tag
+      t.boolean :private, default: false, null: false
 
       t.timestamps
     end
