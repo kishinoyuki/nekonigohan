@@ -1,5 +1,6 @@
 $(document).on('turbolinks:load', function () {
-    $('sign-up-id').validate({
+    console.log('テスト');
+    $('#sign-up-id').validate({
        rules: {
            'user[name]': {
                required: true,
@@ -15,7 +16,6 @@ $(document).on('turbolinks:load', function () {
            'user[password]': {
                required: true,
                minlength: 6,
-               maxlength: 129,
            },
            
            'user[password-confirmation]': {
@@ -39,7 +39,6 @@ $(document).on('turbolinks:load', function () {
             'user[password]': {
                 required: 'パスワードを入力して下さい',
                 minlength: 'パスワードは６文字以上で入力して下さい',
-                maxlength: 'パスワードは129文字以内で入力して下さい',
             },
             
             'user[password-confirmation]': {
@@ -47,13 +46,26 @@ $(document).on('turbolinks:load', function () {
                 equalTo: 'パスワードが一致しません',
             }
        },
+       
        errorElement: 'div',
-       errorClass: 'text-danger',
+       errorClass: 'invalid-feedback',
        highlight: function (element) {
-           $(element).addClass('.is_invalid');
+           $(element).addClass('is-invalid');
        },
        unhighlight: function (element) {
-           $(elemet).removeClass('.is_invalid');
+           $(element).removeClass('is-invalid');
        },
+       
+       errorPlacement: function (error, element) {
+           error.insertAfter(element);
+       },
+       
+       onkeyup: function (element) {
+           $(element).valid();
+       },
+       
+       onblur: function (element) {
+           $(element).valid();
+       }
     });
 });
