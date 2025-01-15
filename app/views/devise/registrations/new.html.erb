@@ -15,13 +15,13 @@
  <div class= "card mx-auto" style= "max-width: 540px;">
   <h3 class= "card-header bg-primary text-light"><i class="fa-solid fa-user-plus mr-2"></i>新規登録</h3>
    <div class= "card-body">
-     <% if @user.errors.any? %>
+     <%# if @user.errors.any? %>
       <div class= "alert alert-danger" role= "alert">
-       <% @user.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-       <% end %>
+       <%# @user.errors.full_messages.each do |message| %>
+        <li><%#= message %></li>
+       <%# end %>
       </div>
-     <% end %>
+     <%# end %>
 
      <%= form_with model: @user, id: "sign-up-id", url: user_registration_path do |f| %>
       <div class="form-group mb-2">

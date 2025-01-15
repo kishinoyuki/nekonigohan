@@ -1,4 +1,6 @@
-$(document).on('turbolinks:load', function () {
+console.log('validation.js loaded');
+
+$(document).ready(function () {
     console.log('テスト');
     $('#sign-up-id').validate({
        rules: {
@@ -57,7 +59,9 @@ $(document).on('turbolinks:load', function () {
        },
        
        errorPlacement: function (error, element) {
-           error.insertAfter(element);
+           console.log('エラーメッセージ:', error);  // エラーメッセージが出力されるか確認
+           console.log('エラーを挿入する要素:', element);
+           element.closest('.form-group').append(error);
        },
        
        onkeyup: function (element) {
