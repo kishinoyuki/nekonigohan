@@ -15,13 +15,6 @@
  <div class= "card mx-auto" style= "max-width: 540px;">
   <h3 class= "card-header bg-primary text-light"><i class="fa-solid fa-user-plus mr-2"></i>新規登録</h3>
    <div class= "card-body">
-     <%# if @user.errors.any? %>
-      <div class= "alert alert-danger" role= "alert">
-       <%# @user.errors.full_messages.each do |message| %>
-        <li><%#= message %></li>
-       <%# end %>
-      </div>
-     <%# end %>
 
      <%= form_with model: @user, id: "sign-up-id", url: user_registration_path do |f| %>
       <div class="form-group mb-2">
@@ -30,7 +23,6 @@
        </label>
         <%= f.text_field :name, autofocus: true, autocomplete: "name", class: "form-control w-75 mx-auto #{'is-invalid' if @user.errors[:name].present?}" %>
         <div class= "invalid-feedback mx-auto w-75">
-          <%= @user.errors[:name].join(', ') %>
         </div>
       </div>
   
@@ -40,7 +32,6 @@
        </label>
         <%= f.email_field :email, autocomplete: "email", class: "form-control w-75 mx-auto #{'is-invalid' if @user.errors[:email].present?}" %>
         <div class= "invalid-feedback mx-auto w-75">
-         <%= @user.errors[:email].join(', ') %>
         </div>
       </div>
 
@@ -51,9 +42,8 @@
         <% if @minimum_password_length %>
         <em>(<%= @minimum_password_length %> 文字以上)</em>
         <% end %><br />
-        <%= f.password_field :password, autocomplete: "new-password", class: "form-control w-75 mx-auto #{'is-invalid' if @user.errors[:password].present?}" %>
+        <%= f.password_field :password, id: "user_password", autocomplete: "new-password", class: "form-control w-75 mx-auto #{'is-invalid' if @user.errors[:password].present?}" %>
         <div class= "invalid-feedback mx-auto w-75">
-         <%= @user.errors[:password].join(', ') %>
         </div>
       </div>
 
@@ -61,9 +51,8 @@
        <label class= "control-label ml-5">
         <%= f.label :password_confirmation %><br />
        </label>
-        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control w-75 mx-auto #{'is-invalid' if @user.errors[:password_confirmation].present?}" %>
+        <%= f.password_field :password_confirmation, id: "user_password_confirmation", autocomplete: "new-password", class: "form-control w-75 mx-auto #{'is-invalid' if @user.errors[:password_confirmation].present?}" %>
         <div class= "invalid-feedback mx-auto w-75">
-         <%= @user.errors[:password_confirmation].join(', ') %>
         </div>
       </div>
 
