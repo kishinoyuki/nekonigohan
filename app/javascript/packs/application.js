@@ -75,7 +75,62 @@ $(document).on("turbolinks:load", function () {
     // 初期状態でボタンの状態を切り替え
     toggleSubmitButtonState();
   }
+  
+  const loginForm = $("#sign-in-id");
+  const loginSubmitButton = loginForm.find('input[type = "submit"]');
+  
+  if (loginForm.length > 0) {
+    const loginValidator = loginForm.validate ({
+      rules: {
+        "user[email]": {required: true, email: true},
+        "user[password]": {required: true},
+      },
+      
+      messages: {
+        "user[email]": {
+          required: "メールアドレスを入力して下さい",
+          email: "正しいメールアドレスを入力して下さい",
+        },
+        "user[password]": {
+          required: "パスワードを入力して下さい",
+        },
+      },
+      errorElement: "div",
+      errorClass: "invalid-feedback",
+      highlight: function (element) {
+        $(element).addClass("is-invalid");
+        toggleSubmitButtonState();
+      },
+      unhighlight: function (element) {
+        $(element).removeClass("is-invalid");
+        toggleSubmitButtonState();
+      },
+      errorPlacement: function (error, element) {
+        const feedbackElement = element.siblings(".invalid-feedback");
+        if (feedbackElement.length > 0) {
+          feedbackElement.html(error);
+        } else {
+          element.after(error);
+        }
+      },
+    });
+    
+    function toggleSubmitButtonState() {
+      const hasErrors = loginForm.find(".is-invalid").length > 0;
+      loginSubmitButton.prop("disabled", hasErrors);
+    }
+    
+    loginForm.find("input").each(function () {
+      const element = this;
+      const valid = $(element).valid();
+      if (!valid) {
+        $(element).addClass("is-invalid");
+      }
+    });
+    toggleSubmitButtonState();
+  }
 });
+
 
 
 import "popper.js";
