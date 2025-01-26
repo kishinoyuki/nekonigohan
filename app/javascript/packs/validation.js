@@ -39,7 +39,7 @@ $(document).on("turbolinks:load", function () {
           required: "パスワードを入力して下さい",
           minlength: "パスワードは６文字以上で入力して下さい",
         },
-        "user[password-confirmation]": {
+        "user[password_confirmation]": {
           required: "パスワード確認を入力して下さい",
           equalTo: "パスワードが一致しません",
         },
