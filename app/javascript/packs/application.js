@@ -1,5 +1,4 @@
 import $ from "jquery";
-window.$ = window.jQuery = $;
 import "jquery-validation";
 
 console.log("validation.js loaded");
@@ -8,26 +7,15 @@ $(document).on("turbolinks:load", function () {
   console.log("Turbolinks loaded");
 
   const form = $("#sign-up-id");
+  const submitButton = form.find('input[type="submit"]'); // 新規登録ボタン
+
   if (form.length > 0) {
-    form.validate({
+    const validator = form.validate({
       rules: {
-        "user[name]": {
-          required: true,
-          minlength: 2,
-          maxlength: 20,
-        },
-        "user[email]": {
-          required: true,
-          email: true,
-        },
-        "user[password]": {
-          required: true,
-          minlength: 6,
-        },
-        "user[password_confirmation]": {
-          required: true,
-          equalTo: "#user_password",
-        },
+        "user[name]": { required: true, minlength: 2, maxlength: 20 },
+        "user[email]": { required: true, email: true },
+        "user[password]": { required: true, minlength: 6 },
+        "user[password_confirmation]": { required: true, equalTo: "#user_password" },
       },
       messages: {
         "user[name]": {
@@ -52,32 +40,43 @@ $(document).on("turbolinks:load", function () {
       errorClass: "invalid-feedback",
       highlight: function (element) {
         $(element).addClass("is-invalid");
+        toggleSubmitButtonState(); // ボタンの状態を切り替え
       },
       unhighlight: function (element) {
         $(element).removeClass("is-invalid");
+        $(element).siblings(".invalid-feedback").html(""); // エラークリア
+        toggleSubmitButtonState(); // ボタンの状態を切り替え
       },
       errorPlacement: function (error, element) {
-        element.siblings(".invalid-feedback").append(error);
-      },
-      onkeyup: function (element) {
-        const valid = $(element).valid();
-        if (valid) {
-          $(element).removeClass("is-invalid");
+        const feedbackElement = element.siblings(".invalid-feedback");
+        if (feedbackElement.length > 0) {
+          feedbackElement.html(error); // 既存のエラーメッセージを更新
         } else {
-          $(element).addClass("is-invalid");
-        }
-      },
-      onblur: function (element) {
-        const valid = $(element).valid(); 
-        if (valid) {
-          $(element).removeClass("is-invalid");
-        } else {
-          $(element).addClass("is-invalid");
+          element.after(error); // デフォルトの位置にエラーを追加
         }
       },
     });
+
+    // ボタンの状態を切り替える関数
+    function toggleSubmitButtonState() {
+      const hasErrors = form.find(".is-invalid").length > 0; // is-invalidが存在するか
+      submitButton.prop("disabled", hasErrors); // エラーがある場合に無効化
+    }
+
+    // 初期状態での検証
+    form.find("input").each(function () {
+      const element = this;
+      const valid = $(element).valid(); // 各フィールドを検証
+      if (!valid) {
+        $(element).addClass("is-invalid");
+      }
+    });
+
+    // 初期状態でボタンの状態を切り替え
+    toggleSubmitButtonState();
   }
 });
+
 
 import "popper.js";
 import "bootstrap";
