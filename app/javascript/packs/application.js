@@ -129,6 +129,83 @@ $(document).on("turbolinks:load", function () {
     });
     toggleSubmitButtonState();
   }
+  
+  const postNewForm = $("#post-new-id");
+  const postNewSubmitButton = postNewForm.find('input[type = "submit"]');
+  
+  if (postNewForm.length > 0) {
+    const postNewValidator = postNewForm.validate({
+      rules: {
+          "post[title]": {required: true},
+          "post[body]": {required: true},
+          "post[star]": {required: true},
+          "post[tag]": {required: true},
+          "post[item_name]": {required: true},
+          "post[item_price]": {required: true},
+          "post[donation_destination_name]": {required: true},
+      },
+      
+      messages: {
+          "post[title]": {
+            required: "タイトルを入力して下さい"
+          },
+          "post[body]": {
+            required: "本文を入力して下さい"
+          },
+          "post[star]": {
+            required: "評価を入力して下さい"
+          },
+          "post[tag]": {
+            required: "タグを入力して下さい"
+          },
+          "post[item_name]": {
+            required: "商品名を入力して下さい"
+          },
+          "post[item_price]": {
+            required: "価格を入力して下さい"
+          },
+          "post[donation_destination_name]": {
+            required: "寄付先を入力して下さい"
+          },
+      },
+      errorElement: "div",
+      errorClass: "invalid-feedback",
+      highlight: function (element) {
+        $(element).addClass("is-invalid");
+        toggleSubmitButtonState();
+      },
+      unhighlight: function (element) {
+        $(element).removeClass("is-invalid");
+        toggleSubmitButtonState();
+      },
+      errorPlacement: function (error, element) {
+        const feedbackElement = element.siblings(".invalid-feedback");
+        if (feedbackElement.length > 0) {
+          feedbackElement.html(error);
+        } else {
+          if (element.attr("type") === "hidden") {
+          element.closest('.form-group').find('.invalid-feedback').html(error);
+        } else {
+          element.closest('.form-group').find('.invalid-feedback').html(error);
+        }
+        }
+      },
+    });
+    
+    function toggleSubmitButtonState() {
+      const hasErrors = postNewForm.find(".is-invalid").length > 0;
+      postNewSubmitButton.prop("disabled", hasErrors);
+    }
+    
+    postNewForm.find("input, textarea").each(function () {
+      const element = this;
+      const valid = $(element).valid();
+      if (!valid) {
+        $(element).addClass("is-invalid");
+      }
+    });
+    toggleSubmitButtonState();
+  }
 });
 
 
