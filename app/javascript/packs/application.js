@@ -206,6 +206,62 @@ $(document).on("turbolinks:load", function () {
     });
     toggleSubmitButtonState();
   }
+
+  const postEditForm = $("#post-edit-id");
+  const postEditSubmitButton = postEditForm.find('input[type = "submit"]');
+
+  if (postEditForm.length > 0) {
+    const postEditValidator = postEditForm.validate({
+      rules: {
+        "post[title]": {required: true},
+        "post[body]": {required: true},
+        "post[tag]": {required: true},
+      },
+    
+      messages: {
+        "post[title]": {
+          required: "タイトルを入力して下さい"
+        },
+        "post[body]": {
+          required: "本文を入力して下さい"
+        },
+        "post[tag]": {
+         required: "タグを入力して下さい"
+        },
+      },
+    
+      errorElement: "div",
+      errorClass: "invalid-feedback",
+      highlight: function (element) {
+       $(element).addClass("is-invalid");
+        toggleSubmitButtonState();
+      },
+      unhighlight: function (element) {
+        $(element).removeClass("is-invalid");
+        toggleSubmitButtonState();
+      },
+    
+      errorPlacement: function (error, element) {
+          const feedbackElement = element.siblings(".invalid-feedback");
+         if (feedbackElement.length > 0) {
+            feedbackElement.html(error);
+          } else {
+           element.after(error);
+          }
+      },
+    });
+  
+    function toggleSubmitButtonState() {
+      const hasErrors = postEditForm.find(".is-invalid").length > 0;
+      postEditSubmitButton.prop("disabled", hasErrors);
+    }
+    toggleSubmitButtonState();
+    
+    postEditForm.on("keyup blur", "input, textarea, select", function () {
+      $(this).valid();  // 各入力項目をバリデーションチェック
+      toggleSubmitButtonState();
+    });
+  }
 });
 
 
