@@ -151,8 +151,9 @@
           </div>
          <% end %>
           <div class= "card-body">
-           <%= form_with model: [post, post_comment] do |f| %>
+           <%= form_with model: [post, post_comment], html: {id: "post_comment-new-id"}, local: true do |f| %>
             <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに" ,class: "form-control" %>
+            <div class= "invalid-feedback"></div>
             <%= f.submit "投稿する", class: "btn btn-primary mt-2" %>
            <% end %>
           </div>

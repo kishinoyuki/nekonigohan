@@ -314,6 +314,47 @@ $(document).on("turbolinks:load", function () {
     });
   }
   
+  const postCommentNewForm = $("#post_comment-new-id");
+  const postCommentNewSubmitButton = postCommentNewForm.find('input[type="submit"]');
+
+  if (postCommentNewForm.length > 0) {
+    const postCommentNewFormValidator = postCommentNewForm.validate({
+      rules: {
+        "post_comment[comment]": { required: true },
+      },
+      messages: {
+        "post_comment[comment]": { required: "コメントを入力して下さい" },
+      },
+      
+      errorElement: "div",
+      errorClass: "invalid-feedback",
+      highlight: function (element) {
+        $(element).addClass("is-invalid");
+        toggleSubmitButtonState();
+      },
+      unhighlight: function (element) {
+        $(element).removeClass("is-invalid");
+        toggleSubmitButtonState();
+      },
+      errorPlacement: function (error, element) {
+       element.next(".invalid-feedback").remove(); // 既存のエラーメッセージを削除
+        element.after(error); // 新しいエラーメッセージを追加
+      },
+    });
+
+    function toggleSubmitButtonState() {
+      const hasErrors = postCommentNewForm.find(".is-invalid").length > 0;
+      postCommentNewSubmitButton.prop("disabled", hasErrors);
+    }
+    toggleSubmitButtonState();
+
+    postCommentNewForm.find('textarea').each(function () {
+      if (!$(this).valid()) {
+        $(this).addClass("is-invalid");
+      }
+    });
+    toggleSubmitButtonState();
+  }
 });
 
 
