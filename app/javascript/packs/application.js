@@ -262,6 +262,58 @@ $(document).on("turbolinks:load", function () {
       toggleSubmitButtonState();
     });
   }
+  
+  const userEditForm = $("#user-edit-id");
+  const userEditSubmitButton = userEditForm.find('input[type = "submit"]');
+  
+  if (userEditForm.length > 0) {
+    const userEditFormValidator = userEditForm.validate({
+      rules: {
+        "user[name]": {required: true, minlength: 2, maxlength: 20},
+      },
+      
+      messages: {
+        "user[name]": {
+          required: "ニックネームを入力して下さい",
+          minlength: "ニックネームは2文字以上で入力して下さい",
+          maxlength: "ニックネームは20文字以内で入力して下さい",
+        },
+      },
+      
+      errorElement: "div",
+      errorClass: "invalid-feedback",
+      highlight: function (element) {
+        $(element).addClass("is-invalid");
+        toggleSubmitButtonState();
+      },
+      
+      unhighlight: function (element) {
+        $(element).removeClass("is-invalid");
+        toggleSubmitButtonState();
+      },
+      
+      errorPlacement: function(error, element) {
+        const feedbackElement = element.siblings(".invalid-feedback");
+        if (feedbackElement.length > 0) {
+          feedbackElement.html(error);
+        } else {
+          element.after(error);
+        }
+      },
+    });
+    
+    function toggleSubmitButtonState() {
+      const hasErrors = userEditForm.find(".is-invalid").length > 0;
+      userEditSubmitButton.prop("disabled", hasErrors);
+    }
+    toggleSubmitButtonState();
+    
+    userEditForm.on("keyuup blur", "input", function () {
+      $(this).valid();
+      toggleSubmitButtonState();
+    });
+  }
+  
 });
 
 
